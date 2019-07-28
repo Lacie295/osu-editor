@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/osu!editor.iml" filepath="$PROJECT_DIR$/.idea/osu!editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/osu-editor.iml" filepath="$PROJECT_DIR$/.idea/modules/osu-editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/osu-editor-build.iml" filepath="$PROJECT_DIR$/.idea/modules/osu-editor-build.iml" />
     </modules>
   </component>
 </project>
