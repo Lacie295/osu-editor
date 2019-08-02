@@ -1,0 +1,5 @@
+package Components
+
+class Slider {
+
+}

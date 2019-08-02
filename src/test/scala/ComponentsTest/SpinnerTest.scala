@@ -1,0 +1,5 @@
+package ComponentsTest
+
+class SpinnerTest {
+
+}
