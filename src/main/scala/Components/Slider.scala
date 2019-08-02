@@ -1,5 +1,5 @@
 package Components
 
-class Slider {
+class Slider extends HitObject{
 
 }

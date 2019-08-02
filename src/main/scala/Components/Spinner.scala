@@ -1,5 +1,5 @@
 package Components
 
-class Spinner {
+class Spinner extends HitObject{
 
 }

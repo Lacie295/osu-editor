@@ -1,5 +1,5 @@
 package Components
 
-class Circle {
+class Circle extends HitObject{
 
 }
