@@ -1,0 +1,105 @@
+file format 14:	
+
+Map:		file format version: 	int
+
+			General:				AudioFilename:			string
+									AudioLeadIn in ms:		int
+									PreviewTime in ms:		int
+									Countdown:				int (0-no cd, 1-normal, 2-half, 3-double)
+									SampleSet:				string
+									StackLeniency:			decimal
+									Mode:					int (0-osu!, 1-taiko, 2-ctb, 3-mania)
+									LetterboxInBreaks:		bool (0-off, 1-on)
+									WidescreenStoryboard:	bool
+									
+			Editor:					Bookmarks:				List[int) (offsets in ms, separated by ",")
+									DistanceSpacing			decimal
+									BeatDivisor:			int
+									GridSize:				int
+									TimelineZoom:			decimal
+			
+			Metadata:				Title:					string
+									TitleUnicode:			string
+									Artist:					string
+									ArtistUnicode:			string
+									Creator:				string
+									Version:				string
+									Source:					string
+									Tags:					List[string] (separated by ",")
+									BeatmapID:				int
+									BeatmapsetID:			int
+									
+			Difficulty:				HPDrainRate:			decimal
+									CircleSize:				decimal
+									OverallDifficulty:		decimal
+									ApproachRate:			decimal
+									SliderMultiplier:		decimal
+									SliderTickRate:			decimal
+									
+			Events:					TODO
+			
+			TimingPoints:	Items in a line are separated by ","
+
+									offset (milliseconds): 	int
+									milliseconds per beat:	decimal (positive-redline, =60,000/BPM; negative-greenline, = -(sv_multiplier*100))
+									meter:					int
+									sample set:				int
+									sample index:			int
+									Volume:					int (0-100)
+									inherited:				bool (0-greenline; 1-redline)
+									kiai mode:				bool (0-kiai off; 1-kiai on)
+									
+			Colors:					Combo1-ComboN:			R(0-255),G(0-255),B(0-255)
+
+			HitObjects: 	Items in a line are separated by "," unless specified otherwise
+			
+							Circle:	location X:				int
+									location Y:				int
+									time in ms:				int
+									type:					bit map, refer to https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)#common-structure
+									hitSound:				bit map, refer to https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)#common-structure
+									
+									extras:	items followed by ":"
+									
+													sampleSet:		int (0-3)
+													additionSet:	int (0-3)
+													customIndex:	int (number from custom sampleset; 0-auto)
+													sampleVolume:	int (0-100)
+													filename:		string (sound to play instead of samplesets)
+							
+							
+							Slider:	location X:				int
+									location Y:				int
+									time in ms:				int
+									type:					bit map (refer to https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)#common-structure)
+									hitSound:				int (0, 2; sliderbody hitsound)
+									sliderType				char (L-linear, P-perfect circle, B-bezier, C-catmull)									
+									curvePoints:			List[int] (items preceded by "|", red nodes are identical coordinates 2x)
+									repeat:					int (1-n)
+									pixelLength:			decimal (refer to https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)#sliders.1)
+									edgeHitsounds:			List[int] (separated by "|", must be repeat+1 items)
+									edgeAdditions:			List[int] (spearated by "|", must be repeat+1 items)
+									
+									extras:	items followed by ":"
+
+													sampleSet:		int (0-3)
+													additionSet:	int (0-3)
+													customIndex:	int (number from custom sampleset; 0-auto)
+													sampleVolume:	int (0-100)
+													filename:		string (sound to play instead of samplesets)
+													
+							
+							Spinner:location X:				int
+									location Y:				int
+									time in ms:				int
+									type:					bit map, refer to https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)#common-structure
+									hitSound:				bit map, refer to https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)#common-structure
+									endTime in ms:			int
+									
+									extras:	items followed by ":"
+													
+													sampleSet:		int (0-3)
+													additionSet:	int (0-3)
+													customIndex:	int (number from custom sampleset; 0-auto)
+													sampleVolume:	int (0-100)
+													filename:		string (sound to play instead of samplesets)
