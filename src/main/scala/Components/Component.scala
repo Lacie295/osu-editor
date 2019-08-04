@@ -1,5 +1,5 @@
 package Components
 
-abstract class Component {
-  private var time: Int = 0
+abstract class Component (t: Int) {
+  private var time: Int = t
 }

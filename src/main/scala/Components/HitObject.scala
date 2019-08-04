@@ -1,5 +1,5 @@
 package Components
 
-abstract class HitObject extends Component {
-
+abstract class HitObject (p : Position, t: Int) extends Component(t) {
+  private var pos: Position = p
 }
