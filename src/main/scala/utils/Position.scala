@@ -1,4 +1,4 @@
-package Components
+package utils
 
 class Position(x: Int, y: Int) {
   private var pos_x: Int = x

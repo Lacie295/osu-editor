@@ -1,4 +1,4 @@
-package ComponentsTest
+package componentsTest
 
 class SliderTest {
 
