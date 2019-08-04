@@ -1,5 +1,0 @@
-package ComponentsTest
-
-class HitObjectTest {
-
-}

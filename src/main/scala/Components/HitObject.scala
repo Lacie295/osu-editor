@@ -1,5 +1,5 @@
 package Components
 
-class HitObject {
+abstract class HitObject extends Component {
 
 }
