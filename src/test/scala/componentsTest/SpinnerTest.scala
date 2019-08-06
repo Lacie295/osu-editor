@@ -18,6 +18,8 @@ class SpinnerTest extends BaseTest {
     val spin = new Spinner(0, 4)
     assert(spin.getX == 0)
     assert(spin.getY == 0)
+    assert(spin.getEndX == 0)
+    assert(spin.getEndY == 0)
   }
 
   it should "never end before it begins" in {

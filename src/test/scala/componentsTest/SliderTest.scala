@@ -16,18 +16,18 @@ class SliderTest extends BaseTest {
 
   it should "always return its starting- and end points correctly" in {
     val slider = new Slider((0, 1), (100, 101), 3, 4)
-    assert(slider.getPosition.getX == 0)
-    assert(slider.getPosition.getY == 1)
-    assert(slider.getEndPosition.getX == 100)
-    assert(slider.getEndPosition.getX == 101)
+    assert(slider.getX == 0)
+    assert(slider.getY == 1)
+    assert(slider.getEndX == 100)
+    assert(slider.getEndX == 101)
 
     slider.setPosition((2, 3))
-    assert(slider.getPosition.getX == 2)
-    assert(slider.getPosition.getY == 3)
+    assert(slider.getX == 2)
+    assert(slider.getY == 3)
 
     slider.setEndPosition((102, 103))
-    assert(slider.getEndPosition.getX == 102)
-    assert(slider.getEndPosition.getX == 103)
+    assert(slider.getEndX == 102)
+    assert(slider.getEndX == 103)
   }
 
   it should "never end before it begins" in {
