@@ -34,5 +34,22 @@ class SliderTest extends BaseTest{
     assert(slider.getEndPosition.getX == 103)
     assert(slider.getEndPosition == new Position(102, 103))
   }
+
+  it should "never end before it begins" in {
+    assertThrows[IllegalArgumentException](
+    val slider = new Slider(new Position(0, 0), new Position(5, 5), 3, 1)
+    )
+    assertThrows[IllegalArgumentException](
+    val slider = new Slider(new Position(0, 0), new Position(5, 5), 2, 3)
+    slider.setEndTime(1)
+    )
+    assertThrows[IllegalArgumentException](
+    val slider = new Slider(new Position(0, 0), new Position(5, 5), 2, 3)
+    slider.setTime(5)
+    )
+  }
+
+
+
 }
 
