@@ -25,4 +25,20 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
   def setEndX(x: Int): Unit = endPos.setX(x)
 
   def setEndY(y: Int): Unit = endPos.setY(y)
+
+  override def overlaps(o: HitObject): Boolean = {
+    o match {
+      case o: HeldObject => {
+        def between(a: Int, b: Int, t: Int): Boolean = a <= t && t <= b
+
+        val t = this.getTime
+        val et = this.getEndTime
+        val ot = o.getTime
+        val eot = o.getEndTime
+
+        between(t, et, ot) || between(t, et, eot) || between(et, eot, t) || between(et, eot, et)
+      }
+      case _ => (this.getTime <= o.getTime && this.getEndTime >= o.getTime)
+    }
+  }
 }
