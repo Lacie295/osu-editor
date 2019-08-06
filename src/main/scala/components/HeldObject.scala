@@ -36,7 +36,7 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
         val ot = o.getTime
         val eot = o.getEndTime
 
-        between(t, et, ot) || between(t, et, eot) || between(et, eot, t) || between(et, eot, et)
+        between(t, et, ot) || between(t, et, eot) || between(ot, eot, t) || between(ot, eot, et)
       }
       case _ => (this.getTime <= o.getTime && this.getEndTime >= o.getTime)
     }
