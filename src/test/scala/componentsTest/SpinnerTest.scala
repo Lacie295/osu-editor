@@ -22,32 +22,32 @@ class SpinnerTest extends BaseTest {
   }
 
   it should "never end before it begins" in {
-    assertThrows[IllegalArgumentException](
+    assertThrows[IllegalArgumentException] {
       val spin = new Spinner(3, 1)
-    )
-    assertThrows[IllegalArgumentException](
+    }
+    assertThrows[IllegalArgumentException] {
       val spin = new Spinner(3, 4)
       spin.setEndTime(1)
-    )
-    assertThrows[IllegalArgumentException](
+    }
+    assertThrows[IllegalArgumentException] {
       val spin = new Spinner(3, 4)
       spin.setTime(5)
-    )
+    }
   }
 
   it should "properly detect overlaps" in {
     val spin = new Spinner(1, 4)
-    val spin2 = new Spinner(0, 5)     // spin2 contains spin
-    val spin3 = new Spinner(4, 5)     // spin3 is on spin's end
-    val spin4 = new Spinner(0, 1)     // spin4 is on spin's start
-    val spin5 = new Spinner(2, 3)     // spin contains spin5
-    val spin6 = new Spinner(16, 20)   // spin and spin6 are unrelated
+    val spin2 = new Spinner(0, 5) // spin2 contains spin
+    val spin3 = new Spinner(4, 5) // spin3 is on spin's end
+    val spin4 = new Spinner(0, 1) // spin4 is on spin's start
+    val spin5 = new Spinner(2, 3) // spin contains spin5
+    val spin6 = new Spinner(16, 20) // spin and spin6 are unrelated
 
-    assert(spin.overlaps(spin2) == true)
-    assert(spin.overlaps(spin3) == true)
-    assert(spin.overlaps(spin4) == true)
-    assert(spin.overlaps(spin5) == true)
-    assert(spin.overlaps(spin6) == false)
+    assert(spin overlaps spin2)
+    assert(spin overlaps spin3)
+    assert(spin overlaps spin4)
+    assert(spin overlaps spin5)
+    assert(!(spin overlaps spin6))
   }
 
   it should "be comparable to equal spinners" in {

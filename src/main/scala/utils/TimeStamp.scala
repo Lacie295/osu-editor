@@ -9,3 +9,9 @@ class TimeStamp(t: Int) extends Comparable[TimeStamp] {
 
   def compareTo(t: TimeStamp): Int = getTime - t.getTime
 }
+
+object TimeStamp {
+  implicit def intToTimeStamp(t: Int): TimeStamp = new TimeStamp(t)
+
+  implicit def timeStampToInt(t: TimeStamp): Int = t.getTime
+}

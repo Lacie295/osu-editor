@@ -1,7 +1,7 @@
 package components
 
-import utils.{Position, TimeStamp}
+import utils._
 
-class Spinner(t: TimeStamp, et: TimeStamp) extends HeldObject(new Position(0, 0), new Position(0, 0), t, et) {
+class Spinner(t: TimeStamp, et: TimeStamp) extends HeldObject((0, 0), (0, 0), t, et) {
 
 }
