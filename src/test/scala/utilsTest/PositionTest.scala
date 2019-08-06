@@ -14,4 +14,17 @@ class PositionTest extends BaseTest {
     assert(pos.getX == 4)
     assert(pos.getY == 6)
   }
+
+  it should "be comparable to other Positions" in {
+    val pos = new Position(3, 2)
+    val pos2 = new Position(3, 2)
+    val pos3 = new Position(4, 2)
+    val pos4 = new Position(3, 1)
+    val pos5 = new Position(1, 5)
+
+    assert(pos == pos2)
+    assert(pos != pos3)
+    assert(pos != pos4)
+    assert(pos != pos5)
+  }
 }

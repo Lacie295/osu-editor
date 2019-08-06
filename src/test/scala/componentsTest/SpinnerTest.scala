@@ -2,7 +2,6 @@ package componentsTest
 
 import components.Spinner
 import coreTest.BaseTest
-import utils.TimeStamp
 
 class SpinnerTest extends BaseTest {
   "A spinner" should "keep the timestamp for beginning and end correctly" in {

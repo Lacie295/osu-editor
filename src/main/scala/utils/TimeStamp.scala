@@ -1,13 +1,11 @@
 package utils
 
-class TimeStamp(t: Int) extends Comparable[TimeStamp] {
+class TimeStamp(t: Int) {
   private var time: Int = t
 
   def getTime: Int = time
 
   def setTime(t: Int): Unit = time = t
-
-  def compareTo(t: TimeStamp): Int = getTime - t.getTime
 }
 
 object TimeStamp {
