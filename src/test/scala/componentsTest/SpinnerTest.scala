@@ -1,6 +1,6 @@
 package componentsTest
 
-import components.Spinner
+import components.{Spinner, Slider, Circle}
 import coreTest.BaseTest
 
 class SpinnerTest extends BaseTest {
@@ -49,6 +49,28 @@ class SpinnerTest extends BaseTest {
     assert(spin overlaps spin4)
     assert(spin overlaps spin5)
     assert(!(spin overlaps spin6))
+
+    val slider = new Slider((0, 0), (100, 101), 0,5)      //slider contains spin
+    val slider2 = new Slider((0, 0), (100, 101), 4,5)     //slider2 is on spin's end
+    val slider3 = new Slider((0, 0), (100, 101), 0,1)     //slider3 is on spin's start
+    val slider4 = new Slider((0, 0), (100, 101), 2,3)     //spin contains slider4
+    val slider5 = new Slider((0, 0), (100, 101), 16,20)   //slider and spin are unrelated
+
+    assert(spin overlaps slider)
+    assert(spin overlaps slider2)
+    assert(spin overlaps slider3)
+    assert(spin overlaps slider4)
+    assert(!(spin overlaps slider5))
+
+    val circle = new Circle((0,0), 1)     //circle is on spin's start
+    val circle2 = new Circle((0,0), 4)    //circle2 is on spin's end
+    val circle3 = new Circle((0,0), 2)    //spin contains circle3
+    val circle4 = new Circle((0,0), 5)    //spin and circle4 are unrelated
+
+    assert(spin overlaps circle)
+    assert(spin overlaps circle2)
+    assert(spin overlaps circle3)
+    assert(!(spin overlaps circle4))
   }
 
   it should "be comparable to equal spinners" in {
