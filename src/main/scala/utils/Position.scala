@@ -13,6 +13,15 @@ class Position(pos: (Int, Int)) {
   def setX(x: Int): Unit = pos_x = x
 
   def setY(y: Int): Unit = pos_y = y
+
+  def canEqual(a: Any): Boolean = a.isInstanceOf[Position]
+
+  override def equals(that: Any): Boolean = {
+    that match {
+      case that: Position => that.canEqual(this) && this.pos_x == that.pos_x && this.pos_y == that.pos_y
+      case _ => false
+    }
+  }
 }
 
 object Position {

@@ -19,7 +19,7 @@ class SliderTest extends BaseTest {
     assert(slider.getX == 0)
     assert(slider.getY == 1)
     assert(slider.getEndX == 100)
-    assert(slider.getEndX == 101)
+    assert(slider.getEndY == 101)
 
     slider.setPosition((2, 3))
     assert(slider.getX == 2)
@@ -27,7 +27,7 @@ class SliderTest extends BaseTest {
 
     slider.setEndPosition((102, 103))
     assert(slider.getEndX == 102)
-    assert(slider.getEndX == 103)
+    assert(slider.getEndY == 103)
   }
 
   it should "never end before it begins" in {
