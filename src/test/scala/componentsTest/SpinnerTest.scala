@@ -6,33 +6,33 @@ import coreTest.BaseTest
 class SpinnerTest extends BaseTest {
   "A spinner" should "keep the timestamp for beginning and end correctly" in {
     val spin = new Spinner(3, 4)
-    assert(spin.getTime == 3)
-    assert(spin.getEndTime == 4)
-    spin.setTime(1)
-    assert(spin.getTime == 1)
-    spin.setEndTime(5)
-    assert(spin.getEndTime == 5)
+    assert(spin.time == 3)
+    assert(spin.endTime == 4)
+    spin.time = 1
+    assert(spin.time == 1)
+    spin.endTime = 5
+    assert(spin.endTime == 5)
   }
 
   it should "always have a position of (0, 0)" in {
     val spin = new Spinner(0, 4)
-    assert(spin.getX == 0)
-    assert(spin.getY == 0)
-    assert(spin.getEndX == 0)
-    assert(spin.getEndY == 0)
+    assert(spin.x == 0)
+    assert(spin.y == 0)
+    assert(spin.endX == 0)
+    assert(spin.endY == 0)
   }
 
   it should "never end before it begins" in {
     assertThrows[IllegalArgumentException] {
-      val spin = new Spinner(3, 1)
+      new Spinner(3, 1)
     }
     assertThrows[IllegalArgumentException] {
       val spin = new Spinner(3, 4)
-      spin.setEndTime(1)
+      spin.endTime = 1
     }
     assertThrows[IllegalArgumentException] {
       val spin = new Spinner(3, 4)
-      spin.setTime(5)
+      spin.time = 5
     }
   }
 
@@ -77,8 +77,8 @@ class SpinnerTest extends BaseTest {
     val spin = new Spinner(3, 4)
     val spin2 = new Spinner(3, 4)
     val spin3 = new Spinner(2, 5)
-    spin3.setTime(3)
-    spin3.setEndTime(4)
+    spin3.time = 3
+    spin3.endTime = 4
     assert(spin == spin2)
     assert(spin == spin3)
   }

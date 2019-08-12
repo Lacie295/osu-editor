@@ -7,7 +7,7 @@ class Spinner(t: TimeStamp, et: TimeStamp) extends HeldObject((0, 0), (0, 0), t,
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Spinner => that.canEqual(this) && this.t == that.getTimeStamp && this.et == that.getEndTimeStamp
+      case that: Spinner => that.canEqual(this) && this.time == that.time && this.endTime == that.endTime
       case _ => false
     }
   }

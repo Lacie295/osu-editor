@@ -7,7 +7,7 @@ class Circle(p: Position, t: TimeStamp) extends HitObject(p, t) {
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Circle => that.canEqual(this) && this.t == that.getTimeStamp && this.p == that.getPosition
+      case that: Circle => that.canEqual(this) && this.time == that.time && this.position == that.position
       case _ => false
     }
   }

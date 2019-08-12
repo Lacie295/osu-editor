@@ -1,11 +1,11 @@
 package utils
 
 class TimeStamp(t: Int) {
-  private var time: Int = t
+  private var _time: Int = t
 
-  def getTime: Int = time
+  def time: Int = _time
 
-  def setTime(t: Int): Unit = time = t
+  def time_=(t: Int): Unit = _time = t
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[TimeStamp]
 
@@ -20,5 +20,5 @@ class TimeStamp(t: Int) {
 object TimeStamp {
   implicit def intToTimeStamp(t: Int): TimeStamp = new TimeStamp(t)
 
-  implicit def timeStampToInt(t: TimeStamp): Int = t.getTime
+  implicit def timeStampToInt(t: TimeStamp): Int = t.time
 }

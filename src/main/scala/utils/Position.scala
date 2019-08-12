@@ -1,24 +1,24 @@
 package utils
 
 class Position(pos: (Int, Int)) {
-  private var pos_x: Int = pos._1
-  private var pos_y: Int = pos._2
+  private var _pos_x: Int = pos._1
+  private var _pos_y: Int = pos._2
 
-  def getX: Int = pos_x
+  def x: Int = _pos_x
 
-  def getY: Int = pos_y
+  def y: Int = _pos_y
 
-  def getPos: (Int, Int) = (pos_x, pos_y)
+  private def _pos: (Int, Int) = (_pos_x, _pos_y)
 
-  def setX(x: Int): Unit = pos_x = x
+  def x_=(x: Int): Unit = _pos_x = x
 
-  def setY(y: Int): Unit = pos_y = y
+  def y_=(y: Int): Unit = _pos_y = y
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[Position]
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Position => that.canEqual(this) && this.pos_x == that.pos_x && this.pos_y == that.pos_y
+      case that: Position => that.canEqual(this) && this._pos_x == that._pos_x && this._pos_y == that._pos_y
       case _ => false
     }
   }
@@ -27,5 +27,5 @@ class Position(pos: (Int, Int)) {
 object Position {
   implicit def tupleToPosition(pos: (Int, Int)): Position = new Position(pos)
 
-  implicit def positionToTuple(pos: Position): (Int, Int) = pos.getPos
+  implicit def positionToTuple(pos: Position): (Int, Int) = pos._pos
 }

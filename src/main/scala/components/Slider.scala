@@ -7,8 +7,26 @@ class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp) extends Hel
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Slider => that.canEqual(this) && this.t == that.getTimeStamp && this.et == that.getEndTimeStamp && this.p == that.getPosition && this.ep == that.getEndPosition
+      case that: Slider => that.canEqual(this) && this.time == that.time && this.endTime == that.endTime && this.position == that.position && this.endPosition == that.endPosition
       case _ => false
     }
   }
+}
+
+private class Node(p: Position, t: Int) {
+  private var _nodeType: Int = t
+  private val position: Position = p
+
+  require(_nodeType < 0 || _nodeType > 1, () => "Type can only be gray or red (0 or 1)")
+
+  private def nodeType: Int = _nodeType
+
+  private def nodeType_=(value: Int): Unit = {
+    require(_nodeType < 0 || _nodeType > 1, () => "Type can only be gray or red (0 or 1)")
+    _nodeType = value
+  }
+}
+
+object Node {
+  implicit def nodeToPosition(node: Node): Position = node.position
 }

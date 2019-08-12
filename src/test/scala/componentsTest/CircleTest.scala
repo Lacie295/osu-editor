@@ -6,22 +6,22 @@ import coreTest.BaseTest
 class CircleTest extends BaseTest {
   "A Circle" should "always return its position properly" in {
     val circle = new Circle((0, 1), 0)
-    assert(circle.getX == 0)
-    assert(circle.getY == 1)
+    assert(circle.x == 0)
+    assert(circle.y == 1)
 
-    circle.setX(5)
-    assert(circle.getX == 5)
+    circle.x = 5
+    assert(circle.x == 5)
 
-    circle.setY(6)
-    assert(circle.getY == 6)
+    circle.y = 6
+    assert(circle.y == 6)
 
   }
 
   it should "always return its time properly" in {
     val circle = new Circle((0, 1), 8)
-    assert(circle.getTime == 8)
-    circle.setTime(9)
-    assert(circle.getTime == 9)
+    assert(circle.time == 8)
+    circle.time = 9
+    assert(circle.time == 9)
   }
 
   it should "be comparable to other circles" in {

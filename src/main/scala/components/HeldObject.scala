@@ -3,42 +3,60 @@ package components
 import utils.{Position, TimeStamp}
 
 abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp) extends HitObject(p, t) {
-  private var endTime: TimeStamp = et
-  private var endPos: Position = ep
+  private var _endTime: TimeStamp = et
+  private var _endPos: Position = ep
 
-  def getEndTimeStamp: TimeStamp = endTime
+  require(timeStamp < endTimeStamp, () => "End time must be after start time")
 
-  def getEndTime: Int = endTime.getTime
+  def endTimeStamp: TimeStamp = _endTime
 
-  def getEndPosition: Position = endPos
+  def endTime: Int = endTimeStamp.time
 
-  def getEndX: Int = endPos.getX
+  def endPosition: Position = _endPos
 
-  def getEndY: Int = endPos.getY
+  def endX: Int = endPosition.x
 
-  def setEndTimeStamp(et: TimeStamp): Unit = endTime = et
+  def endY: Int = endPosition.y
 
-  def setEndTime(et: Int): Unit = endTime.setTime(et)
+  def endTimeStamp_=(et: TimeStamp): Unit = {
+    require(timeStamp < et, () => "End time must be after start time")
+    _endTime = et
+  }
 
-  def setEndPosition(ep: Position): Unit = endPos = ep
+  override def timeStamp_=(t: TimeStamp): Unit = {
+    require(t < endTimeStamp, () => "End time must be after start time")
+    super.timeStamp_=(t)
+  }
 
-  def setEndX(x: Int): Unit = endPos.setX(x)
+  def endTime_=(et: Int): Unit = {
+    require(timeStamp < et, () => "End time must be after start time")
+    endTimeStamp.time = et
+  }
 
-  def setEndY(y: Int): Unit = endPos.setY(y)
+  override def time_=(t: Int): Unit = {
+    require(t < endTimeStamp, () => "End time must be after start time")
+    super.time_=(t)
+  }
+
+  def endPosition_=(ep: Position): Unit = _endPos = ep
+
+  def endX_=(x: Int): Unit = _endPos.x = x
+
+  def endY_=(y: Int): Unit = _endPos.y = y
 
   override def overlaps(o: HitObject): Boolean = {
     o match {
       case o: HeldObject => {
         def between(a: Int, b: Int, t: Int): Boolean = a <= t && t <= b
 
-        val t = this.getTime
-        val et = this.getEndTime
-        val ot = o.getTime
-        val eot = o.getEndTime
+        val t = this.time
+        val et = this.endTime
+        val ot = o.time
+        val eot = o.endTime
 
         between(t, et, ot) || between(t, et, eot) || between(ot, eot, t) || between(ot, eot, et)
       }
-      case _ => (this.getTime <= o.getTime && this.getEndTime >= o.getTime)
+      case _ => this.time <= o.time && this.endTime >= o.time
     }
   }
 }
