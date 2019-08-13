@@ -22,6 +22,8 @@ class Position(pos: (Int, Int)) {
       case _ => false
     }
   }
+
+  override def toString: String = "(" + x + "," + y + ")"
 }
 
 object Position {
