@@ -1,0 +1,5 @@
+package core
+
+class map {
+
+}

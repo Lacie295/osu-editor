@@ -1,0 +1,6 @@
+package components
+
+class
+AbstractTimingPoint {
+
+}
