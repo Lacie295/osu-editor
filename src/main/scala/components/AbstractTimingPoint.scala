@@ -1,6 +1,7 @@
 package components
 
-class
-AbstractTimingPoint {
+import utils.TimeStamp
+
+abstract class AbstractTimingPoint(t: TimeStamp) extends Component(t) {
 
 }
