@@ -23,3 +23,7 @@ class Uninherited_legacy(t: TimeStamp, bpm: Double, m: Int, ss: Int, si: Int, vo
     }
   }
 }
+
+object Uninherited_legacy {
+  implicit def uninherited_legacyToTimeStamp(a: Uninherited_legacy): TimeStamp = a.timeStamp
+}

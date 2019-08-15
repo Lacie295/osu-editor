@@ -18,3 +18,7 @@ class Inherited_legacy(t: TimeStamp, multi: Double, ss: Int, si: Int, vol: Int, 
     }
   }
 }
+
+object Inherited_legacy {
+  implicit def inherited_legacyToTimeStamp(a: Inherited_legacy): TimeStamp = a.timeStamp
+}
