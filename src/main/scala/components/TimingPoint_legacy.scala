@@ -24,7 +24,3 @@ abstract class TimingPoint_legacy(t: TimeStamp, ss: Int, si: Int, vol: Int, ki: 
 
   def kiai_=(ki: Boolean): Unit = _kiai = ki
 }
-
-object timingPoint_legacy {
-  implicit def timingPoint_legacyToTimeStamp(a: TimingPoint_legacy): TimeStamp = a.timeStamp
-}
