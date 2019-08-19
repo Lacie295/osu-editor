@@ -71,7 +71,7 @@ class TimingPointTest extends BaseTest{
     }
     assertThrows[IllegalArgumentException] {
       val timingPoint = new TimingPoint(50, 133.5, 2, 4)
-      timingPoint.meterB = -50
+      timingPoint.bpm = -50
     }
   }
 }
