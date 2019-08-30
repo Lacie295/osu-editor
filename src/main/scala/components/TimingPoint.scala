@@ -2,7 +2,7 @@ package components
 
 import utils.TimeStamp
 
-class TimingPoint(t: TimeStamp, BPM: Double, m1: Int, m2: Int) extends AbstractTimingPoint(t) {
+class TimingPoint(t: TimeStamp, BPM: Double, m1: Int = 4, m2: Int = 4) extends AbstractTimingPoint(t) {
   private var _bpm = BPM
 
   require(_bpm > 0, () => "BPM Must be positive")

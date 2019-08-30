@@ -1,6 +1,6 @@
 package coreTest
 
-import components.{Circle, HitObject, Slider, Spinner}
+import components.{Circle, HitObject, Slider, Spinner, TimingPoint}
 import core.Map
 
 abstract class MapTest extends BaseTest {
@@ -38,6 +38,14 @@ abstract class MapTest extends BaseTest {
   }
 
   it should "properly store timing points" in {
-    //TODO
+    val m: Map = new Map()
+
+    m.addTimingPoint(new TimingPoint(0, 120))
+    m.addTimingPoint(new TimingPoint(4, 130))
+
+    assert(m.getTimingPoint(0).get.time == 0)
+    assert(m.getTimingPoint(0).get.asInstanceOf[TimingPoint].bpm == 120)
+    assert(m.getTimingPoint(6).get.time == 4)
+    assert(m.getTimingPoint(6).get.asInstanceOf[TimingPoint].bpm == 130)
   }
 }

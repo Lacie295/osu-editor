@@ -24,11 +24,11 @@ class Map {
 
   }
 
-  def getTimingPoints(t: TimeStamp): Option[AbstractTimingPoint] = {
+  def getTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = {
     Some(new Inherited_legacy(0, 0, 0, 0, 0, true))
   }
 
-  def deleteTimingPoints(t: TimeStamp): Option[AbstractTimingPoint] = {
+  def deleteTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = {
     Some(new Inherited_legacy(0, 0, 0, 0, 0, true))
   }
 }
