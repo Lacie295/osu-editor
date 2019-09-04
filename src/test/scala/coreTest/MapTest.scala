@@ -3,7 +3,7 @@ package coreTest
 import components.{Circle, HitObject, Slider, Spinner, TimingPoint}
 import core.Map
 
-abstract class MapTest extends BaseTest {
+class MapTest extends BaseTest {
   "A map" should "store all its objects" in {
     val m: Map = new Map()
 

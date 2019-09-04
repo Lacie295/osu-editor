@@ -1,34 +1,22 @@
 package core
 
-import components.{AbstractTimingPoint, Circle, HitObject, Inherited_legacy}
+import components.{AbstractTimingPoint, Circle, Component, ComponentTimeListener, HitObject, Inherited_legacy}
 import utils.TimeStamp
 
-class Map {
-  def addObject(o: HitObject): Unit = {
+class Map extends ComponentTimeListener {
+  def addObject(o: HitObject): Unit = ???
 
-  }
+  def getObject(t: TimeStamp): Option[HitObject] = ???
 
-  def getObject(t: TimeStamp): Option[HitObject] = {
-    Some(new Circle((0, 0), 0))
-  }
+  def deleteObject(t: TimeStamp): HitObject = ???
 
-  def deleteObject(t: TimeStamp): HitObject = {
-    new Circle((0, 0), 0)
-  }
+  def deleteObject(o: HitObject): TimeStamp = ???
 
-  def deleteObject(o: HitObject): TimeStamp = {
-    0
-  }
+  def addTimingPoint(t: AbstractTimingPoint): Unit  = ???
 
-  def addTimingPoint(t: AbstractTimingPoint): Unit  = {
+  def getTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = ???
 
-  }
+  def deleteTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = ???
 
-  def getTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = {
-    Some(new Inherited_legacy(0, 0, 0, 0, 0, true))
-  }
-
-  def deleteTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = {
-    Some(new Inherited_legacy(0, 0, 0, 0, 0, true))
-  }
+  override def onComponentTimeChange(t: Component): Unit = ???
 }

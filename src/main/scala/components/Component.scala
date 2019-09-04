@@ -6,7 +6,7 @@ abstract class Component(t: TimeStamp) extends TimeStampListener {
   private var _time: TimeStamp = t
   _time.addTimeStampListener(this)
 
-  private var _timeStampListeners: List[ComponentListener] = List()
+  private var _timeStampListeners: List[ComponentTimeListener] = List()
 
   def timeStamp: TimeStamp = _time
 
@@ -29,7 +29,7 @@ abstract class Component(t: TimeStamp) extends TimeStampListener {
   }
 }
 
-trait ComponentListener {
+trait ComponentTimeListener {
   def onComponentTimeChange(t: Component): Unit
 }
 
