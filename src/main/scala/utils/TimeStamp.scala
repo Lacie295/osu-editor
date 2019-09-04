@@ -5,7 +5,12 @@ class TimeStamp(t: Int) {
 
   def time: Int = _time
 
-  def time_=(t: Int): Unit = _time = t
+  private var _listeners: List[TimeStampListener] = List()
+
+  def time_=(t: Int): Unit = {
+    _time = t
+    _listeners.foreach(_.onTimeStampChange(this))
+  }
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[TimeStamp]
 
@@ -15,6 +20,22 @@ class TimeStamp(t: Int) {
       case _ => false
     }
   }
+
+  def addTimeStampListener(l: TimeStampListener): Unit = {
+    _listeners = _listeners :+ l
+  }
+
+  def removeTimeStampListener(l: TimeStampListener): Unit = {
+    _listeners = _listeners.filter(_ != l)
+  }
+
+  def alertListeners(): Unit = {
+    _listeners.foreach(_.onTimeStampChange(this))
+  }
+}
+
+trait TimeStampListener {
+  def onTimeStampChange(t: TimeStamp): Unit
 }
 
 object TimeStamp {

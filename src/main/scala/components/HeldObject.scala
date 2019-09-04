@@ -5,6 +5,7 @@ import utils.{Position, TimeStamp}
 abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp) extends HitObject(p, t) {
   private var _endTime: TimeStamp = et
   private var _endPos: Position = ep
+  _endTime.addTimeStampListener(this)
 
   require(timeStamp < endTimeStamp, () => "End time must be after start time")
 
@@ -20,7 +21,10 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
 
   def endTimeStamp_=(et: TimeStamp): Unit = {
     require(timeStamp < et, () => "End time must be after start time")
+    _endTime.removeTimeStampListener(this)
     _endTime = et
+    _endTime.addTimeStampListener(this)
+    alertListeners()
   }
 
   override def timeStamp_=(t: TimeStamp): Unit = {
