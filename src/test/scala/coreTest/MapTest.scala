@@ -32,7 +32,7 @@ class MapTest extends BaseTest {
     assert(sp.time == 3)
     assert(sp.endTime == 4)
 
-    m.deleteObject(3)
+    m.deleteObject(sp)
     val none: List[HitObject] = m.getObject(3)
     assert(none.isEmpty)
   }

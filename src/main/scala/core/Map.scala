@@ -11,15 +11,11 @@ class Map {
 
   def getObject(t: TimeStamp): List[HitObject] = objects(t).filter(_.overlaps(t))
 
-  def deleteObject(t: TimeStamp): List[HitObject] = objects.delete(t)
-
   def deleteObject(o: HitObject): List[HitObject] = objects.delete(o.timeStamp, o)
 
   def addTimingPoint(t: AbstractTimingPoint): Unit  = timingPoints.insert(t.timeStamp, t)
 
   def getTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints(t)
-
-  def deleteTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints.delete(t)
 
   def deleteTimingPoint(t: AbstractTimingPoint): List[AbstractTimingPoint] = timingPoints.delete(t.timeStamp, t)
 }
