@@ -1,22 +1,25 @@
 package core
 
-import components.{AbstractTimingPoint, Circle, Component, ComponentTimeListener, HitObject, Inherited_legacy}
-import utils.TimeStamp
+import components.{AbstractTimingPoint, Circle, Component, HeldObject, HitObject, Inherited_legacy}
+import utils.{BinarySearchTree, TimeStamp}
 
-class Map extends ComponentTimeListener {
-  def addObject(o: HitObject): Unit = ???
+class Map {
+  private val objects = BinarySearchTree[TimeStamp, HitObject]()
+  private val timingPoints = BinarySearchTree[TimeStamp, AbstractTimingPoint]()
 
-  def getObject(t: TimeStamp): Option[HitObject] = ???
+  def addObject(o: HitObject): Unit = objects.insert(o.timeStamp, o)
 
-  def deleteObject(t: TimeStamp): HitObject = ???
+  def getObject(t: TimeStamp): List[HitObject] = objects(t).filter(_.overlaps(t))
 
-  def deleteObject(o: HitObject): TimeStamp = ???
+  def deleteObject(t: TimeStamp): List[HitObject] = objects.delete(t)
 
-  def addTimingPoint(t: AbstractTimingPoint): Unit  = ???
+  def deleteObject(o: HitObject): List[HitObject] = objects.delete(o.timeStamp, o)
 
-  def getTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = ???
+  def addTimingPoint(t: AbstractTimingPoint): Unit  = timingPoints.insert(t.timeStamp, t)
 
-  def deleteTimingPoint(t: TimeStamp): Option[AbstractTimingPoint] = ???
+  def getTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints(t)
 
-  override def onComponentTimeChange(t: Component): Unit = ???
+  def deleteTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints.delete(t)
+
+  def deleteTimingPoint(t: AbstractTimingPoint): List[AbstractTimingPoint] = timingPoints.delete(t.timeStamp, t)
 }

@@ -1,16 +1,11 @@
 package utils
 
-class TimeStamp(t: Int) {
+class TimeStamp(t: Int) extends Comparable[TimeStamp] {
   private var _time: Int = t
 
   def time: Int = _time
 
-  private var _listeners: List[TimeStampListener] = List()
-
-  def time_=(t: Int): Unit = {
-    _time = t
-    _listeners.foreach(_.onTimeStampChange(this))
-  }
+  def time_=(t: Int): Unit = _time = t
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[TimeStamp]
 
@@ -21,21 +16,7 @@ class TimeStamp(t: Int) {
     }
   }
 
-  def addTimeStampListener(l: TimeStampListener): Unit = {
-    _listeners = _listeners :+ l
-  }
-
-  def removeTimeStampListener(l: TimeStampListener): Unit = {
-    _listeners = _listeners.filter(_ != l)
-  }
-
-  def alertListeners(): Unit = {
-    _listeners.foreach(_.onTimeStampChange(this))
-  }
-}
-
-trait TimeStampListener {
-  def onTimeStampChange(t: TimeStamp): Unit
+  override def compareTo(t: TimeStamp): Int = this - t
 }
 
 object TimeStamp {

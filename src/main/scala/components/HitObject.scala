@@ -17,8 +17,12 @@ abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) exten
   def overlaps(o: HitObject): Boolean = {
     o match {
       case o: HeldObject => o.overlaps(this)
-      case _ => this.time == o.time
+      case _ => overlaps(o.timeStamp)
     }
+  }
+
+  def overlaps(t: TimeStamp): Boolean = {
+    this.timeStamp == t
   }
 }
 
