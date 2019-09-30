@@ -48,4 +48,22 @@ class MapTest extends BaseTest {
     assert(m.getTimingPoint(6)(0).time == 4)
     assert(m.getTimingPoint(6)(0).asInstanceOf[TimingPoint].bpm == 130)
   }
+
+  it should "handle overlapping objects" in {
+    val m: Map = new Map()
+
+    val s1 = new Slider((0, 0), (0, 0), 0, 5)
+    m.addObject(s1)
+    val s2 = new Slider((0, 0), (0, 0), 3, 8)
+    m.addObject(s2)
+    val c1 = new Circle((0, 0), 7)
+    m.addObject(c1)
+
+    assert(m.getObject(0) == List(s1))
+    assert(m.getObject(3) == List(s1, s2))
+    assert(m.getObject(5) == List(s1, s2))
+    assert(m.getObject(6) == List(s2))
+    assert(m.getObject(7) == List(s2, c1))
+    assert(m.getObject(8) == List(s2))
+  }
 }
