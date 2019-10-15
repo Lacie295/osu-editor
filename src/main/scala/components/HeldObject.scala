@@ -5,7 +5,6 @@ import utils.{Position, TimeStamp}
 abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp) extends HitObject(p, t) {
   private var _endTime: TimeStamp = et
   private var _endPos: Position = ep
-  _endTime.addTimeStampListener(this)
 
   require(timeStamp < endTimeStamp, () => "End time must be after start time")
 
@@ -21,10 +20,7 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
 
   def endTimeStamp_=(et: TimeStamp): Unit = {
     require(timeStamp < et, () => "End time must be after start time")
-    _endTime.removeTimeStampListener(this)
     _endTime = et
-    _endTime.addTimeStampListener(this)
-    alertListeners()
   }
 
   override def timeStamp_=(t: TimeStamp): Unit = {
@@ -60,7 +56,11 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
 
         between(t, et, ot) || between(t, et, eot) || between(ot, eot, t) || between(ot, eot, et)
       }
-      case _ => this.time <= o.time && this.endTime >= o.time
+      case _ => overlaps(o.timeStamp)
     }
+  }
+
+  override def overlaps(T: TimeStamp): Boolean = {
+    this.time <= t && this.endTime >= t
   }
 }

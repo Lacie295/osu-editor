@@ -11,29 +11,29 @@ class MapTest extends BaseTest {
     m.addObject(new Circle((0, 0), 2))
     m.addObject(new Spinner(3, 4))
 
-    val s: Slider = m.getObject(0).get.asInstanceOf[Slider]
-    val s2: Slider = m.getObject(1).get.asInstanceOf[Slider]
+    val s: Slider = m.getObject(0)(0).asInstanceOf[Slider]
+    val s2: Slider = m.getObject(1)(0).asInstanceOf[Slider]
     assert(s == s2)
     assert(s.x == 0)
     assert(s.y == 0)
     assert(s.endX == 1)
     assert(s.endY == 1)
     assert(s.time == 0)
-    assert(s.endTime == 0)
+    assert(s.endTime == 1)
 
-    val c: Circle = m.getObject(2).get.asInstanceOf[Circle]
+    val c: Circle = m.getObject(2)(0).asInstanceOf[Circle]
     assert(c.x == 0)
     assert(c.y == 0)
     assert(c.time == 2)
 
-    val sp: Spinner = m.getObject(3).get.asInstanceOf[Spinner]
-    val sp2: Spinner = m.getObject(4).get.asInstanceOf[Spinner]
+    val sp: Spinner = m.getObject(3)(0).asInstanceOf[Spinner]
+    val sp2: Spinner = m.getObject(4)(0).asInstanceOf[Spinner]
     assert(sp == sp2)
     assert(sp.time == 3)
     assert(sp.endTime == 4)
 
-    m.deleteObject(3)
-    val none: Option[HitObject] = m.getObject(3)
+    m.deleteObject(sp)
+    val none: List[HitObject] = m.getObject(3)
     assert(none.isEmpty)
   }
 
@@ -43,9 +43,27 @@ class MapTest extends BaseTest {
     m.addTimingPoint(new TimingPoint(0, 120))
     m.addTimingPoint(new TimingPoint(4, 130))
 
-    assert(m.getTimingPoint(0).get.time == 0)
-    assert(m.getTimingPoint(0).get.asInstanceOf[TimingPoint].bpm == 120)
-    assert(m.getTimingPoint(6).get.time == 4)
-    assert(m.getTimingPoint(6).get.asInstanceOf[TimingPoint].bpm == 130)
+    assert(m.getTimingPoint(0)(0).time == 0)
+    assert(m.getTimingPoint(0)(0).asInstanceOf[TimingPoint].bpm == 120)
+    assert(m.getTimingPoint(6)(0).time == 4)
+    assert(m.getTimingPoint(6)(0).asInstanceOf[TimingPoint].bpm == 130)
+  }
+
+  it should "handle overlapping objects" in {
+    val m: Map = new Map()
+
+    val s1 = new Slider((0, 0), (0, 0), 0, 5)
+    m.addObject(s1)
+    val s2 = new Slider((0, 0), (0, 0), 3, 8)
+    m.addObject(s2)
+    val c1 = new Circle((0, 0), 7)
+    m.addObject(c1)
+
+    assert(m.getObject(0) == List(s1))
+    assert(m.getObject(3) == List(s1, s2))
+    assert(m.getObject(5) == List(s1, s2))
+    assert(m.getObject(6) == List(s2))
+    assert(m.getObject(7) == List(s2, c1))
+    assert(m.getObject(8) == List(s2))
   }
 }
