@@ -1,9 +1,9 @@
 package utils
 
-class Addition(s: Int, si: Int, as: Int) extends Hitsound(s, si) {
-  private var _additionSample = as
+class Addition(s: Int, i: Int, b: Boolean) extends Hitsound(s, i){
+  private var _active: Boolean = b
 
-  def sample_=(as: Int): Unit = _additionSample = as
+  def active_=(b: Boolean): Unit = _active = b
 
-  def sample: Int = _additionSample
+  def active: Boolean = _active
 }

@@ -1,8 +1,8 @@
 package utils
 
 class  Hitsound(s: Int, i: Int) {
-  private var _sampleSet: Int = s
-  private var _sampleIndex: Int = i
+  private var _sampleSet: Int = s                               // is normal, soft or drum
+  private var _sampleIndex: Int = i                             // is [sampleSet]-hitnormal{index}
 
   def sampleSet_=(s: Int): Unit = _sampleSet = s
 
