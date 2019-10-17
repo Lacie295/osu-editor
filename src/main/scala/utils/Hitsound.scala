@@ -1,5 +1,8 @@
 package utils
 
+  // A Hitsound instance represents the base hitsound of an object that is (ideally) always played on-hit, meaning on active
+  // hit of a circle or slider and the finish of a spinner. sampleSet saves (normal, soft, drum) and the index the custom index.
+
 class  Hitsound(s: Int, i: Int) {
   private var _sampleSet: Int = s                               // is normal, soft or drum
   private var _sampleIndex: Int = i                             // is [sampleSet]-hitnormal{index}
