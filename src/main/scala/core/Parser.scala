@@ -63,9 +63,15 @@ class Parser(fp: String) {
   def readCircle(properties: Array[String]): Circle = {
     val circle = new Circle((properties(0).toInt, properties(1).toInt), properties(2).toInt)
 
-    val h = readActiveHitsound(properties(5), properties(4))
-    circle.hitsound = h._1
-    circle.additions = h._2
+    if (!(properties.length < 5)) {
+      val h = readActiveHitsound(properties(5), properties(4))
+      circle.hitsound = h._1
+      circle.additions = h._2
+    }
+    else {
+      circle.hitsound = new Hitsound(0,0)
+      circle.additions = Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false))
+    }
 
     circle
   }
@@ -115,15 +121,20 @@ class Parser(fp: String) {
     require((properties(3).toInt & 11) == 2, () => "Line does not contain a slider")
     readSlider(properties)
   }
-
+    //                  0 1  2    3    4        5       6
     // Spinner syntax: [x,y,time,type,hitSound,endTime,extras]
   def readSpinner(properties: Array[String]): Spinner = {
     val spinner = new Spinner(properties(2).toInt, properties(5).toInt)
 
-    val h = readActiveHitsound(properties(5), properties(4))
-    spinner.hitsound = h._1
-    spinner.additions = h._2
-
+    if (!(properties.length < 7)) {
+      val h = readActiveHitsound(properties(6), properties(4))
+      spinner.hitsound = h._1
+      spinner.additions = h._2
+    }
+    else {
+      spinner.hitsound = new Hitsound(0,0)
+      spinner.additions = Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false))
+    }
     spinner
   }
 
@@ -166,6 +177,12 @@ class Parser(fp: String) {
     // Extras syntax: [sampleSet:additionSet:customIndex:sampleVolume:filename] - filename is ignored - ONLY WORKS FOR CIRCLES AND SPINNERS
   def readExtras(extras: String): (Int, Int, Int, Int, String) = {
     val e = extras.split(":")
-    (e(0).toInt, e(1).toInt, e(2).toInt, e(3).toInt, e(4))
+
+    if (e.length == 4) {
+      (e(0).toInt, e(1).toInt, e(2).toInt, e(3).toInt, "")
+    }
+    else {
+      (e(0).toInt, e(1).toInt, e(2).toInt, e(3).toInt, e(4))
+    }
   }
 }
