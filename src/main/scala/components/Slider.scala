@@ -1,10 +1,10 @@
 package components
 
-import utils.{Position, TimeStamp}
+import utils.{Hitsound, Position, TimeStamp}
 
 import collection.mutable.ArrayBuffer
 
-class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, r: Int = 0) extends HeldObject(p, ep, t, et) {
+class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, ep, t, et, hs) {
   private val _nodes = new ArrayBuffer[Node]()
 
   private var _repeats = r

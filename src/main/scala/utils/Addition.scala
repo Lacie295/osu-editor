@@ -12,4 +12,13 @@ class Addition(s: Int, i: Int, b: Boolean) extends Hitsound(s, i){
   def active_=(b: Boolean): Unit = _active = b
 
   def active: Boolean = _active
+
+  override def canEqual(a: Any): Boolean = a.isInstanceOf[Addition]
+
+  override def equals(that: Any): Boolean = {
+    that match {
+      case that: Addition => that.canEqual(this) && this.sampleSet == that.sampleSet && this.sampleIndex == that.sampleIndex && this.active == that.active
+      case _ => false
+    }
+  }
 }

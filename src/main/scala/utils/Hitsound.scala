@@ -14,6 +14,15 @@ class  Hitsound(s: Int, i: Int) {
   def sampleIndex_=(i: Int): Unit = _sampleIndex = i
 
   def sampleIndex: Int = _sampleIndex
+
+  def canEqual(a: Any): Boolean = a.isInstanceOf[Hitsound]
+
+  override def equals(that: Any): Boolean = {
+    that match {
+      case that: Hitsound => that.canEqual(this) && this.sampleSet == that.sampleSet && this.sampleIndex == that.sampleIndex
+      case _ => false
+    }
+  }
 }
 
 object Hitsound {

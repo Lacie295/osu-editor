@@ -2,7 +2,7 @@ package coreTest
 
 import components.{Circle, Slider, Spinner}
 import core.Parser
-import utils.Addition
+import utils.{Addition, Hitsound}
 
 class ParserTest extends BaseTest {
   "A parser" should "load up a given file and return its constructor correctly" in {
@@ -38,6 +38,17 @@ class ParserTest extends BaseTest {
     val circle = new Circle((68, 50), 439)
 
     assert(parser.readObject(line) == circle)
+
+    val line2 = parser.readLines()(4)
+    val circle2 = new Circle((68, 50), 439, new Hitsound(1, 2))
+    circle2.additions = Array(new Addition(2, 3, true), new Addition(2, 3, true), new Addition(2, 3, false))
+
+    assert(parser.readObject(line2) == circle2)
+
+    val l2 = parser.readObject(line2)
+    assert(l2.additions(0) == circle2.additions(0))
+    assert(l2.additions(1) == circle2.additions(1))
+    assert(l2.additions(2) == circle2.additions(2))
   }
 
   it should "read a slider correctly" in {
@@ -69,14 +80,45 @@ class ParserTest extends BaseTest {
   it should "return an Addition correctly" in {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
-    assert(parser.readAdditionBit("0") sameElements Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false)))
-    assert(parser.readAdditionBit("2") sameElements Array(new Addition(0, 0, true), new Addition(0, 0, false), new Addition(0, 0, false)))
-    assert(parser.readAdditionBit("4") sameElements Array(new Addition(0, 0, false), new Addition(0, 0, true), new Addition(0, 0, false)))
-    assert(parser.readAdditionBit("6") sameElements Array(new Addition(0, 0, true), new Addition(0, 0, true), new Addition(0, 0, false)))
-    assert(parser.readAdditionBit("8") sameElements Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, true)))
-    assert(parser.readAdditionBit("10") sameElements Array(new Addition(0, 0, true), new Addition(0, 0, false), new Addition(0, 0, true)))
-    assert(parser.readAdditionBit("12") sameElements Array(new Addition(0, 0, false), new Addition(0, 0, true), new Addition(0, 0, true)))
-    assert(parser.readAdditionBit("14") sameElements Array(new Addition(0, 0, true), new Addition(0, 0, true), new Addition(0, 0, true)))
+    val a1 = parser.readAdditionBit("0")
+    assert(a1(0) == new Addition(0, 0, false))
+    assert(a1(1) == new Addition(0, 0, false))
+    assert(a1(2) == new Addition(0, 0, false))
+
+    val a2 = parser.readAdditionBit("2")
+    assert(a2(0) == new Addition(0, 0, true))
+    assert(a2(1) == new Addition(0, 0, false))
+    assert(a2(2) == new Addition(0, 0, false))
+
+    val a3 = parser.readAdditionBit("4")
+    assert(a3(0) == new Addition(0, 0, false))
+    assert(a3(1) == new Addition(0, 0, true))
+    assert(a3(2) == new Addition(0, 0, false))
+
+    val a4 = parser.readAdditionBit("6")
+    assert(a4(0) == new Addition(0, 0, true))
+    assert(a4(1) == new Addition(0, 0, true))
+    assert(a4(2) == new Addition(0, 0, false))
+
+    val a5 = parser.readAdditionBit("8")
+    assert(a5(0) == new Addition(0, 0, false))
+    assert(a5(1) == new Addition(0, 0, false))
+    assert(a5(2) == new Addition(0, 0, true))
+
+    val a6 = parser.readAdditionBit("10")
+    assert(a6(0) == new Addition(0, 0, true))
+    assert(a6(1) == new Addition(0, 0, false))
+    assert(a6(2) == new Addition(0, 0, true))
+
+    val a7 = parser.readAdditionBit("12")
+    assert(a7(0) == new Addition(0, 0, false))
+    assert(a7(1) == new Addition(0, 0, true))
+    assert(a7(2) == new Addition(0, 0, true))
+
+    val a8 = parser.readAdditionBit("14")
+    assert(a8(0) == new Addition(0, 0, true))
+    assert(a8(1) == new Addition(0, 0, true))
+    assert(a8(2) == new Addition(0, 0, true))
   }
 
   it should "return the extras correctly" in {
@@ -87,16 +129,55 @@ class ParserTest extends BaseTest {
     assert(parser.readExtras("3:2:2:85:file.wav") == (3,2,2,85,"file.wav"))
   }
 
-  it should "return HS + AD (circles/sliders) correctly" in {
+  it should "return HS + AD (circles/spinners) correctly" in {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
-    assert(parser.readActiveHitsound("3:2:2:85:", "0") == (Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false)), (3,2,2,85,"")))
-    assert(parser.readActiveHitsound("3:2:2:85:", "2") == (Array(new Addition(0, 0, true), new Addition(0, 0, false), new Addition(0, 0, false)),3,2,2,85,""))
-    assert(parser.readActiveHitsound("3:2:2:85:", "4") == (Array(new Addition(0, 0, false), new Addition(0, 0, true), new Addition(0, 0, false)),3,2,2,85,""))
-    assert(parser.readActiveHitsound("3:2:2:85:", "6") == (Array(new Addition(0, 0, true), new Addition(0, 0, true), new Addition(0, 0, false)),3,2,2,85,""))
-    assert(parser.readActiveHitsound("3:2:2:85:", "8") == (Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, true)),3,2,2,85,""))
-    assert(parser.readActiveHitsound("3:2:2:85:", "10") == (Array(new Addition(0, 0, true), new Addition(0, 0, false), new Addition(0, 0, true)),3,2,2,85,""))
-    assert(parser.readActiveHitsound("3:2:2:85:", "12") == (Array(new Addition(0, 0, false), new Addition(0, 0, true), new Addition(0, 0, true)),3,2,2,85,""))
-    assert(parser.readActiveHitsound("3:2:2:85:", "14") == (Array(new Addition(0, 0, true), new Addition(0, 0, true), new Addition(0, 0, true)),3,2,2,85,""))
+    val a1 = parser.readActiveHitsound("3:2:2:85:", "0")
+    assert(a1._1 == new Hitsound(3, 2))
+    assert(a1._2(0) == new Addition(2, 2, false))
+    assert(a1._2(1) == new Addition(2, 2, false))
+    assert(a1._2(2) == new Addition(2, 2, false))
+
+    val a2 = parser.readActiveHitsound("3:2:2:85:", "2")
+    assert(a2._1 == new Hitsound(3, 2))
+    assert(a2._2(0) == new Addition(2, 2, true))
+    assert(a2._2(1) == new Addition(2, 2, false))
+    assert(a2._2(2) == new Addition(2, 2, false))
+
+    val a3 = parser.readActiveHitsound("3:2:2:85:", "4")
+    assert(a3._1 == new Hitsound(3, 2))
+    assert(a3._2(0) == new Addition(2, 2, false))
+    assert(a3._2(1) == new Addition(2, 2, true))
+    assert(a3._2(2) == new Addition(2, 2, false))
+
+    val a4 = parser.readActiveHitsound("3:2:2:85:", "6")
+    assert(a4._1 == new Hitsound(3, 2))
+    assert(a4._2(0) == new Addition(2, 2, true))
+    assert(a4._2(1) == new Addition(2, 2, true))
+    assert(a4._2(2) == new Addition(2, 2, false))
+
+    val a5 = parser.readActiveHitsound("3:2:2:85:", "8")
+    assert(a5._1 == new Hitsound(3, 2))
+    assert(a5._2(0) == new Addition(2, 2, false))
+    assert(a5._2(1) == new Addition(2, 2, false))
+    assert(a5._2(2) == new Addition(2, 2, true))
+
+    val a6 = parser.readActiveHitsound("3:2:2:85:", "10")
+    assert(a6._1 == new Hitsound(3, 2))
+    assert(a6._2(0) == new Addition(2, 2, true))
+    assert(a6._2(1) == new Addition(2, 2, false))
+    assert(a6._2(2) == new Addition(2, 2, true))
+
+    val a7 = parser.readActiveHitsound("3:2:2:85:", "12")
+    assert(a7._1 == new Hitsound(3, 2))
+    assert(a7._2(0) == new Addition(2, 2, false))
+    assert(a7._2(1) == new Addition(2, 2, true))
+    assert(a7._2(2) == new Addition(2, 2, true))
+
+    val a8 = parser.readActiveHitsound("3:2:2:85:", "14")
+    assert(a8._1 == new Hitsound(3, 2))
+    assert(a8._2(0) == new Addition(2, 2, true))
+    assert(a8._2(1) == new Addition(2, 2, true))
+    assert(a8._2(2) == new Addition(2, 2, true))
   }
 }
