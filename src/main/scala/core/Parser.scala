@@ -3,8 +3,10 @@ package core
 import scala.io.Source
 import java.nio.file.{Files, Paths}
 
-import components.{Circle, HitObject, Slider, Spinner}
+import components.{Circle, HitObject, Inherited_legacy, Slider, Spinner, TimingPoint, TimingPoint_legacy, Uninherited_legacy}
 import utils.{Addition, Hitsound}
+
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 class Parser(fp: String) {
 
@@ -30,6 +32,7 @@ class Parser(fp: String) {
   def readMap(): Map = {
     var mode = ""
 
+    val tps = ListBuffer[TimingPoint_legacy]()
     val map = new Map()
 
     for (l <- readLines()) {
@@ -40,10 +43,14 @@ class Parser(fp: String) {
           case "[Editor]"       => ???
           case "[Metadata]"     => ???
           case "[Difficulty]"   => ???
-          case "[TimingPoints]" => ???
+          case "[TimingPoints]" => tps += readTimingPoint(l)
           case "[HitObjects]"   => map.addObject(readObject(l))
           case _ => ???
       }
+    }
+
+    for (tp <- tps) {
+      tps(tps.indexOf(tp)+1)
     }
     map
   }
@@ -184,5 +191,29 @@ class Parser(fp: String) {
     else {
       (e(0).toInt, e(1).toInt, e(2).toInt, e(3).toInt, e(4))
     }
+  }
+
+      /// TIMING POINTS READER ///
+  //                            0       1                     2        3           4           5        6          7
+  // Timing point structure: [Offset, Milliseconds per Beat, Meter, Sample Set, Sample Index, Volume, Inherited, Kiai Mode]
+  def readTimingPoint(line: String): TimingPoint_legacy = {
+    val properties = line.split(",")
+
+    val time = properties(0).toInt
+    val mspb = properties(1).toDouble // milliseconds per beat
+    var bpm: Double = 0.0  // bpm
+    var svmult: Double = 0.0  // sv multiplier
+
+    if (mspb >= 0.0) {  // if millisec per beat is positive
+      bpm = 60000.0 / mspb  // make a bpm
+    }
+    else svmult = (mspb * -1) / 100 // else make an sv
+
+    val kiai = if(properties == "1") true else false
+
+    if (properties(6)== "1") {
+      new Inherited_legacy(time, svmult, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
+    }
+    else new Uninherited_legacy(time, bpm, properties(2).toInt, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
   }
 }

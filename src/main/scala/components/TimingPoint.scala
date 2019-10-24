@@ -15,7 +15,7 @@ class TimingPoint(t: TimeStamp, BPM: Double, m1: Int = 4, m2: Int = 4) extends A
 
   def bpm: Double = _bpm
 
-  def bpm_=(BPM: Double) = {
+  def bpm_=(BPM: Double): Unit = {
     require(BPM > 0, () => "BPM Must be positive")
     _bpm = BPM
   }
