@@ -22,4 +22,6 @@ class Uninherited_legacy(t: TimeStamp, bpm: Double, m: Int, ss: Int, si: Int, vo
       case _ => false
     }
   }
+
+  override def toTimingPoint: TimingPoint = new TimingPoint(time, BPM, meter, 4)
 }

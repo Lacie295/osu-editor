@@ -23,4 +23,6 @@ abstract class TimingPoint_legacy(t: TimeStamp, ss: Int, si: Int, vol: Int, ki: 
   def kiai: Boolean = _kiai
 
   def kiai_=(ki: Boolean): Unit = _kiai = ki
+
+  abstract def toTimingPoint: TimingPoint
 }

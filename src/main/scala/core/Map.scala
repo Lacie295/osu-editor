@@ -18,4 +18,8 @@ class Map {
   def getTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints(t)
 
   def deleteTimingPoint(t: AbstractTimingPoint): List[AbstractTimingPoint] = timingPoints.delete(t.timeStamp, t)
+
+  def allObjects = objects
+
+  def allTimingPoints = timingPoints
 }

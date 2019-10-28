@@ -43,14 +43,30 @@ class Parser(fp: String) {
           case "[Editor]"       => ???
           case "[Metadata]"     => ???
           case "[Difficulty]"   => ???
-          case "[TimingPoints]" => tps += readTimingPoint(l)
+          case "[TimingPoints]" =>
+            val timingPointLegacy = readTimingPoint(l)
+            if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {
+              map.addTimingPoint(timingPointLegacy.toTimingPoint)
+            }
+            tps += timingPointLegacy
           case "[HitObjects]"   => map.addObject(readObject(l))
           case _ => ???
       }
     }
 
-    for (tp <- tps) {
-      tps(tps.indexOf(tp)+1)
+    var iT = 0
+    map.allObjects.foreach { obj =>
+      if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
+        applyTP(obj, tps(iT))
+      }
+      else {
+        iT += 1
+
+      }
+    }
+
+    def applyTP(ho: HitObject, tp: TimingPoint_legacy): Unit = {
+      
     }
     map
   }
