@@ -180,4 +180,8 @@ class ParserTest extends BaseTest {
     assert(a8._2(1) == new Addition(2, 2, true))
     assert(a8._2(2) == new Addition(2, 2, true))
   }
+
+  it should "read a timing point correctly" in {
+
+  }
 }

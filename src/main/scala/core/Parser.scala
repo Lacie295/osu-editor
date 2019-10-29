@@ -56,17 +56,26 @@ class Parser(fp: String) {
 
     var iT = 0
     map.allObjects.foreach { obj =>
-      if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
-        applyTP(obj, tps(iT))
-      }
-      else {
-        iT += 1
-
+      if (iT < tps.length) {
+        if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
+          applyTP(obj, tps(iT))
+        }
+        else if (obj.time <= tps(0).time) {
+          iT += 1
+        }
+        else {}
       }
     }
 
     def applyTP(ho: HitObject, tp: TimingPoint_legacy): Unit = {
-      
+      if (ho.hitsound.sampleSet == 0) ho.hitsound.sampleSet = tp.sampleSet
+      if (ho.hitsound.sampleIndex == 0) ho.hitsound.sampleIndex = tp.sampleIndex
+      if (ho.additions(0).sampleSet == 0) ho.additions(0).sampleSet = tp.sampleSet
+      if (ho.additions(1).sampleSet == 0) ho.additions(1).sampleSet = tp.sampleSet
+      if (ho.additions(2).sampleSet == 0) ho.additions(2).sampleSet = tp.sampleSet
+      ho.additions(0).sampleIndex = tp.sampleIndex
+      ho.additions(1).sampleIndex = tp.sampleIndex
+      ho.additions(2).sampleIndex = tp.sampleIndex
     }
     map
   }
@@ -223,7 +232,7 @@ class Parser(fp: String) {
     if (mspb >= 0.0) {  // if millisec per beat is positive
       bpm = 60000.0 / mspb  // make a bpm
     }
-    else svmult = (mspb * -1) / 100 // else make an sv
+    else svmult = 100.0 / (mspb * -1) // else make an sv
 
     val kiai = if(properties == "1") true else false
 
