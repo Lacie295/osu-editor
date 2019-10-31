@@ -62,8 +62,8 @@ class Parser(fp: String) {
         }
         else if (obj.time <= tps(0).time) {
           iT += 1
+          applyTP(obj, tps(iT))
         }
-        else {}
       }
     }
 
