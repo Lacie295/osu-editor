@@ -22,6 +22,8 @@ class Uninherited_legacy(t: TimeStamp, bpm: Double, m: Int, ss: Int, si: Int, vo
       case _ => false
     }
   }
+}
 
-  override def toTimingPoint: TimingPoint = new TimingPoint(time, BPM, meter, 4)
+object Uninherited_legacy {
+  implicit def uninherited_legacyToTimingPoint(t: Uninherited_legacy): TimingPoint = t.asInstanceOf[TimingPoint]
 }

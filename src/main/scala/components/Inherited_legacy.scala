@@ -18,3 +18,8 @@ class Inherited_legacy(t: TimeStamp, multi: Double, ss: Int, si: Int, vol: Int, 
     }
   }
 }
+
+object Inherited_legacy {
+  // TODO
+  implicit def inherited_legacyToTimingPoint(t: Uninherited_legacy): TimingPoint = new TimingPoint(0, 0)
+}
