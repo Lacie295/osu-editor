@@ -46,7 +46,8 @@ class Parser(fp: String) {
           case "[TimingPoints]" =>
             val timingPointLegacy = readTimingPoint(l)
             if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {
-              map.addTimingPoint(timingPointLegacy.toTimingPoint)
+              val t: TimingPoint = timingPointLegacy
+              map.addTimingPoint(t)
             }
             tps += timingPointLegacy
           case "[HitObjects]"   => map.addObject(readObject(l))
@@ -234,7 +235,7 @@ class Parser(fp: String) {
     }
     else svmult = 100.0 / (mspb * -1) // else make an sv
 
-    val kiai = if(properties == "1") true else false
+    val kiai = if(properties.equals("1")) true else false
 
     if (properties(6)== "1") {
       new Inherited_legacy(time, svmult, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
