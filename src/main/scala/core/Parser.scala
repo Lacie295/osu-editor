@@ -77,6 +77,17 @@ class Parser(fp: String) {
       ho.additions(0).sampleIndex = tp.sampleIndex
       ho.additions(1).sampleIndex = tp.sampleIndex
       ho.additions(2).sampleIndex = tp.sampleIndex
+
+      ho match {
+        case sl: Slider =>
+          if (tp.isInstanceOf[Uninherited_legacy]) sl.velocity = 1.0
+          tp match {
+            case inh: Inherited_legacy => sl.velocity = 100.0 / (inh.svMultiplier * -1)
+            case _: Uninherited_legacy => sl.velocity = 1.0
+            case _ => throw new Exception("Timing Point error: TP isn't inherited nor uninherited")
+          }
+        case _ =>
+      }
     }
     map
   }

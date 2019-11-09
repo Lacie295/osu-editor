@@ -4,10 +4,12 @@ import utils.{Hitsound, Position, TimeStamp}
 
 import collection.mutable.ArrayBuffer
 
-class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, ep, t, et, hs) {
+class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, v: Double, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, ep, t, et, hs) {
   private val _nodes = new ArrayBuffer[Node]()
 
   private var _repeats = r
+
+  private var _velocity = v
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[Slider]
 
@@ -51,6 +53,10 @@ class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, r: Int = 0,
   def repeats: Int = _repeats
 
   def repeats_=(r: Int): Unit = _repeats = r
+
+  def velocity_=(v: Double): Unit = _velocity = v
+
+  def velocity: Double = _velocity
 
   def size: Int = _nodes.size + 2
 }
