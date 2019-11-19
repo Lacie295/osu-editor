@@ -66,6 +66,12 @@ class Parser(fp: String) {
           applyTP(obj, tps(iT))
         }
       }
+      
+      obj match {
+        case slider: Slider =>
+          slider.endTime
+        case _ =>
+      }
     }
 
     def applyTP(ho: HitObject, tp: TimingPoint_legacy): Unit = {
@@ -102,8 +108,8 @@ class Parser(fp: String) {
       circle.additions = h._2
     }
     else {
-      circle.hitsound = new Hitsound(0,0)
-      circle.additions = Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false))
+      circle.hitsound = new Hitsound()
+      circle.additions = Array(new Addition(), new Addition(), new Addition())
     }
 
     circle
@@ -118,7 +124,7 @@ class Parser(fp: String) {
 
     // TODO: SLIDER HITSOUNDS
 
-  // Slider syntax: [x,y,time,type,hitSound,sliderType|curvePoints,repeat,pixelLength,edgeHitsounds,edgeAdditions,extras] OR
+  // Slider syntax: [x,y,time,type,hitSound,sliderType|curvePoints,repeat,pixelLength,edgeAdditions,edgeSets/Index,extras] OR
   //                [x,y,time,type,hitSound,sliderType|curvePoints,repeat,pixelLength]
   def readSlider(properties: Array[String]): Slider = {
     //  slider anchor array
@@ -145,6 +151,28 @@ class Parser(fp: String) {
       skip = false
     }
 
+    //hitsounds getting from pipe-separated lists
+    if (properties.length > 8) {
+      val setsIndexes = properties(9).split("\\|").map(_.split(":").map(_.toInt))   //Array(Array(index,set))
+      val additionsHs = properties(8).split("\\|").map(_.toInt)   //Array of additions for each edge of slider (head, repeats, end) so repeats + 2
+
+      slider.hitsound = new Hitsound(setsIndexes(0)(1), setsIndexes(0)(0))
+      slider.additions = readAdditionBit(additionsHs(0))
+
+      setsIndexes.drop(1)
+      additionsHs.drop(1)
+
+      for (i <- 0 to slider.repeats + 1) {
+        slider.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(0)))
+      }
+    }
+    else {
+      slider.hitsound = new Hitsound()
+      slider.additions = Array.fill(3)(new Addition())
+
+      slider.repeatHitsounds = Array.fill(slider.repeats + 1)((new Hitsound, Array.fill(3)(new Addition)))
+    }
+
     slider
   }
 
@@ -165,8 +193,8 @@ class Parser(fp: String) {
       spinner.additions = h._2
     }
     else {
-      spinner.hitsound = new Hitsound(0,0)
-      spinner.additions = Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false))
+      spinner.hitsound = new Hitsound()
+      spinner.additions = Array(new Addition(), new Addition(), new Addition())
     }
     spinner
   }
@@ -192,16 +220,20 @@ class Parser(fp: String) {
 
     // Addition Bit Structure: ( { 3: clap }, { 2: finish }, { 1: whistle }, { 0: normal - irrelevant } )
   def readAdditionBit(hsb: String): Array[Addition] = {
-    val additionArray: Array[Addition] = Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false))
+    readAdditionBit(hsb.toInt)
+  }
+
+  def readAdditionBit(hsb: Int): Array[Addition] = {
+    val additionArray: Array[Addition] = Array(new Addition(), new Addition(), new Addition())
 
     //  read out bits to activate respective additions
-    if ((hsb.toInt & 2) == 2) {
+    if ((hsb & 2) == 2) {
       additionArray(0).active = true
     }
-    if ((hsb.toInt & 4) == 4) {
+    if ((hsb & 4) == 4) {
       additionArray(1).active = true
     }
-    if ((hsb.toInt & 8) == 8) {
+    if ((hsb & 8) == 8) {
       additionArray(2).active = true
     }
     additionArray

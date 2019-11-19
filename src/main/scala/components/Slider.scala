@@ -1,13 +1,15 @@
 package components
 
-import utils.{Hitsound, Position, TimeStamp}
+import utils.{Addition, Hitsound, Position, TimeStamp}
 
 import collection.mutable.ArrayBuffer
 
 class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, ep, t, et, hs) {
   private val _nodes = new ArrayBuffer[Node]()
 
-  private var _repeats = r
+  private var _repeats = r  // actual repeat count, means 0 if slider consists only of head + tail
+
+  private var _repeatHitsounds: Array[(Hitsound, Array[Addition])] = Array.fill(r+1){(new Hitsound(), Array(new Addition(), new Addition(), new Addition()))}
 
   def canEqual(a: Any): Boolean = a.isInstanceOf[Slider]
 
@@ -51,6 +53,10 @@ class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, r: Int = 0,
   def repeats: Int = _repeats
 
   def repeats_=(r: Int): Unit = _repeats = r
+
+  def repeatHitsounds: Array[(Hitsound, Array[Addition])] = _repeatHitsounds
+
+  def repeatHitsounds_=(rh: Array[(Hitsound, Array[Addition])]): Unit = _repeatHitsounds = rh
 
   def size: Int = _nodes.size + 2
 }
