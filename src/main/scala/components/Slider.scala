@@ -60,6 +60,10 @@ class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, v: Double, 
 
   def repeatHitsounds_=(rh: Array[(Hitsound, Array[Addition])]): Unit = _repeatHitsounds = rh
 
+  def velocity: Double = _velocity
+
+  def velocity_=(v: Double): Unit = _velocity = v
+
   def size: Int = _nodes.size + 2
 }
 
