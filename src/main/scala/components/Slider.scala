@@ -4,7 +4,7 @@ import utils.{Addition, Hitsound, Position, TimeStamp}
 
 import collection.mutable.ArrayBuffer
 
-class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, v: Double, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, ep, t, et, hs) {
+class Slider(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, ep, t, et, hs) {
   private val _nodes = new ArrayBuffer[Node]()
 
   private var _repeats = r  // actual repeat count, means 0 if slider consists only of head + tail
