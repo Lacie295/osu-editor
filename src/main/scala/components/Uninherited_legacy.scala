@@ -35,7 +35,3 @@ class Uninherited_legacy(t: TimeStamp, bpm: Double, m: Int, ss: Int, si: Int, vo
     }
   }
 }
-
-object Uninherited_legacy {
-  implicit def uninherited_legacyToTimingPoint(t: Uninherited_legacy): TimingPoint = new TimingPoint(t.time, t.bpm, t.meter, 4)
-}

@@ -3,7 +3,7 @@ package core
 import scala.io.Source
 import java.nio.file.{Files, Paths}
 
-import components.{Circle, HitObject, Inherited_legacy, Slider, Spinner, TimingPoint, TimingPoint_legacy, Uninherited_legacy}
+import components.{AbstractTimingPoint, Circle, HitObject, Inherited_legacy, Slider, Spinner, TimingPoint, TimingPoint_legacy, Uninherited_legacy}
 import utils.{Addition, Hitsound}
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
@@ -47,7 +47,7 @@ class Parser(fp: String) {
         case "[TimingPoints]" =>
           val timingPointLegacy = readTimingPoint(l)
           if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {
-            val t: TimingPoint = timingPointLegacy
+            val t: AbstractTimingPoint = timingPointLegacy
             map.addTimingPoint(t)
           }
           tps += timingPointLegacy
@@ -56,45 +56,44 @@ class Parser(fp: String) {
       }
     }
 
-    var iT = 0
-    map.allObjects.foreach { obj =>
-      if (iT < tps.length) {
-        if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
-          applyTP(obj, tps(iT))
-        }
-        else if (obj.time <= tps(0).time) {
-          iT += 1
-          applyTP(obj, tps(iT))
-        }
-      }
+    map.allObjects.foreach { obj => applyTP(obj, map.getTimingPoint(obj.timeStamp)) }
 
-      obj match {
-        case slider: Slider =>
-          slider.endTime
+    def applyTP(ho: HitObject, abstp: AbstractTimingPoint): Unit = {
+      abstp match {
+        case tp: TimingPoint_legacy =>
+          ho.hitsound.sampleSet = tp.sampleSet
+          ho.hitsound.sampleIndex = tp.sampleIndex
+          ho.additions(0).sampleSet = tp.sampleSet
+          ho.additions(1).sampleSet = tp.sampleSet
+          ho.additions(2).sampleSet = tp.sampleSet
+          ho.additions(0).sampleIndex = tp.sampleIndex
+          ho.additions(1).sampleIndex = tp.sampleIndex
+          ho.additions(2).sampleIndex = tp.sampleIndex
+
+          ho match {
+            case sl: Slider =>
+              if (tp.isInstanceOf[Uninherited_legacy]) sl.velocity = 1.0
+              tp match {
+                case inh: Inherited_legacy => sl.velocity = 100.0 / (inh.svMultiplier * -1)
+                case _: Uninherited_legacy => sl.velocity = 1.0
+                case _ => throw new Exception("Timing Point error: TP isn't inherited nor uninherited")
+              }
+            case _ =>
+          }
         case _ =>
       }
     }
 
-    def applyTP(ho: HitObject, tp: TimingPoint_legacy): Unit = {
-      if (ho.hitsound.sampleSet == 0) ho.hitsound.sampleSet = tp.sampleSet
-      if (ho.hitsound.sampleIndex == 0) ho.hitsound.sampleIndex = tp.sampleIndex
-      if (ho.additions(0).sampleSet == 0) ho.additions(0).sampleSet = tp.sampleSet
-      if (ho.additions(1).sampleSet == 0) ho.additions(1).sampleSet = tp.sampleSet
-      if (ho.additions(2).sampleSet == 0) ho.additions(2).sampleSet = tp.sampleSet
-      ho.additions(0).sampleIndex = tp.sampleIndex
-      ho.additions(1).sampleIndex = tp.sampleIndex
-      ho.additions(2).sampleIndex = tp.sampleIndex
+    var prev: Option[Uninherited_legacy] = None
 
-      ho match {
-        case sl: Slider =>
-          if (tp.isInstanceOf[Uninherited_legacy]) sl.velocity = 1.0
-          tp match {
-            case inh: Inherited_legacy => sl.velocity = 100.0 / (inh.svMultiplier * -1)
-            case _: Uninherited_legacy => sl.velocity = 1.0
-            case _ => throw new Exception("Timing Point error: TP isn't inherited nor uninherited")
-          }
-        case _ =>
-      }
+    map.allTimingPoints.foreach {
+      case tp: Uninherited_legacy =>
+        prev = Some(tp)
+        map -= tp
+        map += new TimingPoint(tp.timeStamp, tp.BPM) // TODO: Convert metre
+      case tp: Inherited_legacy =>
+        map -= tp
+        map += new TimingPoint(tp.timeStamp, prev.BPM) // TODO: metre
     }
 
     map

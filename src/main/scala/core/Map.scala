@@ -42,4 +42,12 @@ class Map {
   def allObjects: List[HitObject] = objects.toList
 
   def allTimingPoints: List[AbstractTimingPoint] = timingPoints.toList
+
+  def +=(obj: HitObject): Unit = addObject(obj)
+
+  def +=(t: AbstractTimingPoint): Unit = addTimingPoint(t)
+
+  def -=(obj: HitObject): Unit = deleteObject(obj)
+
+  def -=(t: AbstractTimingPoint): Unit = deleteTimingPoint(t)
 }

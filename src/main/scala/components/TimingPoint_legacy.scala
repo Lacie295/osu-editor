@@ -34,11 +34,3 @@ abstract class TimingPoint_legacy(t: TimeStamp, ss: Int, si: Int, vol: Int, ki: 
 
   def kiai_=(ki: Boolean): Unit = _kiai = ki
 }
-
-/**
- * convert to modern timing point
- */
-object TimingPoint_legacy {
-  // TODO
-  implicit def timingPoint_legacyToTimingPoint(t: TimingPoint_legacy): TimingPoint = new TimingPoint(0,0)
-}
