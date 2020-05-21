@@ -6,7 +6,7 @@ package utils
   // independently from their active status. setting an addition when editing only sets it to active/inactive and their sample/index
   // status will be changed independently from activity.
 
-class Addition(s: Int, i: Int, b: Boolean) extends Hitsound(s, i){
+class Addition(s: Int = 0, i: Int = 0, b: Boolean = false) extends Hitsound(s, i){
   private var _active: Boolean = b
 
   def active_=(b: Boolean): Unit = _active = b
