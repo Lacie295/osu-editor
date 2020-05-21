@@ -14,6 +14,17 @@ abstract class Component(t: TimeStamp) extends Comparable[Component] {
   def time_=(t: Int): Unit = timeStamp.time = t
 
   override def compareTo(t: Component): Int = this.timeStamp.compareTo(t.timeStamp)
+
+  def overlaps(o: Component): Boolean = {
+    o match {
+      case o: HeldObject => o.overlaps(this)
+      case _ => overlaps(o.timeStamp)
+    }
+  }
+
+  def overlaps(t: TimeStamp): Boolean = {
+    this.timeStamp == t
+  }
 }
 
 object Component {

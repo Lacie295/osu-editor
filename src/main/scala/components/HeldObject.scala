@@ -44,7 +44,7 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
 
   def endY_=(y: Int): Unit = _endPos.y = y
 
-  override def overlaps(o: HitObject): Boolean = {
+  override def overlaps(o: Component): Boolean = {
     o match {
       case o: HeldObject => {
         def between(a: Int, b: Int, t: Int): Boolean = a <= t && t <= b
@@ -60,7 +60,7 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
     }
   }
 
-  override def overlaps(T: TimeStamp): Boolean = {
+  override def overlaps(t: TimeStamp): Boolean = {
     this.time <= t && this.endTime >= t
   }
 }

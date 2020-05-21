@@ -39,17 +39,6 @@ abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) exten
   def clearAdditions() : Unit= {
     for (x <- _additions) x.active = false
   }
-
-  def overlaps(o: HitObject): Boolean = {
-    o match {
-      case o: HeldObject => o.overlaps(this)
-      case _ => overlaps(o.timeStamp)
-    }
-  }
-
-  def overlaps(t: TimeStamp): Boolean = {
-    this.timeStamp == t
-  }
 }
 
 object HitObject {

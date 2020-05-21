@@ -1,25 +1,40 @@
 package core
 
-import components.{AbstractTimingPoint, Circle, Component, HeldObject, HitObject, Inherited_legacy}
-import utils.{BinarySearchTree, TimeStamp}
+import components.{AbstractTimingPoint, Component, HitObject}
+import utils.{ProfileMap, TimeStamp}
 
 class Map {
-  private val objects = BinarySearchTree[TimeStamp, HitObject]()
-  private val timingPoints = BinarySearchTree[TimeStamp, AbstractTimingPoint]()
+  private val objects = ProfileMap[HitObject]()
+  private val timingPoints = ProfileMap[AbstractTimingPoint]()
 
-  def addObject(o: HitObject): Unit = objects.insert(o.timeStamp, o)
+  def addObject(o: HitObject): Unit = objects += o
 
-  def getObject(t: TimeStamp): List[HitObject] = objects(t).filter(_.overlaps(t))
+  def getObject(t: TimeStamp): Option[HitObject] = {
+    val res = objects(t)
+    if (res.isEmpty) {
+      None
+    } else {
+      Some(res(0))
+    }
+  }
 
-  def deleteObject(o: HitObject): List[HitObject] = objects.delete(o.timeStamp, o)
+  def deleteObject(o: HitObject): Unit = objects -= o
 
-  def addTimingPoint(t: AbstractTimingPoint): Unit  = timingPoints.insert(t.timeStamp, t)
+  def getOverlapObject(o: Component): List[HitObject] = objects(o)
 
-  def getTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints(t)
+  def getOverlapObject(t: TimeStamp): List[HitObject] = objects(t)
 
-  def deleteTimingPoint(t: AbstractTimingPoint): List[AbstractTimingPoint] = timingPoints.delete(t.timeStamp, t)
+  def addTimingPoint(t: AbstractTimingPoint): Unit  = timingPoints += t
 
-  def allObjects = objects
+  def getTimingPoint(t: TimeStamp): AbstractTimingPoint = timingPoints.search(t)
 
-  def allTimingPoints = timingPoints
+  def deleteTimingPoint(t: AbstractTimingPoint): Unit = timingPoints -= t
+
+  def getOverlapTimingPoint(o: Component): List[AbstractTimingPoint] = timingPoints(o)
+
+  def getOverlapTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints(t)
+
+  def allObjects: List[HitObject] = objects.toList
+
+  def allTimingPoints: List[AbstractTimingPoint] = timingPoints.toList
 }
