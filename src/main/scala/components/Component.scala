@@ -1,8 +1,8 @@
 package components
 
-import utils.{TimeStamp}
+import utils.TimeStamp
 
-abstract class Component(t: TimeStamp) {
+abstract class Component(t: TimeStamp) extends Comparable[Component] {
   private var _time: TimeStamp = t
 
   def timeStamp: TimeStamp = _time
@@ -12,6 +12,8 @@ abstract class Component(t: TimeStamp) {
   def time: Int = timeStamp.time
 
   def time_=(t: Int): Unit = timeStamp.time = t
+
+  override def compareTo(t: Component): Int = this.timeStamp.compareTo(t.timeStamp)
 }
 
 object Component {
