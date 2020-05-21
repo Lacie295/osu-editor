@@ -16,21 +16,11 @@ class TimeStamp(t: Int) extends Comparable[TimeStamp] {
     }
   }
 
-  override def compareTo(t: TimeStamp): Int = (this - t).time
-
-  def -(t: TimeStamp): TimeStamp = new TimeStamp(this.time - t.time)
-
-  def +(t: TimeStamp): TimeStamp = new TimeStamp(this.time + t.time)
-
-  def <(t: TimeStamp): Boolean = this.time < t.time
-
-  def >(t: TimeStamp): Boolean = this.time > t.time
-
-  def <=(t: TimeStamp): Boolean = this.time <= t.time
-
-  def >=(t: TimeStamp): Boolean = this.time >= t.time
+  override def compareTo(t: TimeStamp): Int = this - t
 }
 
 object TimeStamp {
   implicit def intToTimeStamp(t: Int): TimeStamp = new TimeStamp(t)
+
+  implicit def timeStampToInt(t: TimeStamp): Int = t.time
 }

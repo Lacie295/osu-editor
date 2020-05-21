@@ -184,6 +184,6 @@ class ParserTest extends BaseTest {
   it should "read a timing point correctly" in {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
-    val tp1 = parser.readTimingPoint()
+    val tp1 = parser.readTimingPoint("")
   }
 }
