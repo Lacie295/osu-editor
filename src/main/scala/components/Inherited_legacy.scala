@@ -2,9 +2,19 @@ package components
 
 import utils.TimeStamp
 
+/**
+ * the base osu inherited timestamp
+ * @param t: it's timestamp
+ * @param multi: the slider speed multiplier
+ * @param ss: the sample set
+ * @param si: the sample index
+ * @param vol: the volume
+ * @param ki: kiai
+ */
 class Inherited_legacy(t: TimeStamp, multi: Double, ss: Int, si: Int, vol: Int, ki: Boolean) extends TimingPoint_legacy(t, ss, si, vol, ki){
   private var _svMultiplier: Double = multi
 
+  // getters and setters
   def svMultiplier: Double = _svMultiplier
 
   def svMultiplier_=(multi: Double): Unit = _svMultiplier = multi
@@ -19,6 +29,9 @@ class Inherited_legacy(t: TimeStamp, multi: Double, ss: Int, si: Int, vol: Int, 
   }
 }
 
+/**
+ * Conversion to modern timing point
+ */
 object Inherited_legacy {
   // TODO
   implicit def inherited_legacyToTimingPoint(t: Uninherited_legacy): TimingPoint = new TimingPoint(0, 0)

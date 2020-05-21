@@ -2,16 +2,25 @@ package components
 
 import utils.TimeStamp
 
+/**
+ * a modern timing point
+ * @param t: timestamp the timing point is set at
+ * @param BPM: the bpm to play at
+ * @param m1: the measure numerator
+ * @param m2: the measure denominator
+ */
 class TimingPoint(t: TimeStamp, BPM: Double, m1: Int = 4, m2: Int = 4) extends AbstractTimingPoint(t) {
   private var _bpm = BPM
 
   require(_bpm > 0, () => "BPM Must be positive")
 
-    //meters: A / B
+  // meters: A / B
   private var _meterA = m1
   private var _meterB = m2
 
   require(_meterA > 0 && _meterB > 0, () => "meter cannot have 0 values")
+
+  // getters and setters
 
   def bpm: Double = _bpm
 
@@ -42,5 +51,4 @@ class TimingPoint(t: TimeStamp, BPM: Double, m1: Int = 4, m2: Int = 4) extends A
       case _ => false
     }
   }
-
 }

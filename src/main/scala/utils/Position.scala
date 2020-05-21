@@ -1,8 +1,14 @@
 package utils
 
+/**
+ * a pixel position on screen
+ * @param pos: the x and y pixel
+ */
 class Position(pos: (Int, Int)) {
   private var _pos_x: Int = pos._1
   private var _pos_y: Int = pos._2
+
+  // getters and setters
 
   def x: Int = _pos_x
 
@@ -26,6 +32,7 @@ class Position(pos: (Int, Int)) {
   override def toString: String = "(" + x + "," + y + ")"
 }
 
+// conversion to tuple
 object Position {
   implicit def tupleToPosition(pos: (Int, Int)): Position = new Position(pos)
 

@@ -1,7 +1,13 @@
 package utils
 
+/**
+ * a timestamp implementation
+ * @param t
+ */
 class TimeStamp(t: Int) extends Comparable[TimeStamp] {
   private var _time: Int = t
+
+  // getters and setters
 
   def time: Int = _time
 
@@ -17,8 +23,16 @@ class TimeStamp(t: Int) extends Comparable[TimeStamp] {
   }
 
   override def compareTo(t: TimeStamp): Int = this - t
+
+  def >(t: TimeStamp): Boolean = this.time > t.time
+  def <(t: TimeStamp): Boolean = this.time < t.time
+  def >=(t: TimeStamp): Boolean = this.time >= t.time
+  def <=(t: TimeStamp): Boolean = this.time <= t.time
 }
 
+/**
+ * conversion to/from ints
+ */
 object TimeStamp {
   implicit def intToTimeStamp(t: Int): TimeStamp = new TimeStamp(t)
 

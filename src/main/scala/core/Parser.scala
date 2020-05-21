@@ -21,13 +21,14 @@ class Parser(fp: String) {
     _sourcePath = fp
   }
 
-  def readLines(): List[String] = {           // gets the lines from the file in _sourcePath
+  def readLines(): List[String] = { // gets the lines from the file in _sourcePath
     val file = Source.fromFile(_sourcePath)
     file.getLines().filter(!_.isEmpty).toList
   }
 
   //  Headers required for modes in readMap
   val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]")
+
   //  returns full map object
   def readMap(): Map = {
     var mode = ""
@@ -36,22 +37,22 @@ class Parser(fp: String) {
     val map = new Map()
 
     for (l <- readLines()) {
-        if (Headers.contains(l)) mode = l
-        else mode match {
-          case "[Events]"       => ???
-          case "[General]"      => ???
-          case "[Editor]"       => ???
-          case "[Metadata]"     => ???
-          case "[Difficulty]"   => ???
-          case "[TimingPoints]" =>
-            val timingPointLegacy = readTimingPoint(l)
-            if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {
-              val t: TimingPoint = timingPointLegacy
-              map.addTimingPoint(t)
-            }
-            tps += timingPointLegacy
-          case "[HitObjects]"   => map.addObject(readObject(l))
-          case _ => ???
+      if (Headers.contains(l)) mode = l
+      else mode match {
+        case "[Events]" => ???
+        case "[General]" => ???
+        case "[Editor]" => ???
+        case "[Metadata]" => ???
+        case "[Difficulty]" => ???
+        case "[TimingPoints]" =>
+          val timingPointLegacy = readTimingPoint(l)
+          if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {
+            val t: TimingPoint = timingPointLegacy
+            map.addTimingPoint(t)
+          }
+          tps += timingPointLegacy
+        case "[HitObjects]" => map.addObject(readObject(l))
+        case _ => ???
       }
     }
 
@@ -66,7 +67,7 @@ class Parser(fp: String) {
           applyTP(obj, tps(iT))
         }
       }
-      
+
       obj match {
         case slider: Slider =>
           slider.endTime
@@ -95,12 +96,13 @@ class Parser(fp: String) {
         case _ =>
       }
     }
+
     map
   }
 
-        /////// OBJECT READER ///////
-  def readObject(line: String): HitObject = {                     // reads Object type then redirects to respective methods
-    val properties = line.split(", *")                     // all Object readers are overloaded for an array of properties or a line string containing an object
+  /////// OBJECT READER ///////
+  def readObject(line: String): HitObject = { // reads Object type then redirects to respective methods
+    val properties = line.split(", *") // all Object readers are overloaded for an array of properties or a line string containing an object
 
     properties(3).toInt & 11 match {
       case 1 => readCircle(properties)
@@ -109,7 +111,7 @@ class Parser(fp: String) {
     }
   }
 
-    // Hit Circle syntax: [x,y,time,type,hitSound,extras]
+  // Hit Circle syntax: [x,y,time,type,hitSound,extras]
   def readCircle(properties: Array[String]): Circle = {
     val circle = new Circle((properties(0).toInt, properties(1).toInt), properties(2).toInt)
 
@@ -126,14 +128,14 @@ class Parser(fp: String) {
     circle
   }
 
-    // circle overload for string line
+  // circle overload for string line
   def readCircle(line: String): Circle = {
     val properties = line.split(", *")
     require((properties(3).toInt & 11) == 1, () => "Line does not contain a circle")
     readCircle(properties)
   }
 
-    // TODO: SLIDER HITSOUNDS
+  // TODO: SLIDER HITSOUNDS
 
   // Slider syntax: [x,y,time,type,hitSound,sliderType|curvePoints,repeat,pixelLength,edgeAdditions,edgeSets/Index,extras] OR
   //                [x,y,time,type,hitSound,sliderType|curvePoints,repeat,pixelLength]
@@ -147,12 +149,12 @@ class Parser(fp: String) {
     //  get last node and save
     val endingPoint = sliderNodes.last.map(_.toInt)
 
-    val slider = new Slider((properties(0).toInt, properties(1).toInt), (endingPoint(0), endingPoint(1)) , properties(2).toInt, properties(2).toInt + 1, repeats)
+    val slider = new Slider((properties(0).toInt, properties(1).toInt), (endingPoint(0), endingPoint(1)), properties(2).toInt, properties(2).toInt + 1, repeats)
 
     //  save nodes from sliderNodes as Node types as red and grey nodes
     var skip = false
-    for (a <- sliderNodes){
-      if(!skip) {
+    for (a <- sliderNodes) {
+      if (!skip) {
         if (!(sliderNodes.indexOf(a) == sliderNodes.length - 1) && (sliderNodes(sliderNodes.indexOf(a)) sameElements sliderNodes(sliderNodes.indexOf(a) + 1))) {
           slider.addNode((a(0).toInt, a(1).toInt), 1)
           skip = true
@@ -164,8 +166,8 @@ class Parser(fp: String) {
 
     //hitsounds getting from pipe-separated lists
     if (properties.length > 8) {
-      val setsIndexes = properties(9).split("\\|").map(_.split(":").map(_.toInt))   //Array(Array(index,set))
-      val additionsHs = properties(8).split("\\|").map(_.toInt)   //Array of additions for each edge of slider (head, repeats, end) so repeats + 2
+      val setsIndexes = properties(9).split("\\|").map(_.split(":").map(_.toInt)) //Array(Array(index,set))
+      val additionsHs = properties(8).split("\\|").map(_.toInt) //Array of additions for each edge of slider (head, repeats, end) so repeats + 2
 
       slider.hitsound = new Hitsound(setsIndexes(0)(1), setsIndexes(0)(0))
       slider.additions = readAdditionBit(additionsHs(0))
@@ -187,14 +189,15 @@ class Parser(fp: String) {
     slider
   }
 
-    // slider overload for string line
+  // slider overload for string line
   def readSlider(line: String): Slider = {
     val properties = line.split(", *")
     require((properties(3).toInt & 11) == 2, () => "Line does not contain a slider")
     readSlider(properties)
   }
-    //                  0 1  2    3    4        5       6
-    // Spinner syntax: [x,y,time,type,hitSound,endTime,extras]
+
+  //                  0 1  2    3    4        5       6
+  // Spinner syntax: [x,y,time,type,hitSound,endTime,extras]
   def readSpinner(properties: Array[String]): Spinner = {
     val spinner = new Spinner(properties(2).toInt, properties(5).toInt)
 
@@ -210,15 +213,15 @@ class Parser(fp: String) {
     spinner
   }
 
-    // spinner overload for string line
+  // spinner overload for string line
   def readSpinner(line: String): Spinner = {
     val properties = line.split(", *")
     require((properties(3).toInt & 11) == 8, () => "Line does not contain a spinner")
     readSpinner(properties)
   }
 
-    // combines extras and addition bit FOR CIRCLES AND SPINNERS
-  def readActiveHitsound(ext: String, adb: String): (Hitsound, Array[Addition]) = {                           // ONLY FOR CIRCLES AND SPINNERS
+  // combines extras and addition bit FOR CIRCLES AND SPINNERS
+  def readActiveHitsound(ext: String, adb: String): (Hitsound, Array[Addition]) = { // ONLY FOR CIRCLES AND SPINNERS
     val e = readExtras(ext)
     val b = readAdditionBit(adb)
 
@@ -229,7 +232,7 @@ class Parser(fp: String) {
     (new Hitsound(e._1.toInt, e._3.toInt), b)
   }
 
-    // Addition Bit Structure: ( { 3: clap }, { 2: finish }, { 1: whistle }, { 0: normal - irrelevant } )
+  // Addition Bit Structure: ( { 3: clap }, { 2: finish }, { 1: whistle }, { 0: normal - irrelevant } )
   def readAdditionBit(hsb: String): Array[Addition] = {
     readAdditionBit(hsb.toInt)
   }
@@ -250,7 +253,7 @@ class Parser(fp: String) {
     additionArray
   }
 
-    // Extras syntax: [sampleSet:additionSet:customIndex:sampleVolume:filename] - filename is ignored - ONLY WORKS FOR CIRCLES AND SPINNERS
+  // Extras syntax: [sampleSet:additionSet:customIndex:sampleVolume:filename] - filename is ignored - ONLY WORKS FOR CIRCLES AND SPINNERS
   def readExtras(extras: String): (Int, Int, Int, Int, String) = {
     val e = extras.split(":")
 
@@ -262,7 +265,7 @@ class Parser(fp: String) {
     }
   }
 
-      /// TIMING POINTS READER ///
+  /// TIMING POINTS READER ///
   //                            0       1                     2        3           4           5        6          7
   // Timing point structure: [Offset, Milliseconds per Beat, Meter, Sample Set, Sample Index, Volume, Inherited, Kiai Mode]
   def readTimingPoint(line: String): TimingPoint_legacy = {
@@ -270,17 +273,17 @@ class Parser(fp: String) {
 
     val time = properties(0).toInt
     val mspb = properties(1).toDouble // milliseconds per beat
-    var bpm: Double = 0.0  // bpm
-    var svmult: Double = 0.0  // sv multiplier
+    var bpm: Double = 0.0 // bpm
+    var svmult: Double = 0.0 // sv multiplier
 
-    if (mspb >= 0.0) {  // if millisec per beat is positive
-      bpm = 60000.0 / mspb  // make a bpm
+    if (mspb >= 0.0) { // if millisec per beat is positive
+      bpm = 60000.0 / mspb // make a bpm
     }
     else svmult = 100.0 / (mspb * -1) // else make an sv
 
-    val kiai = if(properties.equals("1")) true else false
+    val kiai = if (properties.equals("1")) true else false
 
-    if (properties(6)== "1") {
+    if (properties(6) == "1") {
       new Inherited_legacy(time, svmult, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
     }
     else new Uninherited_legacy(time, bpm, properties(2).toInt, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)

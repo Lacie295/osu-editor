@@ -2,11 +2,21 @@ package components
 
 import utils.TimeStamp
 
+/**
+ * the base osu inherited timestamp
+ * @param t: it's timestamp
+ * @param ss: the sample set
+ * @param si: the sample index
+ * @param vol: the volume
+ * @param ki: kiai
+ */
 abstract class TimingPoint_legacy(t: TimeStamp, ss: Int, si: Int, vol: Int, ki: Boolean) extends AbstractTimingPoint(t) {
   private var _sampleSet: Int = ss
   private var _sampleIndex: Int = si
   private var _vol: Int = vol
   private var _kiai: Boolean = ki
+
+  // getters and setters
 
   def sampleSet: Int = _sampleSet
 
@@ -25,6 +35,9 @@ abstract class TimingPoint_legacy(t: TimeStamp, ss: Int, si: Int, vol: Int, ki: 
   def kiai_=(ki: Boolean): Unit = _kiai = ki
 }
 
+/**
+ * convert to modern timing point
+ */
 object TimingPoint_legacy {
   // TODO
   implicit def timingPoint_legacyToTimingPoint(t: TimingPoint_legacy): TimingPoint = new TimingPoint(0,0)

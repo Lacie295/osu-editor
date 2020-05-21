@@ -2,21 +2,22 @@ package components
 
 import utils.{Hitsound, Position, TimeStamp}
 
-abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0)) extends HitObject(p, t, hs) {
+/**
+ * a hitobject that has a longer activation time
+ * @param p: its position on screen
+ * @param t: the start time for the object
+ * @param et: the end time for the object
+ * @param hs: its associated hitsound
+ */
+abstract class HeldObject(p: Position, t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0)) extends HitObject(p, t, hs) {
   private var _endTime: TimeStamp = et
-  private var _endPos: Position = ep
 
   require(timeStamp < endTimeStamp, () => "End time must be after start time")
 
+  // getters and setters
   def endTimeStamp: TimeStamp = _endTime
 
   def endTime: Int = endTimeStamp.time
-
-  def endPosition: Position = _endPos
-
-  def endX: Int = endPosition.x
-
-  def endY: Int = endPosition.y
 
   def endTimeStamp_=(et: TimeStamp): Unit = {
     require(timeStamp < et, () => "End time must be after start time")
@@ -38,15 +39,10 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
     super.time_=(t)
   }
 
-  def endPosition_=(ep: Position): Unit = _endPos = ep
-
-  def endX_=(x: Int): Unit = _endPos.x = x
-
-  def endY_=(y: Int): Unit = _endPos.y = y
-
+  // overlap check
   override def overlaps(o: Component): Boolean = {
     o match {
-      case o: HeldObject => {
+      case o: HeldObject =>
         def between(a: Int, b: Int, t: Int): Boolean = a <= t && t <= b
 
         val t = this.time
@@ -55,7 +51,6 @@ abstract class HeldObject(p: Position, ep: Position, t: TimeStamp, et: TimeStamp
         val eot = o.endTime
 
         between(t, et, ot) || between(t, et, eot) || between(ot, eot, t) || between(ot, eot, et)
-      }
       case _ => overlaps(o.timeStamp)
     }
   }

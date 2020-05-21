@@ -2,6 +2,12 @@ package components
 
 import utils.{Addition, Hitsound, Position, TimeStamp}
 
+/**
+ * The basic hitobject class
+ * @param p: its positon on screen
+ * @param t: the component's timestamp
+ * @param hs: its associated hitsound
+ */
 abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) extends Component(t) {
   private var _pos: Position = p
   //  base hitsound. saves sample set ((auto), normal, soft, drum) and sample index
@@ -9,6 +15,7 @@ abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) exten
   //  additions. saves an array of additions, one for each (whistle, finish, clap) and if active or not
   private var _additions: Array[Addition] = Array(new Addition(0, 0, false), new Addition(0, 0, false), new Addition(0, 0, false))// 1 place in the array for each addition type, if none they are 0
 
+  // getters and setters
   def position: Position = _pos
 
   def position_=(set_pos: Position): Unit = _pos = set_pos
@@ -21,7 +28,7 @@ abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) exten
 
   def additions_=(set: Array[Addition]): Unit = _additions = set
 
-    //  edits addition at index (0-whistle, 1-finish, 2-clap) and sets it to the specified addition ad
+  // edits addition at index (0-whistle, 1-finish, 2-clap) and sets it to the specified addition ad
   def setAddition(index: Int, ad: Addition): Unit = {
     index match {
       case 1 => _additions(0) = ad
@@ -30,17 +37,20 @@ abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) exten
     }
   }
 
-    //  sets indexed addition to inactive(disabled). 0-whistle, 1-finish, 2-clap
+  // sets indexed addition to inactive(disabled). 0-whistle, 1-finish, 2-clap
   def removeAddition(index: Int): Unit = {
     _additions(index).active = false
   }
 
-    //  sets all addtions to inactive
+  // sets all addtions to inactive
   def clearAdditions() : Unit= {
     for (x <- _additions) x.active = false
   }
 }
 
+/**
+ * convert to a position if needed
+ */
 object HitObject {
   implicit def objectToPosition(o: HitObject): Position = o.position
 }

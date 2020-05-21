@@ -1,11 +1,16 @@
 package core
 
 import components.{AbstractTimingPoint, Component, HitObject}
-import utils.{ProfileMap, TimeStamp}
+import utils.{ComponentMap, TimeStamp}
 
+/**
+ * an implementation of an osu! map
+ */
 class Map {
-  private val objects = ProfileMap[HitObject]()
-  private val timingPoints = ProfileMap[AbstractTimingPoint]()
+  private val objects = ComponentMap[HitObject]()
+  private val timingPoints = ComponentMap[AbstractTimingPoint]()
+
+  // interactions with both lists
 
   def addObject(o: HitObject): Unit = objects += o
 
