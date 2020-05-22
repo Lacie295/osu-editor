@@ -3,7 +3,8 @@ package core
 import scala.io.Source
 import java.nio.file.{Files, Paths}
 
-import components.{AbstractTimingPoint, Circle, HitObject, Inherited_legacy, Slider, Spinner, TimingPoint, TimingPoint_legacy, Uninherited_legacy}
+import components.{AbstractTimingPoint, Circle, HitObject, Inherited_legacy, Slider, Spinner, TimingPoint_legacy, Uninherited_legacy}
+import core.ObjectHandler._
 import utils.{Addition, Hitsound}
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
@@ -90,10 +91,10 @@ class Parser(fp: String) {
       case tp: Uninherited_legacy =>
         prev = Some(tp)
         map -= tp
-        map += new TimingPoint(tp.timeStamp, tp.BPM) // TODO: Convert metre
+        map += timingPoint(tp.timeStamp, tp.BPM) // TODO: Convert metre
       case tp: Inherited_legacy =>
         map -= tp
-        map += new TimingPoint(tp.timeStamp, if (prev.nonEmpty) prev.get.BPM else 120) // TODO: metre
+        map += timingPoint(tp.timeStamp, if (prev.nonEmpty) prev.get.BPM else 120) // TODO: metre
     }
 
     map
@@ -112,19 +113,19 @@ class Parser(fp: String) {
 
   // Hit Circle syntax: [x,y,time,type,hitSound,extras]
   def readCircle(properties: Array[String]): Circle = {
-    val circle = new Circle((properties(0).toInt, properties(1).toInt), properties(2).toInt)
+    val c = circle((properties(0).toInt, properties(1).toInt), properties(2).toInt)
 
     if (!(properties.length < 5)) {
       val h = readActiveHitsound(properties(5), properties(4))
-      circle.hitsound = h._1
-      circle.additions = h._2
+      c.hitsound = h._1
+      c.additions = h._2
     }
     else {
-      circle.hitsound = new Hitsound()
-      circle.additions = Array(new Addition(), new Addition(), new Addition())
+      c.hitsound = new Hitsound()
+      c.additions = Array(new Addition(), new Addition(), new Addition())
     }
 
-    circle
+    c
   }
 
   // circle overload for string line
@@ -146,17 +147,17 @@ class Parser(fp: String) {
     //  slider repeat count
     val repeats = properties(6).toInt - 1
 
-    val slider = new Slider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, repeats)
+    val s = slider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, repeats)
 
     //  save nodes from sliderNodes as Node types as red and grey nodes
     var skip = false
     for (a <- sliderNodes) {
       if (!skip) {
         if (!(sliderNodes.indexOf(a) == sliderNodes.length - 1) && (sliderNodes(sliderNodes.indexOf(a)) sameElements sliderNodes(sliderNodes.indexOf(a) + 1))) {
-          slider.addNode((a(0).toInt, a(1).toInt), 1)
+          s.addNode((a(0).toInt, a(1).toInt), 1)
           skip = true
         }
-        else slider.addNode((a(0).toInt, a(1).toInt), 0)
+        else s.addNode((a(0).toInt, a(1).toInt), 0)
       }
       skip = false
     }
@@ -166,24 +167,24 @@ class Parser(fp: String) {
       val setsIndexes = properties(9).split("\\|").map(_.split(":").map(_.toInt)) //Array(Array(index,set))
       val additionsHs = properties(8).split("\\|").map(_.toInt) //Array of additions for each edge of slider (head, repeats, end) so repeats + 2
 
-      slider.hitsound = new Hitsound(setsIndexes(0)(1), setsIndexes(0)(0))
-      slider.additions = readAdditionBit(additionsHs(0))
+      s.hitsound = new Hitsound(setsIndexes(0)(1), setsIndexes(0)(0))
+      s.additions = readAdditionBit(additionsHs(0))
 
       setsIndexes.drop(1)
       additionsHs.drop(1)
 
-      for (i <- 0 to slider.repeats) {
-        slider.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(0)))
+      for (i <- 0 to s.repeats) {
+        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(0)))
       }
     }
     else {
-      slider.hitsound = new Hitsound()
-      slider.additions = Array.fill(3)(new Addition())
+      s.hitsound = new Hitsound()
+      s.additions = Array.fill(3)(new Addition())
 
-      slider.repeatHitsounds = Array.fill(slider.repeats + 1)((new Hitsound, Array.fill(3)(new Addition)))
+      s.repeatHitsounds = Array.fill(s.repeats + 1)((new Hitsound, Array.fill(3)(new Addition)))
     }
 
-    slider
+    s
   }
 
   // slider overload for string line
@@ -196,18 +197,18 @@ class Parser(fp: String) {
   //                  0 1  2    3    4        5       6
   // Spinner syntax: [x,y,time,type,hitSound,endTime,extras]
   def readSpinner(properties: Array[String]): Spinner = {
-    val spinner = new Spinner(properties(2).toInt, properties(5).toInt)
+    val s = spinner(properties(2).toInt, properties(5).toInt)
 
     if (!(properties.length < 7)) {
       val h = readActiveHitsound(properties(6), properties(4))
-      spinner.hitsound = h._1
-      spinner.additions = h._2
+      s.hitsound = h._1
+      s.additions = h._2
     }
     else {
-      spinner.hitsound = new Hitsound()
-      spinner.additions = Array(new Addition(), new Addition(), new Addition())
+      s.hitsound = new Hitsound()
+      s.additions = Array(new Addition(), new Addition(), new Addition())
     }
-    spinner
+    s
   }
 
   // spinner overload for string line
