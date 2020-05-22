@@ -33,13 +33,35 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   // node functions
 
-  def addNode(i: Int, p: Position, t: Int): Unit = {
+  def addNode(i: Int, p: Position, t: Int): Slider = {
     require(i > 0 && i < size)
     _nodes.insert(i - 1, new Node(p, t))
+    this
   }
 
-  def addNode(p: Position, t: Int): Unit = {
+  def addNode(p: Position, t: Int): Slider = {
     _nodes += new Node(p, t)
+    this
+  }
+
+  def addNode(i: Int, p: Position): Slider = {
+    addNode(i, p, 0)
+  }
+
+  def addNode(p: Position): Slider = {
+    addNode(p, 0)
+  }
+
+  def addNode(i: Int, x: Int, y: Int, t: Int): Slider = {
+    addNode(i, (x, y), t)
+  }
+
+  def addNode(x: Int, y: Int, t: Int): Slider = {
+    addNode((x, y), t)
+  }
+
+  def addNode(x: Int, y: Int): Slider = {
+    addNode(x, y, 0)
   }
 
   def getNode(i: Int): Node = {

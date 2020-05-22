@@ -1,14 +1,22 @@
 package componentsTest
 
-import components.Uninherited_legacy
+import core.ObjectHandler._
 import coreTest.BaseTest
 
 class Uninherited_legacyTest extends BaseTest {
   "An uninherited timing point" should "always return its values correctly" in {
-    val uninhTimingPoint = new Uninherited_legacy(100, 200, 4, 0, 0, 100, true)
+    timestamp = 100
+    bpm = 200
+    meterA = 4
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+
+    val uninhTimingPoint = MakeUninherited
 
     assert(uninhTimingPoint.time == 100)
-    assert(uninhTimingPoint.BPM == 200)
+    assert(uninhTimingPoint.bpm == 200)
     assert(uninhTimingPoint.meter == 4)
     assert(uninhTimingPoint.sampleSet == 0)
     assert(uninhTimingPoint.sampleIndex == 0)
@@ -18,8 +26,8 @@ class Uninherited_legacyTest extends BaseTest {
     uninhTimingPoint.time = 105
     assert(uninhTimingPoint.time == 105)
 
-    uninhTimingPoint.BPM = 205
-    assert(uninhTimingPoint.BPM == 205)
+    uninhTimingPoint.bpm = 205
+    assert(uninhTimingPoint.bpm == 205)
 
     uninhTimingPoint.meter = 6
     assert(uninhTimingPoint.meter == 6)
@@ -38,15 +46,78 @@ class Uninherited_legacyTest extends BaseTest {
   }
 
   it should "always compare correctly to other uninherited timing points" in {
-    val uninhTimingPoint = new Uninherited_legacy(100, 200, 4, 0, 0, 100, true)   //comparer
-    val uninhTimingPoint2 = new Uninherited_legacy(100, 200, 4, 0, 0, 100, true)  //equal
-    val uninhTimingPoint3 = new Uninherited_legacy(101, 200, 4, 0, 0, 100, true)  //different in time
-    val uninhTimingPoint4 = new Uninherited_legacy(100, 205, 4, 0, 0, 100, true)  //different in bpm
-    val uninhTimingPoint5= new Uninherited_legacy(100, 200, 6, 0, 0, 100, true)   //different in meter
-    val uninhTimingPoint6 = new Uninherited_legacy(100, 200, 4, 1, 0, 100, true)  //different in sampleset
-    val uninhTimingPoint7 = new Uninherited_legacy(100, 200, 4, 0, 2, 100, true)  //different in sampleindex
-    val uninhTimingPoint8 = new Uninherited_legacy(100, 200, 4, 0, 0, 95, true)   //different in volume
-    val uninhTimingPoint9 = new Uninherited_legacy(100, 200, 4, 0, 0, 100, false) //different in kiai
+    timestamp = 100
+    bpm = 200
+    meterA = 4
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+    val uninhTimingPoint = MakeUninherited //comparer
+    val uninhTimingPoint2 = MakeUninherited //equal
+
+    timestamp = 101
+    bpm = 200
+    meterA = 4
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+    val uninhTimingPoint3 = MakeUninherited //different in time
+
+    timestamp = 100
+    bpm = 205
+    meterA = 4
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+    val uninhTimingPoint4 = MakeUninherited //different in bpm
+
+    timestamp = 100
+    bpm = 200
+    meterA = 6
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+    val uninhTimingPoint5 = MakeUninherited //different in meter
+
+    timestamp = 100
+    bpm = 200
+    meterA = 4
+    sampleset = 1
+    sampleindex = 0
+    volume = 100
+    kiai = true
+    val uninhTimingPoint6 = MakeUninherited //different in sampleset
+
+    timestamp = 100
+    bpm = 200
+    meterA = 4
+    sampleset = 0
+    sampleindex = 2
+    volume = 100
+    kiai = true
+    val uninhTimingPoint7 = MakeUninherited //different in sampleindex
+
+    timestamp = 100
+    bpm = 200
+    meterA = 4
+    sampleset = 0
+    sampleindex = 0
+    volume = 95
+    kiai = true
+    val uninhTimingPoint8 = MakeUninherited //different in volume
+
+    timestamp = 100
+    bpm = 200
+    meterA = 4
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = false
+    val uninhTimingPoint9 = MakeUninherited //different in kiai
 
     assert(uninhTimingPoint == uninhTimingPoint2)
     assert(uninhTimingPoint != uninhTimingPoint3)

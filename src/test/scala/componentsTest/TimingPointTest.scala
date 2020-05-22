@@ -1,11 +1,16 @@
 package componentsTest
 
-import components.TimingPoint
+import core.ObjectHandler._
 import coreTest.BaseTest
 
-class TimingPointTest extends BaseTest{
+class TimingPointTest extends BaseTest {
   "A timing point" should "always return its values correctly" in {
-    val timingPoint = new TimingPoint(0, 180, 5, 4)
+    timestamp = 0
+    bpm = 180
+    meterA = 5
+    meterB = 4
+
+    val timingPoint = MakeTimingPoint
 
     assert(timingPoint.time == 0)
     assert(timingPoint.bpm == 180)
@@ -26,12 +31,36 @@ class TimingPointTest extends BaseTest{
   }
 
   it should "compare itself properly to other TimeStamps" in {
-    val timingPoint = new TimingPoint(0, 180, 4, 4)
-    val timingPoint2 = new TimingPoint(0, 180, 4, 4) // equal to timingPoint
-    val timingPoint3 = new TimingPoint(5, 180, 4, 4) // different in time
-    val timingPoint4 = new TimingPoint(0, 188, 4, 4) // different in bpm
-    val timingPoint5 = new TimingPoint(0, 180, 5, 4) // different in meterA
-    val timingPoint6 = new TimingPoint(0, 180, 4, 8) // different in meterB
+    timestamp = 0
+    bpm = 180
+    meterA = 4
+    meterB = 4
+    val timingPoint = MakeTimingPoint
+    val timingPoint2 = MakeTimingPoint // equal to timingPoint
+
+    timestamp = 5
+    bpm = 180
+    meterA = 4
+    meterB = 4
+    val timingPoint3 = MakeTimingPoint // different in time
+
+    timestamp = 0
+    bpm = 188
+    meterA = 4
+    meterB = 4
+    val timingPoint4 = MakeTimingPoint // different in bpm
+
+    timestamp = 0
+    bpm = 180
+    meterA = 5
+    meterB = 4
+    val timingPoint5 = MakeTimingPoint // different in meterA
+
+    timestamp = 0
+    bpm = 180
+    meterA = 4
+    meterB = 8
+    val timingPoint6 = MakeTimingPoint // different in meterB
 
     assert(timingPoint == timingPoint2)
     assert(timingPoint != timingPoint3)
@@ -43,34 +72,74 @@ class TimingPointTest extends BaseTest{
 
   it should "detect errors in meters" in {
     assertThrows[IllegalArgumentException] {
-      new TimingPoint(50, 133.5, 0, 4)
+      timestamp = 50
+      bpm = 133.5
+      meterA = 0
+      meterB = 4
+
+      MakeTimingPoint
     }
     assertThrows[IllegalArgumentException] {
-      new TimingPoint(50, 133.5, 2, 0)
+      timestamp = 50
+      bpm = 133.5
+      meterA = 2
+      meterB = 0
+
+      MakeTimingPoint
     }
     assertThrows[IllegalArgumentException] {
-      val timingPoint = new TimingPoint(50, 133.5, 2, 4)
+      timestamp = 50
+      bpm = 133.5
+      meterA = 2
+      meterB = 4
+
+      val timingPoint = MakeTimingPoint
       timingPoint.meterA = 0
     }
     assertThrows[IllegalArgumentException] {
-      val timingPoint = new TimingPoint(50, 133.5, 2, 4)
+      timestamp = 50
+      bpm = 133.5
+      meterA = 0
+      meterB = 4
+
+      val timingPoint = MakeTimingPoint
       timingPoint.meterB = 0
     }
   }
 
   it should "detect BPM errors" in {
     assertThrows[IllegalArgumentException] {
-      new TimingPoint(50, 0, 2, 4)
+      timestamp = 50
+      bpm = 0
+      meterA = 0
+      meterB = 4
+
+      MakeTimingPoint
     }
     assertThrows[IllegalArgumentException] {
-      val timingPoint = new TimingPoint(50, 133.5, 2, 4)
+      timestamp = 50
+      bpm = 133.5
+      meterA = 2
+      meterB = 4
+
+      val timingPoint = MakeTimingPoint
       timingPoint.bpm = 0
     }
     assertThrows[IllegalArgumentException] {
-      new TimingPoint(50, -50, 2, 4)
+      timestamp = 50
+      bpm = -50
+      meterA = 0
+      meterB = 4
+
+      MakeTimingPoint
     }
     assertThrows[IllegalArgumentException] {
-      val timingPoint = new TimingPoint(50, 133.5, 2, 4)
+      timestamp = 50
+      bpm = 133.5
+      meterA = 2
+      meterB = 4
+
+      val timingPoint = MakeTimingPoint
       timingPoint.bpm = -50
     }
   }

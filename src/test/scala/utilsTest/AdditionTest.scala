@@ -1,11 +1,11 @@
 package utilsTest
 
 import coreTest.BaseTest
-import utils.Addition
+import core.ObjectHandler._
 
 class AdditionTest extends BaseTest {
  "An Addition" should "always return its values correctly" in {
-   val addition = new Addition()
+   val addition = MakeAddition
 
    assert(addition.sampleIndex == 0)
    assert(addition.sampleSet == 0)
@@ -22,12 +22,12 @@ class AdditionTest extends BaseTest {
  }
 
   "An addition" should "always compare itself correctly to other additions" in {
-    val addition = new Addition()
-    val addition1 = new Addition(2, 3, false)
-    val addition2 = new Addition(2, 2, false)
-    val addition3 = new Addition(0, 0, false)
-    val addition4 = new Addition(0, 0, true)
-    val addition5 = new Addition(2, 3)
+    val addition = MakeAddition
+    val addition1 = MakeAddition (2, 3, false)
+    val addition2 = MakeAddition (2, 2, false)
+    val addition3 = MakeAddition (0, 0, false)
+    val addition4 = MakeAddition (0, 0, true)
+    val addition5 = MakeAddition (2, 3)
 
     assert(addition == addition3)
     assert(addition1 != addition2)

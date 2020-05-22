@@ -28,6 +28,8 @@ class TimeStamp(t: Int) extends Comparable[TimeStamp] {
   def <(t: TimeStamp): Boolean = this.time < t.time
   def >=(t: TimeStamp): Boolean = this.time >= t.time
   def <=(t: TimeStamp): Boolean = this.time <= t.time
+
+  override def toString: String = time.toString + "ms"
 }
 
 /**

@@ -13,6 +13,10 @@ package utils
 class Addition(s: Int = 0, i: Int = 0, b: Boolean = false) extends Hitsound(s, i){
   private var _active: Boolean = b
 
+  def this(value: (Int, Int), b: Boolean) = this(value._1, value._2, b)
+
+  def this(value: (Int, Int)) = this(value._1, value._2)
+
   // getters and setters
 
   def active_=(b: Boolean): Unit = _active = b
@@ -27,4 +31,6 @@ class Addition(s: Int = 0, i: Int = 0, b: Boolean = false) extends Hitsound(s, i
       case _ => false
     }
   }
+
+  override def toString: String = super.toString + (if (active) " active" else " inactive")
 }

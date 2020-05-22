@@ -66,6 +66,7 @@ class ComponentMap[T <: Component]() {
    * searches for a component at key
    * @param key: the timestamp to look at
    * @return the component at timestamp key if there is one, otherwise the closest preceding one, or the first one if none precede the timestamp
+   * @throws IndexOutOfBoundsException if the map is empty
    */
   def search(key: TimeStamp): T = {
     val index = binarySearch(key)
