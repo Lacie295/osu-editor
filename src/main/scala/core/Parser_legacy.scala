@@ -9,7 +9,7 @@ import utils.{Addition, Hitsound}
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
-class Parser(fp: String) {
+class Parser_legacy(fp: String) {
 
   private var _sourcePath = fp
 
@@ -147,7 +147,7 @@ class Parser(fp: String) {
     //  slider repeat count
     val repeats = properties(6).toInt - 1
 
-    val s = MakeSlider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, repeats)
+    val s = MakeSlider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, 1.0, repeats)
 
     //  save nodes from sliderNodes as Node types as red and grey nodes
     var skip = false
@@ -164,17 +164,17 @@ class Parser(fp: String) {
 
     //hitsounds getting from pipe-separated lists
     if (properties.length > 8) {
-      val setsIndexes = properties(9).split("\\|").map(_.split(":").map(_.toInt)) //Array(Array(index,set))
-      val additionsHs = properties(8).split("\\|").map(_.toInt) //Array of additions for each edge of slider (head, repeats, end) so repeats + 2
+      var setsIndexes = properties(9).split("\\|").map(_.split(":").map(_.toInt)) //Array(Array(index,set))
+      var additionsHs = properties(8).split("\\|").map(_.toInt) //Array of additions for each edge of slider (head, repeats, end) so repeats + 2
 
       s.hitsound = new Hitsound(setsIndexes(0)(1), setsIndexes(0)(0))
       s.additions = readAdditionBit(additionsHs(0))
 
-      setsIndexes.drop(1)
-      additionsHs.drop(1)
+      setsIndexes = setsIndexes.drop(1)
+      additionsHs = additionsHs.drop(1)
 
       for (i <- 0 to s.repeats) {
-        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(0)))
+        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(i)))
       }
     }
     else {
