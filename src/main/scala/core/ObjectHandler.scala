@@ -217,9 +217,9 @@ object ObjectHandler {
       timestamp = t
     if (et != null)
       endtimestamp = et
-    if (v < 0)
+    if (v >= 0)
       multiplier = v
-    if (r < 0)
+    if (r >= 0)
       repeat = r
     if (hs != null)
       hitsound = hs
@@ -239,11 +239,11 @@ object ObjectHandler {
   def MakeTimingPoint(t: TimeStamp = null, b: Double = -1, m1: Int = -1, m2: Int = -1): TimingPoint = {
     if (t != null)
       timestamp = t
-    if (b < 0)
+    if (b >= 0)
       BPM = b
-    if (m1 < 0)
+    if (m1 >= 0)
       meterA = m1
-    if (m2 < 0)
+    if (m2 >= 0)
       meterB = m2
     MakeTimingPoint
   }
@@ -251,13 +251,13 @@ object ObjectHandler {
   def MakeInherited(t: TimeStamp = null, multi: Double = -1, ss: Int = -1, si: Int = -1, vol: Int = -1, ki: Boolean = kiai): Inherited_legacy = {
     if (t != null)
       timestamp = t
-    if (multi < 0)
+    if (multi >= 0)
       multiplier = multi
-    if (ss < 0)
+    if (ss >= 0)
       sampleset = ss
-    if (si < 0)
+    if (si >= 0)
       sampleindex = si
-    if (vol < 0)
+    if (vol >= 0)
       volume = vol
     if (ki != kiai)
       kiai = ki
@@ -267,15 +267,15 @@ object ObjectHandler {
   def MakeUninherited(t: TimeStamp = null, b: Double = -1, m: Int = -1, ss: Int = -1, si: Int = -1, vol: Int = -1, ki: Boolean = kiai): Uninherited_legacy = {
     if (t != null)
       timestamp = t
-    if (b < 0)
+    if (b >= 0)
       BPM = b
-    if (m < 0)
+    if (m >= 0)
       meterA = m
-    if (ss < 0)
+    if (ss >= 0)
       sampleset = ss
-    if (si < 0)
+    if (si >= 0)
       sampleindex = si
-    if (vol < 0)
+    if (vol >= 0)
       volume = vol
     if (ki != kiai)
       kiai = ki
