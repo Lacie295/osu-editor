@@ -172,7 +172,7 @@ class Parser(fp: String) {
       setsIndexes.drop(1)
       additionsHs.drop(1)
 
-      for (i <- 0 to slider.repeats + 1) {
+      for (i <- 0 to slider.repeats) {
         slider.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(0)))
       }
     }
@@ -278,7 +278,7 @@ class Parser(fp: String) {
     }
     else svmult = 100.0 / (mspb * -1) // else make an sv
 
-    val kiai = if (properties.equals("1")) true else false
+    val kiai = properties.equals("1")
 
     if (properties(6) == "1") {
       new Inherited_legacy(time, svmult, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
