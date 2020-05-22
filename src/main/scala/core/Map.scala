@@ -10,6 +10,8 @@ class Map {
   private val objects = ComponentMap[HitObject]()
   private val timingPoints = ComponentMap[AbstractTimingPoint]()
 
+  // metadata
+
   private var _song: String = ""
   private var _unicodeSong: String = ""
   private var _artist: String = ""
@@ -19,6 +21,9 @@ class Map {
   private var _source: String = ""
   private var _tags: String = ""
   private var _id: Int = 0
+  private var _setId: Int = -1
+
+  // getters and setters
 
   def song: String = _song
 
@@ -74,6 +79,78 @@ class Map {
     _id = value
   }
 
+  def setId: Int = _setId
+
+  def setId_=(value: Int): Unit = {
+    _setId = value
+  }
+
+  // difficulty
+
+  private var _hp: Double = 5.0
+  private var _cs: Double = 5.0
+  private var _od: Double = 5.0
+  private var _ar: Double = 5.0
+
+  // getters and setters
+
+  def hp: Double = _hp
+
+  def hp_=(value: Double): Unit = {
+    _hp = value
+  }
+
+  def cs: Double = _cs
+
+  def cs_=(value: Double): Unit = {
+    _cs = value
+  }
+
+  def od: Double = _od
+
+  def od_=(value: Double): Unit = {
+    _od = value
+  }
+
+  def ar: Double = _ar
+
+  def ar_=(value: Double): Unit = {
+    _ar = value
+  }
+
+  // settings
+
+  private var _tickrate: Int = 1
+  private var _stackLeniency: Double = 0
+  private var _songFile: String = ""
+  private var _backgroundFile: String = ""
+
+  // getters and setters
+
+  def tickrate: Int = _tickrate
+
+  def tickrate_=(value: Int): Unit = {
+    _tickrate = value
+  }
+
+  def stackLeniency: Double = _stackLeniency
+
+  def stackLeniency_=(value: Double): Unit = {
+    _stackLeniency = value
+  }
+
+  def songFile: String = _songFile
+
+  def songFile_=(value: String): Unit = {
+    _songFile = value
+  }
+
+  def backgroundFile: String = _backgroundFile
+
+  def backgroundFile_=(value: String): Unit = {
+    _backgroundFile = value
+  }
+
   // interactions with both lists
 
   def addObject(o: HitObject): Unit = objects += o
@@ -118,4 +195,6 @@ class Map {
   def apply(o: Component): List[HitObject] = getOverlapObject(o)
 
   def apply(t: TimeStamp): List[HitObject] = getOverlapObject(t)
+
+  override def toString: String = allObjects.map(_.toString()).mkString("\n") + "\n" + allTimingPoints.map(_.toString()).mkString("\n")
 }

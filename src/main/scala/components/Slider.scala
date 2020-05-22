@@ -22,6 +22,8 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   private var _velocity = v
 
+  def this(p: Position, t: TimeStamp, v: Double = 1.0, r: Int = 0, hs: Hitsound = (0,0)) = this(p, t, t, v, r, hs)
+
   def canEqual(a: Any): Boolean = a.isInstanceOf[Slider]
 
   override def equals(that: Any): Boolean = {

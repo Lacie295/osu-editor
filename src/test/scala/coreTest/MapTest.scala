@@ -77,6 +77,7 @@ class MapTest extends BaseTest {
     m.source = "東方憑依華　～ Antinomy of Common Flowers."
     m.tags = "Shion Joon Yorigami Spirit Possession Bloom Tonight Stars an Easygoing Egoistic Flowers 瑰狂鬱嵂 metal C94 ZUN woof"
     m.id = 1729489
+    m.setId = 1729489
 
     assert(m.song == "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat.")
     assert(m.unicodeSong == "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat.")
@@ -87,5 +88,6 @@ class MapTest extends BaseTest {
     assert(m.source == "東方憑依華　～ Antinomy of Common Flowers.")
     assert(m.tags == "Shion Joon Yorigami Spirit Possession Bloom Tonight Stars an Easygoing Egoistic Flowers 瑰狂鬱嵂 metal C94 ZUN woof")
     assert(m.id == 1729489)
+    assert(m.setId == 1729489)
   }
 }

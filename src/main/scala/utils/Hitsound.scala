@@ -28,6 +28,8 @@ class  Hitsound(s: Int = 0, i: Int = 0) {
       case _ => false
     }
   }
+
+  override def toString: String = "ss" + sampleSet + " si" + sampleIndex
 }
 
 object Hitsound {

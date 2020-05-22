@@ -32,7 +32,7 @@ class Position(pos1: Int, pos2: Int) {
     }
   }
 
-  override def toString: String = "(" + x + "," + y + ")"
+  override def toString: String = "x" + x + " y" + y
 }
 
 // conversion to tuple

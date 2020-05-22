@@ -28,4 +28,6 @@ class Addition(s: Int = 0, i: Int = 0, b: Boolean = false) extends Hitsound(s, i
       case _ => false
     }
   }
+
+  override def toString: String = super.toString + (if (active) " active" else " inactive")
 }
