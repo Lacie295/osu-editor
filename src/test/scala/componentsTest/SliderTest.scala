@@ -1,12 +1,11 @@
 package componentsTest
 
-import components.{Circle, Node, Slider, Spinner}
+import components.{Circle, Slider, Spinner}
 import coreTest.BaseTest
-import utils.Position
 
 class SliderTest extends BaseTest {
   "A slider" should "keep the timestamp for beginning and end correctly" in {
-    val slider = new Slider((0, 0), (100, 100), 3, 4)
+    val slider = new Slider((0, 0), 3, 4)
     assert(slider.time == 3)
     assert(slider.endTime == 4)
     slider.time = 1
@@ -16,42 +15,36 @@ class SliderTest extends BaseTest {
   }
 
   it should "always return its starting- and end points correctly" in {
-    val slider = new Slider((0, 1), (100, 101), 3, 4)
+    val slider = new Slider((0, 1), 3, 4)
     assert(slider.x == 0)
     assert(slider.y == 1)
-    assert(slider.endX == 100)
-    assert(slider.endY == 101)
 
     slider.position = (2, 3)
     assert(slider.x == 2)
     assert(slider.y == 3)
-
-    slider.endPosition = (102, 103)
-    assert(slider.endX == 102)
-    assert(slider.endY == 103)
   }
 
   it should "never end before it begins" in {
     assertThrows[IllegalArgumentException] {
-      new Slider((0, 0), (5, 5), 3, 1)
+      new Slider((0, 0), 3, 1)
     }
     assertThrows[IllegalArgumentException] {
-      val slider = new Slider((0, 0), (5, 5), 2, 3)
+      val slider = new Slider((0, 0), 2, 3)
       slider.endTime = 1
     }
     assertThrows[IllegalArgumentException] {
-      val slider = new Slider((0, 0), (5, 5), 2, 3)
+      val slider = new Slider((0, 0), 2, 3)
       slider.time = 5
     }
   }
 
   it should "always detect overlaps properly" in {
-    val slider = new Slider((0, 0), (100, 101), 1, 4)
-    val slider2 = new Slider((0, 0), (100, 101), 0, 5) //slider2 contains slider
-    val slider3 = new Slider((0, 0), (100, 101), 4, 5) //slider3 is on slider's end
-    val slider4 = new Slider((0, 0), (100, 101), 0, 1) //slider4 is on slider's start
-    val slider5 = new Slider((0, 0), (100, 101), 2, 3) //slider contains slider5
-    val slider6 = new Slider((0, 0), (100, 101), 16, 20) //slider6 and slider are unrelated
+    val slider = new Slider((0, 0), 1, 4)
+    val slider2 = new Slider((0, 0), 0, 5) //slider2 contains slider
+    val slider3 = new Slider((0, 0), 4, 5) //slider3 is on slider's end
+    val slider4 = new Slider((0, 0), 0, 1) //slider4 is on slider's start
+    val slider5 = new Slider((0, 0), 2, 3) //slider contains slider5
+    val slider6 = new Slider((0, 0), 16, 20) //slider6 and slider are unrelated
 
     assert(slider overlaps slider2)
     assert(slider overlaps slider3)
@@ -83,15 +76,16 @@ class SliderTest extends BaseTest {
   }
 
   it should "properly store, add, remove and return nodes" in {
-    val s: Slider = new Slider((0, 0), (1, 1), 0, 1)
+    val s: Slider = new Slider((0, 0), 0, 1)
+    s.addNode((1, 1), 1)
     assert(s.size == 2)
 
-    var head = s(0)
+    val head = s(0)
     assert(head.x == 0)
     assert(head.y == 0)
     assert(head.nodeType == 1)
 
-    var last = s(1)
+    val last = s(1)
     assert(last.x == 1)
     assert(last.y == 1)
     assert(last.nodeType == 1)
@@ -99,7 +93,6 @@ class SliderTest extends BaseTest {
     s.addNode((2, 2), 0)
     s.addNode(1, (3, 3), 1)
     s.x = 3
-    s.endY = 5
 
     assert(s.size == 4)
 
@@ -113,17 +106,18 @@ class SliderTest extends BaseTest {
     assert(first.nodeType == 1)
 
     val second = s(2)
-    assert(second.x == 2)
-    assert(second.y == 2)
-    assert(second.nodeType == 0)
+    assert(second.x == 1)
+    assert(second.y == 1)
+    assert(second.nodeType == 1)
 
-    assert(last.x == 1)
-    assert(last.y == 5)
-    assert(last.nodeType == 1)
+    val third = s(3)
+    assert(third.x == 2)
+    assert(third.y == 2)
+    assert(third.nodeType == 0)
 
     s.removeNode(1)
     val second2 = s(2)
-    assert(second2 == last)
+    assert(second2 == third)
 
     s(1).nodeType = 1
     assert(s(1).nodeType == 1)

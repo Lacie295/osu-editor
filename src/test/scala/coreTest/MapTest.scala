@@ -7,7 +7,7 @@ class MapTest extends BaseTest {
   "A map" should "store all its objects" in {
     val m: Map = new Map()
 
-    m.addObject(new Slider((0, 0), (1, 1), 0, 1))
+    m.addObject(new Slider((0, 0), 0, 1))
     m.addObject(new Circle((0, 0), 2))
     m.addObject(new Spinner(3, 4))
 
@@ -16,8 +16,6 @@ class MapTest extends BaseTest {
     assert(s == s2)
     assert(s.x == 0)
     assert(s.y == 0)
-    assert(s.endX == 1)
-    assert(s.endY == 1)
     assert(s.time == 0)
     assert(s.endTime == 1)
 
@@ -52,9 +50,9 @@ class MapTest extends BaseTest {
   it should "handle overlapping objects" in {
     val m: Map = new Map()
 
-    val s1 = new Slider((0, 0), (0, 0), 0, 5)
+    val s1 = new Slider((0, 0), 0, 5)
     m.addObject(s1)
-    val s2 = new Slider((0, 0), (0, 0), 3, 8)
+    val s2 = new Slider((0, 0), 3, 8)
     m.addObject(s2)
     val c1 = new Circle((0, 0), 7)
     m.addObject(c1)

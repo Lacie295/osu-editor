@@ -93,7 +93,7 @@ class Parser(fp: String) {
         map += new TimingPoint(tp.timeStamp, tp.BPM) // TODO: Convert metre
       case tp: Inherited_legacy =>
         map -= tp
-        map += new TimingPoint(tp.timeStamp, prev.BPM) // TODO: metre
+        map += new TimingPoint(tp.timeStamp, if (prev.nonEmpty) prev.get.BPM else 120) // TODO: metre
     }
 
     map
@@ -145,10 +145,8 @@ class Parser(fp: String) {
     val sliderNodes = sliderArray.drop(1).map(_.split(":"))
     //  slider repeat count
     val repeats = properties(6).toInt - 1
-    //  get last node and save
-    val endingPoint = sliderNodes.last.map(_.toInt)
 
-    val slider = new Slider((properties(0).toInt, properties(1).toInt), (endingPoint(0), endingPoint(1)), properties(2).toInt, properties(2).toInt + 1, repeats)
+    val slider = new Slider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, repeats)
 
     //  save nodes from sliderNodes as Node types as red and grey nodes
     var skip = false

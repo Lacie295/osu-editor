@@ -42,10 +42,10 @@ class CircleTest extends BaseTest {
     assert(circle overlaps circle2)
     assert(!(circle overlaps circle3))
 
-    val slider = new Slider((0, 0), (100, 101), 1, 4)   //circle is on end of slider
-    val slider2 = new Slider((0, 0), (100, 101), 1, 5)  //slider2 contains circle
-    val slider3 = new Slider((0, 0), (100, 101), 4, 5)  //circle is on end of slider3
-    val slider4 = new Slider((0, 0), (100, 101), 1, 3)  //slider4 and circle are unrelated
+    val slider = new Slider((0, 0), 1, 4)   //circle is on end of slider
+    val slider2 = new Slider((0, 0), 1, 5)  //slider2 contains circle
+    val slider3 = new Slider((0, 0), 4, 5)  //circle is on end of slider3
+    val slider4 = new Slider((0, 0), 1, 3)  //slider4 and circle are unrelated
 
     assert(circle overlaps slider)
     assert(circle overlaps slider2)

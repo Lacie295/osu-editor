@@ -75,7 +75,7 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   def velocity_=(v: Double): Unit = _velocity = v
 
-  def size: Int = _nodes.size + 2
+  def size: Int = _nodes.size + 1
 }
 
 /**

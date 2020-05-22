@@ -18,8 +18,6 @@ class SpinnerTest extends BaseTest {
     val spin = new Spinner(0, 4)
     assert(spin.x == 0)
     assert(spin.y == 0)
-    assert(spin.endX == 0)
-    assert(spin.endY == 0)
   }
 
   it should "never end before it begins" in {
@@ -50,11 +48,11 @@ class SpinnerTest extends BaseTest {
     assert(spin overlaps spin5)
     assert(!(spin overlaps spin6))
 
-    val slider = new Slider((0, 0), (100, 101), 0,5)      //slider contains spin
-    val slider2 = new Slider((0, 0), (100, 101), 4,5)     //slider2 is on spin's end
-    val slider3 = new Slider((0, 0), (100, 101), 0,1)     //slider3 is on spin's start
-    val slider4 = new Slider((0, 0), (100, 101), 2,3)     //spin contains slider4
-    val slider5 = new Slider((0, 0), (100, 101), 16,20)   //slider and spin are unrelated
+    val slider = new Slider((0, 0), 0,5)      //slider contains spin
+    val slider2 = new Slider((0, 0), 4,5)     //slider2 is on spin's end
+    val slider3 = new Slider((0, 0), 0,1)     //slider3 is on spin's start
+    val slider4 = new Slider((0, 0), 2,3)     //spin contains slider4
+    val slider5 = new Slider((0, 0), 16,20)   //slider and spin are unrelated
 
     assert(spin overlaps slider)
     assert(spin overlaps slider2)

@@ -54,10 +54,10 @@ class ParserTest extends BaseTest {
   it should "read a slider correctly" in {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val line = parser.readLines()(1)
-    val slider = new Slider((496, 279),(381, 261), 450, 451, 0)
+    val slider = new Slider((496, 279), 450, 451, 0)
 
     val line2 = parser.readLines()(3)
-    val slider2 = new Slider((179, 318), (170, 206), 30292, 30293)
+    val slider2 = new Slider((179, 318), 30292, 30293)
 
     slider.addNode((426, 266), 0)
     slider.addNode((381, 261), 0)
@@ -184,6 +184,7 @@ class ParserTest extends BaseTest {
   it should "read a timing point correctly" in {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
+    // TODO
     val tp1 = parser.readTimingPoint("")
   }
 }
