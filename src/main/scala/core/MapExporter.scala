@@ -1,9 +1,12 @@
 package core
 
+import java.io.{BufferedWriter, File, FileWriter}
+
 import components.{Circle, Slider, Spinner, TimingPoint}
 
 class MapExporter {
   val VERSION = 0
+
   def export(m: Map): String = {
     var data: StringBuilder = new StringBuilder("Metadata")
     var difficulty: StringBuilder = new StringBuilder("Difficulty")
@@ -67,5 +70,12 @@ class MapExporter {
     }
 
     "Version: " + VERSION + "\n\n" + data.mkString + "\n\n" + difficulty.mkString + "\n\n" + objects.mkString + "\n\n" + timestamps.mkString
+  }
+
+  def writeToFile(m: Map, filename: String): Unit = {
+    val file = new File(filename)
+    val writer = new BufferedWriter(new FileWriter(file))
+    writer.write(export(m))
+    writer.close()
   }
 }
