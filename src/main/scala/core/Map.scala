@@ -198,3 +198,7 @@ class Map {
 
   override def toString: String = allObjects.map(_.toString()).mkString("\n") + "\n" + allTimingPoints.map(_.toString()).mkString("\n")
 }
+
+object Map {
+  def apply(): Map = new Map()
+}

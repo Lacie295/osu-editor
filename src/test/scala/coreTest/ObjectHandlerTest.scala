@@ -59,8 +59,7 @@ class ObjectHandlerTest extends BaseTest {
     position = (25, 25)
 
     val s = MakeSlider
-    s.addNode(26, 27).nodeType = 0
-    s.addNode(50, 10).nodeType = 1
+    s addNode(26, 27) addNode(50, 10, 1)
 
     assert(s.timeStamp == MakeTimeStamp(20))
     assert(s.endTimeStamp == MakeTimeStamp(25))

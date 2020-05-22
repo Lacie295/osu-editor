@@ -4,10 +4,10 @@ import java.io.{BufferedWriter, File, FileWriter}
 
 import components.{Circle, Slider, Spinner, TimingPoint}
 
-class MapExporter {
+class MapExporter(m: Map) {
   val VERSION = 0
 
-  def export(m: Map): String = {
+  def export: String = {
     var data: StringBuilder = new StringBuilder("Metadata")
     var difficulty: StringBuilder = new StringBuilder("Difficulty")
     var settings: StringBuilder = new StringBuilder("Settings")
@@ -39,23 +39,24 @@ class MapExporter {
       obj => {
         obj match {
           case c: Circle =>
-            objects ++= "\tcircle"
+            objects ++= "\tCircle:"
             objects ++= " at " + c.timeStamp
             objects ++= " at " + c.position
             objects ++= " with " + c.hitsound
           case s: Slider =>
-            objects ++= "\tslider"
+            objects ++= "\tSlider:"
             objects ++= " at " + s.timeStamp
             objects ++= " at " + s.position
             objects ++= " speed " + s.velocity
             objects ++= " repeats " + s.repeats
             objects ++= " with " + s.hitsound
             s.nodes.foreach(node => {
-              objects ++= "\n\t\tnode"
-              objects ++= " at " + s.position
+              objects ++= "\n\t\tNode:"
+              objects ++= " at " + node.position
+              objects ++= " type " + node.nodeType
             })
           case s: Spinner =>
-            objects ++= "\tspinner"
+            objects ++= "\tSpinner:"
             objects ++= " at " + s.timeStamp
             objects ++= " until " + s.endTimeStamp
             objects ++= " with " + s.hitsound
@@ -78,10 +79,10 @@ class MapExporter {
     "Version: " + VERSION + "\n\n" + data.mkString + "\n\n" + difficulty.mkString + "\n\n" + settings.mkString + "\n\n" + objects.mkString + "\n\n" + timestamps.mkString
   }
 
-  def writeToFile(m: Map, filename: String): Unit = {
+  def writeToFile(filename: String): Unit = {
     val file = new File(filename)
     val writer = new BufferedWriter(new FileWriter(file))
-    writer.write(export(m))
+    writer.write(export)
     writer.close()
   }
 }

@@ -118,7 +118,7 @@ class SliderTest extends BaseTest {
     timestamp = 0
     endtimestamp = 1
     val s = MakeSlider
-    s.addNode(1, 1).nodeType = 1
+    s.addNode(1, 1, 1)
     assert(s.size == 2)
 
     val head = s(0)
@@ -131,8 +131,7 @@ class SliderTest extends BaseTest {
     assert(last.y == 1)
     assert(last.nodeType == 1)
 
-    s.addNode(2, 2).nodeType = 0
-    s.addNode(1, (3, 3)).nodeType = 1
+    s addNode(2, 2) addNode(1, (3, 3), 1)
     s.x = 3
 
     assert(s.size == 4)

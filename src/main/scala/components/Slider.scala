@@ -22,8 +22,6 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   private var _velocity = v
 
-  def this(p: Position, t: TimeStamp, v: Double = 1.0, r: Int = 0, hs: Hitsound = (0,0)) = this(p, t, t, v, r, hs)
-
   def canEqual(a: Any): Boolean = a.isInstanceOf[Slider]
 
   override def equals(that: Any): Boolean = {
@@ -35,36 +33,34 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   // node functions
 
-  def addNode(i: Int, p: Position, t: Int): Node = {
+  def addNode(i: Int, p: Position, t: Int): Slider = {
     require(i > 0 && i < size)
-    val n = new Node(p, t)
-    _nodes.insert(i - 1, n)
-    n
+    _nodes.insert(i - 1, new Node(p, t))
+    this
   }
 
-  def addNode(p: Position, t: Int): Node = {
-    val n = new Node(p, t)
-    _nodes += n
-    n
+  def addNode(p: Position, t: Int): Slider = {
+    _nodes += new Node(p, t)
+    this
   }
 
-  def addNode(i: Int, p: Position): Node = {
+  def addNode(i: Int, p: Position): Slider = {
     addNode(i, p, 0)
   }
 
-  def addNode(p: Position): Node = {
+  def addNode(p: Position): Slider = {
     addNode(p, 0)
   }
 
-  def addNode(i: Int, x: Int, y: Int, t: Int): Node = {
+  def addNode(i: Int, x: Int, y: Int, t: Int): Slider = {
     addNode(i, (x, y), t)
   }
 
-  def addNode(x: Int, y: Int, t: Int): Node = {
+  def addNode(x: Int, y: Int, t: Int): Slider = {
     addNode((x, y), t)
   }
 
-  def addNode(x: Int, y: Int): Node = {
+  def addNode(x: Int, y: Int): Slider = {
     addNode(x, y, 0)
   }
 
