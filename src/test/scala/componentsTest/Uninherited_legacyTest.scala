@@ -53,8 +53,8 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 0
     volume = 100
     kiai = true
-    val uninhTimingPoint = MakeUninherited   //comparer
-    val uninhTimingPoint2 = MakeUninherited  //equal
+    val uninhTimingPoint = MakeUninherited //comparer
+    val uninhTimingPoint2 = MakeUninherited //equal
 
     timestamp = 101
     bpm = 200
@@ -63,7 +63,7 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 0
     volume = 100
     kiai = true
-    val uninhTimingPoint3 = MakeUninherited  //different in time
+    val uninhTimingPoint3 = MakeUninherited //different in time
 
     timestamp = 100
     bpm = 205
@@ -72,7 +72,7 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 0
     volume = 100
     kiai = true
-    val uninhTimingPoint4 = MakeUninherited  //different in bpm
+    val uninhTimingPoint4 = MakeUninherited //different in bpm
 
     timestamp = 100
     bpm = 200
@@ -81,7 +81,7 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 0
     volume = 100
     kiai = true
-    val uninhTimingPoint5= MakeUninherited   //different in meter
+    val uninhTimingPoint5 = MakeUninherited //different in meter
 
     timestamp = 100
     bpm = 200
@@ -90,7 +90,7 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 0
     volume = 100
     kiai = true
-    val uninhTimingPoint6 = MakeUninherited  //different in sampleset
+    val uninhTimingPoint6 = MakeUninherited //different in sampleset
 
     timestamp = 100
     bpm = 200
@@ -99,7 +99,7 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 2
     volume = 100
     kiai = true
-    val uninhTimingPoint7 = MakeUninherited  //different in sampleindex
+    val uninhTimingPoint7 = MakeUninherited //different in sampleindex
 
     timestamp = 100
     bpm = 200
@@ -108,7 +108,7 @@ class Uninherited_legacyTest extends BaseTest {
     sampleindex = 0
     volume = 95
     kiai = true
-    val uninhTimingPoint8 = MakeUninherited  //different in volume
+    val uninhTimingPoint8 = MakeUninherited //different in volume
 
     timestamp = 100
     bpm = 200

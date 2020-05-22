@@ -114,4 +114,8 @@ class Map {
   def -=(obj: HitObject): Unit = deleteObject(obj)
 
   def -=(t: AbstractTimingPoint): Unit = deleteTimingPoint(t)
+
+  def apply(o: Component): List[HitObject] = getOverlapObject(o)
+
+  def apply(t: TimeStamp): List[HitObject] = getOverlapObject(t)
 }

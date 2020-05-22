@@ -36,14 +36,14 @@ class CircleTest extends BaseTest {
     val circle = MakeCircle
 
     position = (0, 2)
-    val circle2 = MakeCircle       //circle2 different to circle in Position
+    val circle2 = MakeCircle //circle2 different to circle in Position
 
     timestamp = 6
     position = (0, 1)
-    val circle3 = MakeCircle       //circle3 different to circle in Time
+    val circle3 = MakeCircle //circle3 different to circle in Time
 
     timestamp = 5
-    val circle4 = MakeCircle       //circle4 equal to circle
+    val circle4 = MakeCircle //circle4 equal to circle
 
     assert(!(circle == circle2))
     assert(!(circle == circle3))
@@ -54,27 +54,27 @@ class CircleTest extends BaseTest {
     position = (0, 0)
     timestamp = 4
     val circle = MakeCircle
-    val circle2 = MakeCircle     //circle2 is on circle
+    val circle2 = MakeCircle //circle2 is on circle
 
     timestamp = 5
-    val circle3 = MakeCircle     //circle3 is unrelated to circle
+    val circle3 = MakeCircle //circle3 is unrelated to circle
 
     assert(circle overlaps circle2)
     assert(!(circle overlaps circle3))
 
     timestamp = 1
     endtimestamp = 4
-    val slider = MakeSlider   //circle is on end of slider
+    val slider = MakeSlider //circle is on end of slider
 
     endtimestamp = 5
-    val slider2 = MakeSlider  //slider2 contains circle
+    val slider2 = MakeSlider //slider2 contains circle
 
     timestamp = 4
-    val slider3 = MakeSlider  //circle is on end of slider3
+    val slider3 = MakeSlider //circle is on end of slider3
 
     timestamp = 1
     endtimestamp = 3
-    val slider4 = MakeSlider  //slider4 and circle are unrelated
+    val slider4 = MakeSlider //slider4 and circle are unrelated
 
     assert(circle overlaps slider)
     assert(circle overlaps slider2)
@@ -83,17 +83,17 @@ class CircleTest extends BaseTest {
 
     timestamp = 1
     endtimestamp = 4
-    val spin = MakeSpinner(1, 4)   //circle is on end of spin
+    val spin = MakeSpinner(1, 4) //circle is on end of spin
 
     endtimestamp = 5
-    val spin2 = MakeSpinner(1, 5)  //spin2 contains circle
+    val spin2 = MakeSpinner(1, 5) //spin2 contains circle
 
     timestamp = 4
-    val spin3 = MakeSpinner(4, 5)  //circle is on end of spin3
+    val spin3 = MakeSpinner(4, 5) //circle is on end of spin3
 
     timestamp = 1
     endtimestamp = 3
-    val spin4 = MakeSpinner(1, 3)  //spin4 and circle are unrelated
+    val spin4 = MakeSpinner(1, 3) //spin4 and circle are unrelated
 
     assert(circle overlaps spin)
     assert(circle overlaps spin2)

@@ -3,7 +3,7 @@ package componentsTest
 import core.ObjectHandler._
 import coreTest.BaseTest
 
-class TimingPointTest extends BaseTest{
+class TimingPointTest extends BaseTest {
   "A timing point" should "always return its values correctly" in {
     timestamp = 0
     bpm = 180

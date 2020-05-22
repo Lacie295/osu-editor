@@ -72,7 +72,7 @@ class SliderTest extends BaseTest {
 
     timestamp = 0
     endtimestamp = 5
-    val spin = MakeSpinner  //spin contains slider
+    val spin = MakeSpinner //spin contains slider
 
     timestamp = 4
     endtimestamp = 5
@@ -118,7 +118,7 @@ class SliderTest extends BaseTest {
     timestamp = 0
     endtimestamp = 1
     val s = MakeSlider
-    s.addNode (1, 1) .nodeType = 1
+    s.addNode(1, 1).nodeType = 1
     assert(s.size == 2)
 
     val head = s(0)
@@ -131,8 +131,8 @@ class SliderTest extends BaseTest {
     assert(last.y == 1)
     assert(last.nodeType == 1)
 
-    s.addNode (2, 2) .nodeType = 0
-    s.addNode (1, (3, 3)) .nodeType = 1
+    s.addNode(2, 2).nodeType = 0
+    s.addNode(1, (3, 3)).nodeType = 1
     s.x = 3
 
     assert(s.size == 4)
@@ -160,7 +160,7 @@ class SliderTest extends BaseTest {
     val second2 = s(2)
     assert(second2 == third)
 
-    s(1) .nodeType = 1
+    s(1).nodeType = 1
     assert(s(1).nodeType == 1)
   }
 }

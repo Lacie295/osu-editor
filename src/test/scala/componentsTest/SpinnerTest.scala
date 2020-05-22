@@ -79,23 +79,23 @@ class SpinnerTest extends BaseTest {
 
     timestamp = 0
     endtimestamp = 5
-    val slider = MakeSlider     //slider contains spin
+    val slider = MakeSlider //slider contains spin
 
     timestamp = 4
     endtimestamp = 5
-    val slider2 = MakeSlider    //slider2 is on spin's end
+    val slider2 = MakeSlider //slider2 is on spin's end
 
     timestamp = 0
     endtimestamp = 1
-    val slider3 = MakeSlider    //slider3 is on spin's start
+    val slider3 = MakeSlider //slider3 is on spin's start
 
     timestamp = 2
     endtimestamp = 3
-    val slider4 = MakeSlider    //spin contains slider4
+    val slider4 = MakeSlider //spin contains slider4
 
     timestamp = 16
     endtimestamp = 20
-    val slider5 = MakeSlider    //slider and spin are unrelated
+    val slider5 = MakeSlider //slider and spin are unrelated
 
     assert(spin overlaps slider)
     assert(spin overlaps slider2)
@@ -104,16 +104,16 @@ class SpinnerTest extends BaseTest {
     assert(!(spin overlaps slider5))
 
     timestamp = 1
-    val circle = MakeCircle     //circle is on spin's start
+    val circle = MakeCircle //circle is on spin's start
 
     timestamp = 4
-    val circle2 = MakeCircle    //circle2 is on spin's end
+    val circle2 = MakeCircle //circle2 is on spin's end
 
     timestamp = 2
-    val circle3 = MakeCircle    //spin contains circle3
+    val circle3 = MakeCircle //spin contains circle3
 
     timestamp = 5
-    val circle4 = MakeCircle    //spin and circle4 are unrelated
+    val circle4 = MakeCircle //spin and circle4 are unrelated
 
     assert(spin overlaps circle)
     assert(spin overlaps circle2)
