@@ -230,7 +230,7 @@ object ObjectHandler {
     if (t != null)
       timestamp = t
     if (et != null)
-      repeat = 0
+      endtimestamp = 0
     if (hs != null)
       hitsound = hs
     MakeSpinner
