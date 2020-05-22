@@ -187,7 +187,7 @@ class ParserTest extends BaseTest {
     // TODO
     val tp1 = parser.readTimingPoint("450,315.789473684211,4,2,0,100,1,0")
     if (tp1.isInstanceOf[Uninherited_legacy]) {
-      assert(tp1.asInstanceOf[Uninherited_legacy].BPM == 190)
+      assert(tp1.asInstanceOf[Uninherited_legacy].bpm == 190)
       assert(tp1.asInstanceOf[Uninherited_legacy].meter == 4)
       assert(tp1.asInstanceOf[Uninherited_legacy].time == 450)
       assert(tp1.asInstanceOf[Uninherited_legacy].sampleSet == 2)
@@ -198,7 +198,7 @@ class ParserTest extends BaseTest {
 
     val tp2 = parser.readTimingPoint("734,285.714285714285,6,1,4,46,1,1")
     if (tp2.isInstanceOf[Uninherited_legacy]) {
-      assert(tp2.asInstanceOf[Uninherited_legacy].BPM == 210)
+      assert(tp2.asInstanceOf[Uninherited_legacy].bpm == 210)
       assert(tp2.asInstanceOf[Uninherited_legacy].meter == 6)
       assert(tp2.asInstanceOf[Uninherited_legacy].time == 734)
       assert(tp2.asInstanceOf[Uninherited_legacy].sampleSet == 1)
