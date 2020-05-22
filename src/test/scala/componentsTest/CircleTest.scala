@@ -83,17 +83,17 @@ class CircleTest extends BaseTest {
 
     timestamp = 1
     endtimestamp = 4
-    val spin = MakeSpinner(1, 4) //circle is on end of spin
+    val spin = MakeSpinner //circle is on end of spin
 
     endtimestamp = 5
-    val spin2 = MakeSpinner(1, 5) //spin2 contains circle
+    val spin2 = MakeSpinner //spin2 contains circle
 
     timestamp = 4
-    val spin3 = MakeSpinner(4, 5) //circle is on end of spin3
+    val spin3 = MakeSpinner //circle is on end of spin3
 
     timestamp = 1
     endtimestamp = 3
-    val spin4 = MakeSpinner(1, 3) //spin4 and circle are unrelated
+    val spin4 = MakeSpinner //spin4 and circle are unrelated
 
     assert(circle overlaps spin)
     assert(circle overlaps spin2)

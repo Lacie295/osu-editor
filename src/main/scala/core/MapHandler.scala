@@ -44,12 +44,21 @@ object MapHandler {
     }
   }
 
-  implicit def load(file: String): Map = {
+  implicit def load_legacy(file: String): Map = {
     val parser = new Parser(file)
     val map = parser.readMap()
     handlers.put(map, new MapHandler(map))
     map
   }
+
+  implicit def load(file: String): Map = {
+    val parser = new MapParser(file)
+    val map = parser.readFromFile()
+    handlers.put(map, new MapHandler(map))
+    map
+  }
+
+  implicit def save(m: Map, file: String): Unit = MapExporter(m).writeToFile(file)
 
   implicit def unload(m: Map): Unit = handlers.remove(m)
 }

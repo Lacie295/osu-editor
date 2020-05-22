@@ -37,6 +37,7 @@ class MapHandlerTest extends BaseTest {
 
   it should "throw errors when accessing nonexistent elements"  in {
     timestamp = 0
+    endtimestamp = 25
     val m = new Map()
     assertThrows[IndexOutOfBoundsException] {
       m getCircle 0

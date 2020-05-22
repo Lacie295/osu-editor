@@ -68,7 +68,8 @@ class MapExporter(m: Map) {
       obj => {
         obj match {
           case t: TimingPoint =>
-            timestamps ++= "\t" + t.bpm
+            timestamps ++= "\tTimingPoint"
+            timestamps ++= " bpm " + t.bpm
             timestamps ++= " at " + t.timeStamp
             timestamps ++= " measure " + t.meterA
             timestamps ++= " / " + t.meterB
@@ -85,4 +86,8 @@ class MapExporter(m: Map) {
     writer.write(export)
     writer.close()
   }
+}
+
+object MapExporter {
+  def apply(m: Map): MapExporter = new MapExporter(m)
 }
