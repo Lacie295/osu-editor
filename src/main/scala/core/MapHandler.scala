@@ -44,21 +44,16 @@ object MapHandler {
     }
   }
 
-<<<<<<< HEAD
   implicit def load_legacy(file: String): Map = {
-    val parser = new Parser(file)
-=======
-  implicit def load(file: String): Map = {
     val parser = new Parser_legacy(file)
->>>>>>> origin/master
     val map = parser.readMap()
     handlers.put(map, new MapHandler(map))
     map
   }
 
   implicit def load(file: String): Map = {
-    val parser = new MapParser(file)
-    val map = parser.readFromFile()
+    val parser = MapParser()
+    val map = parser.readFromFile(file)
     handlers.put(map, new MapHandler(map))
     map
   }

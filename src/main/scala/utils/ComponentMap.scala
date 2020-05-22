@@ -98,6 +98,14 @@ class ComponentMap[T <: Component]() {
   def toList: List[T] = _storage
 
   def get(index: Int): T = _storage(index)
+
+  override def equals(obj: Any): Boolean = {
+    obj match {
+      case c: ComponentMap[T] =>
+        size == c.size && _storage.forall(c._storage.contains(_))
+      case _ => false
+    }
+  }
 }
 
 /**

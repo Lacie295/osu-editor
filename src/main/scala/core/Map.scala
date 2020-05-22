@@ -7,8 +7,8 @@ import utils.{ComponentMap, TimeStamp}
  * an implementation of an osu! map
  */
 class Map {
-  private val objects = ComponentMap[HitObject]()
-  private val timingPoints = ComponentMap[AbstractTimingPoint]()
+  private val _objects = ComponentMap[HitObject]()
+  private val _timingPoints = ComponentMap[AbstractTimingPoint]()
 
   // metadata
 
@@ -153,10 +153,10 @@ class Map {
 
   // interactions with both lists
 
-  def addObject(o: HitObject): Unit = objects += o
+  def addObject(o: HitObject): Unit = _objects += o
 
   def getObject(t: TimeStamp): Option[HitObject] = {
-    val res = objects(t)
+    val res = _objects(t)
     if (res.isEmpty) {
       None
     } else {
@@ -164,25 +164,25 @@ class Map {
     }
   }
 
-  def deleteObject(o: HitObject): Unit = objects -= o
+  def deleteObject(o: HitObject): Unit = _objects -= o
 
-  def getOverlapObject(o: Component): List[HitObject] = objects(o)
+  def getOverlapObject(o: Component): List[HitObject] = _objects(o)
 
-  def getOverlapObject(t: TimeStamp): List[HitObject] = objects(t)
+  def getOverlapObject(t: TimeStamp): List[HitObject] = _objects(t)
 
-  def addTimingPoint(t: AbstractTimingPoint): Unit  = timingPoints += t
+  def addTimingPoint(t: AbstractTimingPoint): Unit  = _timingPoints += t
 
-  def getTimingPoint(t: TimeStamp): AbstractTimingPoint = timingPoints.search(t)
+  def getTimingPoint(t: TimeStamp): AbstractTimingPoint = _timingPoints.search(t)
 
-  def deleteTimingPoint(t: AbstractTimingPoint): Unit = timingPoints -= t
+  def deleteTimingPoint(t: AbstractTimingPoint): Unit = _timingPoints -= t
 
-  def getOverlapTimingPoint(o: Component): List[AbstractTimingPoint] = timingPoints(o)
+  def getOverlapTimingPoint(o: Component): List[AbstractTimingPoint] = _timingPoints(o)
 
-  def getOverlapTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = timingPoints(t)
+  def getOverlapTimingPoint(t: TimeStamp): List[AbstractTimingPoint] = _timingPoints(t)
 
-  def allObjects: List[HitObject] = objects.toList
+  def allObjects: List[HitObject] = _objects.toList
 
-  def allTimingPoints: List[AbstractTimingPoint] = timingPoints.toList
+  def allTimingPoints: List[AbstractTimingPoint] = _timingPoints.toList
 
   def +=(obj: HitObject): Unit = addObject(obj)
 
@@ -196,7 +196,42 @@ class Map {
 
   def apply(t: TimeStamp): List[HitObject] = getOverlapObject(t)
 
-  override def toString: String = allObjects.map(_.toString()).mkString("\n") + "\n" + allTimingPoints.map(_.toString()).mkString("\n")
+  def canEqual(other: Any): Boolean = other.isInstanceOf[Map]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: Map =>
+      (that canEqual this) &&
+        _objects == that._objects &&
+        _timingPoints == that._timingPoints &&
+        _song == that._song &&
+        _unicodeSong == that._unicodeSong &&
+        _artist == that._artist &&
+        _unicodeArtist == that._unicodeArtist &&
+        _creator == that._creator &&
+        _difficulty == that._difficulty &&
+        _source == that._source &&
+        _tags == that._tags &&
+        _id == that._id &&
+        _setId == that._setId &&
+        _hp == that._hp &&
+        _cs == that._cs &&
+        _od == that._od &&
+        _ar == that._ar &&
+        _tickrate == that._tickrate &&
+        _stackLeniency == that._stackLeniency &&
+        _songFile == that._songFile &&
+        _backgroundFile == that._backgroundFile
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(_objects, _timingPoints, _song, _unicodeSong, _artist, _unicodeArtist, _creator, _difficulty, _source, _tags, _id, _setId, _hp, _cs, _od, _ar, _tickrate, _stackLeniency, _songFile, _backgroundFile)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
+
+  override def toString: String = {
+    MapExporter(this).export
+  }
 }
 
 object Map {
