@@ -182,7 +182,9 @@ object ObjectHandler {
 
   def MakeAddition(ss: Int = 0, si: Int = 0, b: Boolean = false): Addition = new Addition(ss, si, b)
 
-  def MakeAddition(pos: (Int, Int), b: Boolean = false): Addition = new Addition(pos, b)
+  def MakeAddition(pos: (Int, Int), b: Boolean): Addition = new Addition(pos, b)
+
+  def MakeAddition(pos: (Int, Int)): Addition = new Addition(pos)
 
   def MakeAddition: Addition = new Addition()
 
