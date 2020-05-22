@@ -10,6 +10,7 @@ class MapExporter {
   def export(m: Map): String = {
     var data: StringBuilder = new StringBuilder("Metadata")
     var difficulty: StringBuilder = new StringBuilder("Difficulty")
+    var settings: StringBuilder = new StringBuilder("Settings")
     var objects: StringBuilder = new StringBuilder("Objects")
     var timestamps: StringBuilder = new StringBuilder("Timestamps")
 
@@ -28,6 +29,11 @@ class MapExporter {
     difficulty ++= "\tCS: " + m.cs
     difficulty ++= "\tOD: " + m.od
     difficulty ++= "\tAR: " + m.ar
+
+    settings ++= "\tTick rate: " + m.tickrate
+    settings ++= "\tStack leniency: " + m.stackLeniency
+    settings ++= "\tSong file: " + m.songFile
+    settings ++= "\tBackground: " + m.backgroundFile
 
     m.allObjects.foreach {
       obj => {
@@ -69,7 +75,7 @@ class MapExporter {
       }
     }
 
-    "Version: " + VERSION + "\n\n" + data.mkString + "\n\n" + difficulty.mkString + "\n\n" + objects.mkString + "\n\n" + timestamps.mkString
+    "Version: " + VERSION + "\n\n" + data.mkString + "\n\n" + difficulty.mkString + "\n\n" + settings.mkString + "\n\n" + objects.mkString + "\n\n" + timestamps.mkString
   }
 
   def writeToFile(m: Map, filename: String): Unit = {
