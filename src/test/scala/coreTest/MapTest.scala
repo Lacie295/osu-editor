@@ -64,4 +64,28 @@ class MapTest extends BaseTest {
     assert(m.getOverlapObject(7) == List(s2, c1))
     assert(m.getOverlapObject(8) == List(s2))
   }
+
+  it should "store its metadata properly" in {
+    val m: Map = new Map()
+
+    m.song = "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat."
+    m.unicodeSong = "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat."
+    m.artist = "Demetori"
+    m.unicodeArtist = "Demetori"
+    m.creator = "GoldenWolf"
+    m.difficulty = "The Most Despicable and Disastrous God of Destitution and Misery."
+    m.source = "東方憑依華　～ Antinomy of Common Flowers."
+    m.tags = "Shion Joon Yorigami Spirit Possession Bloom Tonight Stars an Easygoing Egoistic Flowers 瑰狂鬱嵂 metal C94 ZUN woof"
+    m.id = 1729489
+
+    assert(m.song == "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat.")
+    assert(m.unicodeSong == "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat.")
+    assert(m.artist == "Demetori")
+    assert(m.unicodeArtist == "Demetori")
+    assert(m.creator == "GoldenWolf")
+    assert(m.difficulty == "The Most Despicable and Disastrous God of Destitution and Misery.")
+    assert(m.source == "東方憑依華　～ Antinomy of Common Flowers.")
+    assert(m.tags == "Shion Joon Yorigami Spirit Possession Bloom Tonight Stars an Easygoing Egoistic Flowers 瑰狂鬱嵂 metal C94 ZUN woof")
+    assert(m.id == 1729489)
+  }
 }

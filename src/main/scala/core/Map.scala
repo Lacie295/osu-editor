@@ -10,6 +10,70 @@ class Map {
   private val objects = ComponentMap[HitObject]()
   private val timingPoints = ComponentMap[AbstractTimingPoint]()
 
+  private var _song: String = ""
+  private var _unicodeSong: String = ""
+  private var _artist: String = ""
+  private var _unicodeArtist: String = ""
+  private var _creator: String = ""
+  private var _difficulty: String = ""
+  private var _source: String = ""
+  private var _tags: String = ""
+  private var _id: Int = 0
+
+  def song: String = _song
+
+  def song_=(value: String): Unit = {
+    _song = value
+  }
+
+  def unicodeSong: String = _unicodeSong
+
+  def unicodeSong_=(value: String): Unit = {
+    _unicodeSong = value
+  }
+
+  def artist: String = _artist
+
+  def artist_=(value: String): Unit = {
+    _artist = value
+  }
+
+  def unicodeArtist: String = _unicodeArtist
+
+  def unicodeArtist_=(value: String): Unit = {
+    _unicodeArtist = value
+  }
+
+  def creator: String = _creator
+
+  def creator_=(value: String): Unit = {
+    _creator = value
+  }
+
+  def difficulty: String = _difficulty
+
+  def difficulty_=(value: String): Unit = {
+    _difficulty = value
+  }
+
+  def source: String = _source
+
+  def source_=(value: String): Unit = {
+    _source = value
+  }
+
+  def tags: String = _tags
+
+  def tags_=(value: String): Unit = {
+    _tags = value
+  }
+
+  def id: Int = _id
+
+  def id_=(value: Int): Unit = {
+    _id = value
+  }
+
   // interactions with both lists
 
   def addObject(o: HitObject): Unit = objects += o
