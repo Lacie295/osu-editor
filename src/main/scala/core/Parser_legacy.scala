@@ -9,7 +9,7 @@ import utils.{Addition, Hitsound}
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
-class Parser(fp: String) {
+class Parser_legacy(fp: String) {
 
   private var _sourcePath = fp
 

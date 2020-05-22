@@ -1,26 +1,26 @@
 package coreTest
 
 import components.{Circle, Inherited_legacy, Slider, Spinner, Uninherited_legacy}
-import core.Parser
+import core.Parser_legacy
 import utils.{Addition, Hitsound}
 
-class ParserTest extends BaseTest {
+class Parser_legacyTest extends BaseTest {
   "A parser" should "load up a given file and return its constructor correctly" in {
     var path = System.getProperty("user.dir") + "/src/resources/readertestfile.osu"
-    val parser = new Parser(path)
+    val parser = new Parser_legacy(path)
 
     assert(parser.sourcePath == path)
     assert(parser.readLines().mkString("") == "Hello [World!]")
 
     path = System.getProperty("user.dir") + "/src/resources/readertestfile2.osu"
-    val parser2 = new Parser(path)
+    val parser2 = new Parser_legacy(path)
 
     assert(parser2.sourcePath == path)
     assert(parser2.readLines().mkString(", ") == "Hello, [World!]")
   }
 
   it should "determine which object is contained in a line" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val lines = parser.readLines()
 
     assert(parser.readObject(lines(0)).isInstanceOf[Circle]) // is circle
@@ -33,7 +33,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "read a circle correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val line = parser.readLines()(0)
     val circle = new Circle((68, 50), 439)
 
@@ -52,7 +52,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "read a slider correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val line = parser.readLines()(1)
     val slider = new Slider((496, 279), 450, 451, 0)
 
@@ -70,7 +70,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "read a spinner correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val line = parser.readLines()(2)
     val spinner = new Spinner(730, 3983)
 
@@ -78,7 +78,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "return an Addition correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
     val a1 = parser.readAdditionBit("0")
     assert(a1(0) == new Addition(0, 0, false))
@@ -122,7 +122,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "return the extras correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val ext = parser.readExtras("3:2:2:85:")
 
     assert(ext == (3, 2, 2, 85, ""))
@@ -130,7 +130,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "return HS + AD (circles/spinners) correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
     val a1 = parser.readActiveHitsound("3:2:2:85:", "0")
     assert(a1._1 == new Hitsound(3, 2))
@@ -182,7 +182,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "read a timing point correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
     // TODO
     val tp1 = parser.readTimingPoint("450,315.789473684211,4,2,0,100,1,0")
@@ -229,7 +229,7 @@ class ParserTest extends BaseTest {
   }
 
   it should "read slider hitsounds correctly" in {
-    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
     val slider = parser.readSlider("81,227,84765,2,0,P|80:193|91:162,1,66.4999982242585,10|0,0:0|0:0,0:0:0:0:")
     assert(slider.hitsound == new Hitsound(0,0))

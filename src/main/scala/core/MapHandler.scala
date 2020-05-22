@@ -45,7 +45,7 @@ object MapHandler {
   }
 
   implicit def load(file: String): Map = {
-    val parser = new Parser(file)
+    val parser = new Parser_legacy(file)
     val map = parser.readMap()
     handlers.put(map, new MapHandler(map))
     map
