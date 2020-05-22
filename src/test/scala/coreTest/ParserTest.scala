@@ -1,6 +1,6 @@
 package coreTest
 
-import components.{Circle, Slider, Spinner}
+import components.{Circle, Inherited_legacy, Slider, Spinner, Uninherited_legacy}
 import core.Parser
 import utils.{Addition, Hitsound}
 
@@ -23,11 +23,11 @@ class ParserTest extends BaseTest {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val lines = parser.readLines()
 
-    assert(parser.readObject(lines(0)).isInstanceOf[Circle])    // is circle
-    assert(parser.readObject(lines(1)).isInstanceOf[Slider])    // is slider
-    assert(parser.readObject(lines(2)).isInstanceOf[Spinner])   // is spinner
+    assert(parser.readObject(lines(0)).isInstanceOf[Circle]) // is circle
+    assert(parser.readObject(lines(1)).isInstanceOf[Slider]) // is slider
+    assert(parser.readObject(lines(2)).isInstanceOf[Spinner]) // is spinner
   }
-    // TODO
+  // TODO
   it should "detect and handle a faulty line" in {
 
   }
@@ -125,8 +125,8 @@ class ParserTest extends BaseTest {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
     val ext = parser.readExtras("3:2:2:85:")
 
-    assert(ext == (3,2,2,85,""))
-    assert(parser.readExtras("3:2:2:85:file.wav") == (3,2,2,85,"file.wav"))
+    assert(ext == (3, 2, 2, 85, ""))
+    assert(parser.readExtras("3:2:2:85:file.wav") == (3, 2, 2, 85, "file.wav"))
   }
 
   it should "return HS + AD (circles/spinners) correctly" in {
@@ -185,6 +185,74 @@ class ParserTest extends BaseTest {
     val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
 
     // TODO
-    val tp1 = parser.readTimingPoint("")
+    val tp1 = parser.readTimingPoint("450,315.789473684211,4,2,0,100,1,0")
+    if (tp1.isInstanceOf[Uninherited_legacy]) {
+      assert(tp1.asInstanceOf[Uninherited_legacy].BPM == 190)
+      assert(tp1.asInstanceOf[Uninherited_legacy].meter == 4)
+      assert(tp1.asInstanceOf[Uninherited_legacy].time == 450)
+      assert(tp1.asInstanceOf[Uninherited_legacy].sampleSet == 2)
+      assert(tp1.asInstanceOf[Uninherited_legacy].sampleIndex == 0)
+      assert(tp1.asInstanceOf[Uninherited_legacy].volume == 100)
+      assert(tp1.asInstanceOf[Uninherited_legacy].kiai == false)
+    }
+
+    val tp2 = parser.readTimingPoint("734,285.714285714285,6,1,4,46,1,1")
+    if (tp2.isInstanceOf[Uninherited_legacy]) {
+      assert(tp2.asInstanceOf[Uninherited_legacy].BPM == 210)
+      assert(tp2.asInstanceOf[Uninherited_legacy].meter == 6)
+      assert(tp2.asInstanceOf[Uninherited_legacy].time == 734)
+      assert(tp2.asInstanceOf[Uninherited_legacy].sampleSet == 1)
+      assert(tp2.asInstanceOf[Uninherited_legacy].sampleIndex == 4)
+      assert(tp2.asInstanceOf[Uninherited_legacy].volume == 46)
+      assert(tp2.asInstanceOf[Uninherited_legacy].kiai == true)
+    }
+
+    val tp3 = parser.readTimingPoint("4239,-52.6315789473684,4,2,1,100,0,0")
+    if (tp3.isInstanceOf[Inherited_legacy]) {
+      assert(tp3.asInstanceOf[Inherited_legacy].time == 4239)
+      assert(tp3.asInstanceOf[Inherited_legacy].svMultiplier == 1.9)
+      assert(tp3.asInstanceOf[Inherited_legacy].sampleSet == 2)
+      assert(tp3.asInstanceOf[Inherited_legacy].sampleIndex == 1)
+      assert(tp3.asInstanceOf[Inherited_legacy].volume == 100)
+      assert(tp3.asInstanceOf[Inherited_legacy].kiai == false)
+    }
+
+    val tp4 = parser.readTimingPoint("4279,-83.3333333333333,4,1,5,22,0,1")
+    if (tp4.isInstanceOf[Inherited_legacy]) {
+      assert(tp4.asInstanceOf[Inherited_legacy].time == 4279)
+      assert(tp4.asInstanceOf[Inherited_legacy].svMultiplier == 1.2)
+      assert(tp4.asInstanceOf[Inherited_legacy].sampleSet == 1)
+      assert(tp4.asInstanceOf[Inherited_legacy].sampleIndex == 5)
+      assert(tp4.asInstanceOf[Inherited_legacy].volume == 22)
+      assert(tp4.asInstanceOf[Inherited_legacy].kiai == true)
+    }
+  }
+
+  it should "read slider hitsounds correctly" in {
+    val parser = new Parser(System.getProperty("user.dir") + "/src/resources/objectlines.osu")
+
+    val slider = parser.readSlider("81,227,84765,2,0,P|80:193|91:162,1,66.4999982242585,10|0,0:0|0:0,0:0:0:0:")
+    assert(slider.hitsound == new Hitsound(0,0))
+    assert(slider.additions(0) == new Addition(0,0, true))
+    assert(slider.additions(1) == new Addition(0,0))
+    assert(slider.additions(2) == new Addition(0,0, true))
+    assert(slider.repeatHitsounds(0)._1 == new Hitsound(0,0))
+    assert(slider.repeatHitsounds(0)._2(0) == new Addition(0,0))
+    assert(slider.repeatHitsounds(0)._2(1) == new Addition(0,0))
+    assert(slider.repeatHitsounds(0)._2(2) == new Addition(0,0))
+
+    val slider2 = parser.readSlider("333,154,5426,6,0,L|231:124,2,105,4|10|12,0:0|0:0|0:0,0:0:0:0:")
+    assert(slider2.hitsound == new Hitsound(0,0))
+    assert(slider2.additions(0) == new Addition(0,0))
+    assert(slider2.additions(1) == new Addition(0,0, true))
+    assert(slider2.additions(2) == new Addition(0,0))
+    assert(slider2.repeatHitsounds(0)._1 == new Hitsound(0,0))
+    assert(slider2.repeatHitsounds(0)._2(0) == new Addition(0,0, true))
+    assert(slider2.repeatHitsounds(0)._2(1) == new Addition(0,0))
+    assert(slider2.repeatHitsounds(0)._2(2) == new Addition(0,0, true))
+    assert(slider2.repeatHitsounds(1)._1 == new Hitsound(0,0))
+    assert(slider2.repeatHitsounds(1)._2(0) == new Addition(0,0))
+    assert(slider2.repeatHitsounds(1)._2(1) == new Addition(0,0, true))
+    assert(slider2.repeatHitsounds(1)._2(2) == new Addition(0,0, true))
   }
 }

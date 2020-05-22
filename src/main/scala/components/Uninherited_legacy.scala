@@ -5,7 +5,7 @@ import utils.TimeStamp
 /**
  * an old uninherited timing point
  * @param t: it's timestamp
- * @param bpm: the song's bpmp
+ * @param bpm: the song's bpm
  * @param m: the meter
  * @param ss: the sample set
  * @param si: the sample index

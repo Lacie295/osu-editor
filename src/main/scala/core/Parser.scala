@@ -174,7 +174,7 @@ class Parser(fp: String) {
       additionsHs.drop(1)
 
       for (i <- 0 to s.repeats) {
-        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(0)))
+        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(i)))
       }
     }
     else {
