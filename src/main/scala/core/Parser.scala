@@ -91,10 +91,10 @@ class Parser(fp: String) {
       case tp: Uninherited_legacy =>
         prev = Some(tp)
         map -= tp
-        map += timingPoint(tp.timeStamp, tp.BPM) // TODO: Convert metre
+        map += MakeTimingPoint(tp.timeStamp, tp.bpm, m1 = tp.meter)
       case tp: Inherited_legacy =>
         map -= tp
-        map += timingPoint(tp.timeStamp, if (prev.nonEmpty) prev.get.BPM else 120) // TODO: metre
+        map += MakeTimingPoint(tp.timeStamp, if (prev.nonEmpty) prev.get.bpm else 120, m1 = if (prev.nonEmpty) prev.get.meter else 4)
     }
 
     map
@@ -113,7 +113,7 @@ class Parser(fp: String) {
 
   // Hit Circle syntax: [x,y,time,type,hitSound,extras]
   def readCircle(properties: Array[String]): Circle = {
-    val c = circle((properties(0).toInt, properties(1).toInt), properties(2).toInt)
+    val c = MakeCircle((properties(0).toInt, properties(1).toInt), properties(2).toInt)
 
     if (!(properties.length < 5)) {
       val h = readActiveHitsound(properties(5), properties(4))
@@ -147,7 +147,7 @@ class Parser(fp: String) {
     //  slider repeat count
     val repeats = properties(6).toInt - 1
 
-    val s = slider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, repeats)
+    val s = MakeSlider((properties(0).toInt, properties(1).toInt), properties(2).toInt, properties(2).toInt + 1, repeats)
 
     //  save nodes from sliderNodes as Node types as red and grey nodes
     var skip = false
@@ -197,7 +197,7 @@ class Parser(fp: String) {
   //                  0 1  2    3    4        5       6
   // Spinner syntax: [x,y,time,type,hitSound,endTime,extras]
   def readSpinner(properties: Array[String]): Spinner = {
-    val s = spinner(properties(2).toInt, properties(5).toInt)
+    val s = MakeSpinner(properties(2).toInt, properties(5).toInt)
 
     if (!(properties.length < 7)) {
       val h = readActiveHitsound(properties(6), properties(4))

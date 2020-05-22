@@ -1,11 +1,18 @@
 package componentsTest
 
-import components.Inherited_legacy
+import core.ObjectHandler._
 import coreTest.BaseTest
 
 class Inherited_legacyTest extends BaseTest{
   "An inherited timing point" should "always return its values correctly" in {
-    val inhTimingPoint = new Inherited_legacy(100, 2.0, 0, 0, 100, true)
+    timestamp = 100
+    multiplier = 2
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+
+    val inhTimingPoint = MakeInherited
 
     assert(inhTimingPoint.time == 100)
     assert(inhTimingPoint.svMultiplier == 2.0)
@@ -34,14 +41,38 @@ class Inherited_legacyTest extends BaseTest{
   }
 
   it should "compare itself correctly to other inherited timing points" in {
-    val inhTimingPoint = new Inherited_legacy(100, 2.0, 0, 0, 100, true)    // comparer
-    val inhTimingPoint2 = new Inherited_legacy(100, 2.0, 0, 0, 100, true)   // equal
-    val inhTimingPoint3 = new Inherited_legacy(101, 2.0, 0, 0, 100, true)   // different in time
-    val inhTimingPoint4 = new Inherited_legacy(100, 2.1, 0, 0, 100, true)   // different in multiplier
-    val inhTimingPoint5 = new Inherited_legacy(100, 2.0, 1, 0, 100, true)   // different in sampleset
-    val inhTimingPoint6 = new Inherited_legacy(100, 2.0, 0, 1, 100, true)   // different in sampleindex
-    val inhTimingPoint7 = new Inherited_legacy(100, 2.0, 0, 0, 99, true)    // different in volume
-    val inhTimingPoint8 = new Inherited_legacy(100, 2.0, 0, 0, 100, false)  // different in kiai
+    timestamp = 100
+    multiplier = 2
+    sampleset = 0
+    sampleindex = 0
+    volume = 100
+    kiai = true
+
+    val inhTimingPoint = MakeInherited    // comparer
+    val inhTimingPoint2 = MakeInherited   // equal
+
+    timestamp = 101
+    val inhTimingPoint3 = MakeInherited   // different in time
+
+    timestamp = 100
+    multiplier = 2.1
+    val inhTimingPoint4 = MakeInherited   // different in multiplier
+
+    multiplier = 2.0
+    sampleset = 1
+    val inhTimingPoint5 = MakeInherited   // different in sampleset
+
+    sampleset = 0
+    sampleindex = 1
+    val inhTimingPoint6 = MakeInherited   // different in sampleindex
+
+    sampleindex = 0
+    volume = 99
+    val inhTimingPoint7 = MakeInherited   // different in volume
+
+    volume = 100
+    kiai = false
+    val inhTimingPoint8 = MakeInherited   // different in kiai
 
     assert(inhTimingPoint == inhTimingPoint2)
     assert(inhTimingPoint != inhTimingPoint3)

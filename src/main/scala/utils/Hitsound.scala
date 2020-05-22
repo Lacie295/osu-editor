@@ -8,6 +8,8 @@ class  Hitsound(s: Int = 0, i: Int = 0) {
   private var _sampleSet: Int = s                               // is normal, soft or drum
   private var _sampleIndex: Int = i                             // is [sampleSet]-hitnormal{index}
 
+  def this(pos: (Int, Int)) = this(pos._1, pos._2)
+
   // getters and setters
 
   def sampleSet_=(s: Int): Unit = _sampleSet = s
