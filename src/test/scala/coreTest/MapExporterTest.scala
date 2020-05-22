@@ -42,6 +42,12 @@ class MapExporterTest extends BaseTest {
 
     m addObject (MakeSlider addNode (12, 99) addNode (45, 95, 1))
 
+    timestamp = 99
+    endtimestamp = 100
+    repeat = 0
+
+    m addObject (MakeSlider addNode (12, 55) addNode (12, 95, 1))
+
     timestamp = 105
     endtimestamp = 120
 
@@ -53,7 +59,13 @@ class MapExporterTest extends BaseTest {
 
     m addTimingPoint MakeTimingPoint
 
+    timestamp = 150
+    meterA = 4
+
+    m addTimingPoint MakeTimingPoint
+
     val mapString = MapExporter(m).export
+    print(mapString)
     val m2 = MapParser().parse(mapString)
 
     assert(m == m2)
