@@ -42,7 +42,10 @@ class Parser_legacy(fp: String) {
       if (Headers.contains(l)) mode = l
       else mode match {
         case "[Events]" => ???
-        case "[General]" || "[Editor]" || "[Metadata]" || "[Difficulty]" => readSettings(l, map)
+        case "[General]" => readSettings(l, map)
+        case "[Editor]" => readSettings(l, map)
+        case "[Metadata]" => readSettings(l, map)
+        case "[Difficulty]" => readSettings(l, map)
         case "[TimingPoints]" =>
           val timingPointLegacy = readTimingPoint(l)
           if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {

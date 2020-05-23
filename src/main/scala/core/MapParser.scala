@@ -26,8 +26,8 @@ class MapParser() {
 
     map.foreach(line => {
       val split = line.split(":")
-      val qualifier = split(0).strip().toLowerCase()
-      val data = if (split.size > 1) split(1).strip() else ""
+      val qualifier = split(0).trim().toLowerCase()
+      val data = if (split.size > 1) split(1).trim() else ""
       i += 1
 
       if (qualifier != "node")
