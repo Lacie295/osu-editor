@@ -120,16 +120,16 @@ class Map {
 
   // settings
 
-  private var _tickrate: Int = 1
+  private var _tickrate: Double = 1
   private var _stackLeniency: Double = 0
   private var _songFile: String = ""
   private var _backgroundFile: String = ""
 
   // getters and setters
 
-  def tickrate: Int = _tickrate
+  def tickrate: Double = _tickrate
 
-  def tickrate_=(value: Int): Unit = {
+  def tickrate_=(value: Double): Unit = {
     _tickrate = value
   }
 

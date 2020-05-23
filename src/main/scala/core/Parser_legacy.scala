@@ -27,6 +27,7 @@ class Parser_legacy(fp: String) {
     file.getLines().filter(!_.isEmpty).toList
   }
 
+  var sliderMultiplier = 1.4
   //  Headers required for modes in readMap
   val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]")
 
@@ -41,10 +42,7 @@ class Parser_legacy(fp: String) {
       if (Headers.contains(l)) mode = l
       else mode match {
         case "[Events]" => ???
-        case "[General]" => ???
-        case "[Editor]" => ???
-        case "[Metadata]" => ???
-        case "[Difficulty]" => ???
+        case "[General]" || "[Editor]" || "[Metadata]" || "[Difficulty]" => readSettings(l, map)
         case "[TimingPoints]" =>
           val timingPointLegacy = readTimingPoint(l)
           if (timingPointLegacy.isInstanceOf[Uninherited_legacy]) {
@@ -73,10 +71,9 @@ class Parser_legacy(fp: String) {
 
           ho match {
             case sl: Slider =>
-              if (tp.isInstanceOf[Uninherited_legacy]) sl.velocity = 1.0
               tp match {
-                case inh: Inherited_legacy => sl.velocity = 100.0 / (inh.svMultiplier * -1)
-                case _: Uninherited_legacy => sl.velocity = 1.0
+                case inh: Inherited_legacy => sl.velocity = 100.0 / (inh.svMultiplier * -1) * sliderMultiplier
+                case _: Uninherited_legacy => sl.velocity = 1.0 * sliderMultiplier
                 case _ => throw new Exception("Timing Point error: TP isn't inherited nor uninherited")
               }
             case _ =>
@@ -98,6 +95,31 @@ class Parser_legacy(fp: String) {
     }
 
     map
+  }
+
+  def readSettings(line: String, map: Map) = {
+    val properties = line.split(": *")
+
+    properties(0) match {
+      case "AudioFilename" => map.songFile = properties(1)
+      case "StackLeniency" => map.stackLeniency = properties(1).toDouble
+      case "Title" => map.song = properties(1)
+      case "TitleUnicode" => map.unicodeSong = properties(1)
+      case "Artist" => map.artist = properties(1)
+      case "ArtistUnicode" => map.unicodeArtist = properties(1)
+      case "Creator" => map.creator = properties(1)
+      case "Version" => map.difficulty = properties(1)
+      case "Source" => map.source = properties(1)
+      case "Tags" => map.tags = properties(1)
+      case "BeatmapID" => map.id = properties(1).toInt
+      case "BeatmapSetID" => map.setId = properties(1).toInt
+      case "HPDrainRate" => map.hp = properties(1).toDouble
+      case "CircleSize" => map.cs = properties(1).toDouble
+      case "OverallDifficulty" => map.od = properties(1).toDouble
+      case "ApproachRate" => map.ar = properties(1).toDouble
+      case "SliderMultiplier" => sliderMultiplier = properties(1).toDouble
+      case "SliderTickRate" => map.tickrate = properties(1).toDouble
+    }
   }
 
   /////// OBJECT READER ///////
