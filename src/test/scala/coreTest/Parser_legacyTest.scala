@@ -255,4 +255,33 @@ class Parser_legacyTest extends BaseTest {
     assert(slider2.repeatHitsounds(1)._2(1) == new Addition(0,0, true))
     assert(slider2.repeatHitsounds(1)._2(2) == new Addition(0,0, true))
   }
+
+  it should "apply a greenline to notes correctly" in {
+    val parser = new Parser_legacy(System.getProperty("user.dir") + "/src/resources/greenlinetestfile.osu")
+
+    val map = parser.readMap()
+    val slider: Slider = map.getObject(4335).get.asInstanceOf[Slider]
+    assert(map.getObject(4335).nonEmpty)
+    assert(slider.isInstanceOf[Slider])
+
+    val slider1 = new Slider((173, 175), 4335, 4336, 1.4, 0, new Hitsound(1, 1))
+    slider1.additions(0) == new Addition(1, 1, true)
+    slider1.additions(1) == new Addition(1, 1)
+    slider1.additions(2) == new Addition(1, 1, true)
+    slider1.repeatHitsounds(0)._1 == new Hitsound(1, 1)
+    slider1.repeatHitsounds(0)._2(0) == new Addition(1, 1)
+    slider1.repeatHitsounds(0)._2(1) == new Addition(1, 1)
+    slider1.repeatHitsounds(0)._2(2) == new Addition(1, 1)
+    
+    assert(slider == slider1)
+    assert(slider.hitsound == slider1.hitsound)
+    assert(slider.additions(0) == new Addition(1, 1, true))
+    assert(slider.additions(1) == new Addition(1, 1))
+    assert(slider.additions(2) == new Addition(1, 1, true))
+    assert(slider.repeatHitsounds(0)._1 == slider1.repeatHitsounds(0)._1)
+    assert(slider.repeatHitsounds(0)._2(0) == slider1.repeatHitsounds(0)._2(0))
+    assert(slider.repeatHitsounds(0)._2(1) == slider1.repeatHitsounds(0)._2(1))
+    assert(slider.repeatHitsounds(0)._2(2) == slider1.repeatHitsounds(0)._2(2))
+
+  }
 }

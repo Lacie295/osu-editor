@@ -100,7 +100,7 @@ class Parser_legacy(fp: String) {
     map
   }
 
-  def readSettings(line: String, map: Map) = {
+  def readSettings(line: String, map: Map): Unit = {
     val properties = line.split(": *")
 
     if (properties.length == 2) {
