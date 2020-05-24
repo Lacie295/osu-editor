@@ -41,7 +41,7 @@ class Parser_legacy(fp: String) {
     for (l <- readLines()) {
       if (Headers.contains(l)) mode = l
       else mode match {
-        case "[Events]" => ???
+        case "[Events]" =>
         case "[General]" => readSettings(l, map)
         case "[Editor]" => readSettings(l, map)
         case "[Metadata]" => readSettings(l, map)
@@ -54,7 +54,7 @@ class Parser_legacy(fp: String) {
           }
           tps += timingPointLegacy
         case "[HitObjects]" => map.addObject(readObject(l))
-        case _ => ???
+        case _ =>
       }
     }
 
@@ -103,25 +103,28 @@ class Parser_legacy(fp: String) {
   def readSettings(line: String, map: Map) = {
     val properties = line.split(": *")
 
-    properties(0) match {
-      case "AudioFilename" => map.songFile = properties(1)
-      case "StackLeniency" => map.stackLeniency = properties(1).toDouble
-      case "Title" => map.song = properties(1)
-      case "TitleUnicode" => map.unicodeSong = properties(1)
-      case "Artist" => map.artist = properties(1)
-      case "ArtistUnicode" => map.unicodeArtist = properties(1)
-      case "Creator" => map.creator = properties(1)
-      case "Version" => map.difficulty = properties(1)
-      case "Source" => map.source = properties(1)
-      case "Tags" => map.tags = properties(1)
-      case "BeatmapID" => map.id = properties(1).toInt
-      case "BeatmapSetID" => map.setId = properties(1).toInt
-      case "HPDrainRate" => map.hp = properties(1).toDouble
-      case "CircleSize" => map.cs = properties(1).toDouble
-      case "OverallDifficulty" => map.od = properties(1).toDouble
-      case "ApproachRate" => map.ar = properties(1).toDouble
-      case "SliderMultiplier" => sliderMultiplier = properties(1).toDouble
-      case "SliderTickRate" => map.tickrate = properties(1).toDouble
+    if (properties.length == 2) {
+      properties(0) match {
+        case "AudioFilename" => map.songFile = properties(1)
+        case "StackLeniency" => map.stackLeniency = properties(1).toDouble
+        case "Title" => map.song = properties(1)
+        case "TitleUnicode" => map.unicodeSong = properties(1)
+        case "Artist" => map.artist = properties(1)
+        case "ArtistUnicode" => map.unicodeArtist = properties(1)
+        case "Creator" => map.creator = properties(1)
+        case "Version" => map.difficulty = properties(1)
+        case "Source" => map.source = properties(1)
+        case "Tags" => map.tags = properties(1)
+        case "BeatmapID" => map.id = properties(1).toInt
+        case "BeatmapSetID" => map.setId = properties(1).toInt
+        case "HPDrainRate" => map.hp = properties(1).toDouble
+        case "CircleSize" => map.cs = properties(1).toDouble
+        case "OverallDifficulty" => map.od = properties(1).toDouble
+        case "ApproachRate" => map.ar = properties(1).toDouble
+        case "SliderMultiplier" => sliderMultiplier = properties(1).toDouble
+        case "SliderTickRate" => map.tickrate = properties(1).toDouble
+        case _ =>
+      }
     }
   }
 
@@ -300,13 +303,13 @@ class Parser_legacy(fp: String) {
     var svmult: Double = 0.0 // sv multiplier
 
     if (mspb >= 0.0) { // if millisec per beat is positive
-      bpm = 60000.0 / mspb // make a bpm
+      bpm = BigDecimal(60000.0 / mspb).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble// make a bpm
     }
     else svmult = 100.0 / (mspb * -1) // else make an sv
 
-    val kiai = properties.equals("1")
+    val kiai = properties(7).equals("1")
 
-    if (properties(6) == "1") {
+    if (properties(6) == "0") {
       new Inherited_legacy(time, svmult, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
     }
     else new Uninherited_legacy(time, bpm, properties(2).toInt, properties(3).toInt, properties(4).toInt, properties(5).toInt, kiai)
