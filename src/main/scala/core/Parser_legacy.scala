@@ -207,7 +207,9 @@ class Parser_legacy(fp: String) {
       additionsHs = additionsHs.drop(1)
 
       for (i <- 0 to s.repeats) {
-        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), new Hitsound(), readAdditionBit(additionsHs(i)))
+        s.setRepeatHS(i, new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)))
+        s.setRepeatAddHS(i, new Hitsound())
+        s.setRepeatAdd(i, readAdditionBit(additionsHs(i)))
       }
     }
 
@@ -247,7 +249,7 @@ class Parser_legacy(fp: String) {
     val e = readExtras(ext)
     val b = readAdditionBit(adb)
 
-    (new Hitsound(e._1.toInt, e._3.toInt), new Hitsound(e._2.toInt, e._4.toInt), b)
+    (new Hitsound(e._1.toInt, e._3.toInt), new Hitsound(e._2.toInt, e._3.toInt), b)
   }
 
   // Addition Bit Structure: ( { 3: clap }, { 2: finish }, { 1: whistle }, { 0: normal - irrelevant } )
