@@ -58,7 +58,18 @@ class Parser_legacy(fp: String) {
       }
     }
 
-    map.allObjects.foreach { obj => applyTP(obj, map.getTimingPoint(obj.timeStamp)) }
+    var iT = 0
+    map.allObjects.foreach { obj =>
+      if (iT < tps.length) {
+        if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
+          applyTP(obj, tps(iT))
+        }
+        else if (obj.time <= tps(0).time) {
+          iT += 1
+        }
+        else {}
+      }
+    }
 
     def applyTP(ho: HitObject, abstp: AbstractTimingPoint): Unit = {
       abstp match {
