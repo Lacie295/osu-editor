@@ -27,9 +27,10 @@ class Parser_legacy(fp: String) {
     file.getLines().filter(!_.isEmpty).toList
   }
 
-  var sliderMultiplier = 1.4
   //  Headers required for modes in readMap
   val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]", "[Colours]")
+
+  private var colours: Array[(Int, Int, Int)] = Array()
 
   //  returns full map object
   def readMap(): Map = {
@@ -54,10 +55,13 @@ class Parser_legacy(fp: String) {
           }
           tps += timingPointLegacy
         case "[HitObjects]" => map.addObject(readObject(l))
-        case "[Colours]" =>
+        case "[Colours]" => readColour(l, map)
         case _ =>
       }
     }
+
+    if (colours.length > 1)
+      map.colours = colours.take(8)
 
     var iT = 0
     map.allObjects.foreach { obj =>
@@ -138,11 +142,16 @@ class Parser_legacy(fp: String) {
         case "CircleSize" => map.cs = properties(1).toDouble
         case "OverallDifficulty" => map.od = properties(1).toDouble
         case "ApproachRate" => map.ar = properties(1).toDouble
-        case "SliderMultiplier" => sliderMultiplier = properties(1).toDouble
+        case "SliderMultiplier" => map.sliderVelocity = properties(1).toDouble
         case "SliderTickRate" => map.tickrate = properties(1).toDouble
         case _ =>
       }
     }
+  }
+
+  def readColour(l: String, map: Map): Unit = {
+    val colour = l.split(" ")(2).split(",").map(_.toInt)
+    colours :+= (colour(0), colour(1), colour(2))
   }
 
   /////// OBJECT READER ///////

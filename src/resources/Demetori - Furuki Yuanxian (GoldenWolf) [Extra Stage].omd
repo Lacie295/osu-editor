@@ -21,8 +21,15 @@ Map Difficulty
 Settings
 	Tick rate: 1.0
 	Stack leniency: 0.2
+	Slider multiplier: 1.0
 	Song file: Demetori - Furuki Yuanxian.mp3
 	Background: 
+
+Colours
+	Colour: 96 28 164
+	Colour: 73 147 171
+	Colour: 98 73 171
+	Colour: 30 102 174
 
 Timestamps
 	TimingPoint: at 1515ms bpm 118.0 measure 4 / 4
