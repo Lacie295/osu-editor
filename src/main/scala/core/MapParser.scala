@@ -351,9 +351,8 @@ class MapParser() {
         case _ =>
       }
     })
-    if (colours.length > 2) {
+    if (colours.length > 1)
       m.colours = colours.take(8)
-    }
 
     m
   }

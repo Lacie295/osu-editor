@@ -21,8 +21,15 @@ Map Difficulty
 Settings
 	Tick rate: 1.0
 	Stack leniency: 0.2
+	Slider multiplier: 1.0
 	Song file: audio.mp3
 	Background: 
+
+Colours
+	Colour: 255 192 0
+	Colour: 0 202 0
+	Colour: 18 124 255
+	Colour: 242 24 57
 
 Timestamps
 	TimingPoint: at 450ms bpm 190.0 measure 4 / 4

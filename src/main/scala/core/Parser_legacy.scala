@@ -31,6 +31,8 @@ class Parser_legacy(fp: String) {
   //  Headers required for modes in readMap
   val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]", "[Colours]")
 
+  var colours = Array[(Int, Int, Int)]()
+
   //  returns full map object
   def readMap(): Map = {
     var mode = ""
@@ -54,10 +56,13 @@ class Parser_legacy(fp: String) {
           }
           tps += timingPointLegacy
         case "[HitObjects]" => map.addObject(readObject(l))
-        case "[Colours]" =>
+        case "[Colours]" => readColour(l, map)
         case _ =>
       }
     }
+
+    if (colours.length > 1)
+      map.colours = colours.take(8)
 
     var iT = 0
     map.allObjects.foreach { obj =>
@@ -134,6 +139,11 @@ class Parser_legacy(fp: String) {
         case _ =>
       }
     }
+  }
+
+  def readColour(l: String, map: Map): Unit = {
+    val colour = l.split(" ")(2).split(",").map(_.toInt)
+    colours :+= (colour(0), colour(1), colour(2))
   }
 
   /////// OBJECT READER ///////
