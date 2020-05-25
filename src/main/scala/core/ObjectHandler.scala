@@ -19,7 +19,7 @@ private class ObjectHandler() {
   private var _whistle: Boolean = false
   private var _finish: Boolean = false
   private var _clap: Boolean = false
-  private var _additionHitsound: Boolean = false
+  private var _additionHitsound: Hitsound = new Hitsound()
 
   def timestamp: TimeStamp = _timestamp
 
