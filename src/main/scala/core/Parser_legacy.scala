@@ -303,9 +303,9 @@ class Parser_legacy(fp: String) {
     var svmult: Double = 0.0 // sv multiplier
 
     if (mspb >= 0.0) { // if millisec per beat is positive
-      bpm = BigDecimal(60000.0 / mspb).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble// make a bpm
+      bpm = BigDecimal(60000.0 / mspb).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble // make a bpm
     }
-    else svmult = 100.0 / (mspb * -1) // else make an sv
+    else svmult = BigDecimal(100.0 / (mspb * -1)).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble  // else make an sv
 
     val kiai = properties(7).equals("1")
 
