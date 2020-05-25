@@ -68,8 +68,8 @@ class MapTest extends BaseTest {
   it should "store its metadata properly" in {
     val m: Map = new Map()
 
-    m.song = "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat."
-    m.unicodeSong = "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat."
+    m.music = "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat."
+    m.unicodeMusic = "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat."
     m.artist = "Demetori"
     m.unicodeArtist = "Demetori"
     m.creator = "GoldenWolf"
@@ -79,8 +79,8 @@ class MapTest extends BaseTest {
     m.id = 1729489
     m.setId = 1729489
 
-    assert(m.song == "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat.")
-    assert(m.unicodeSong == "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat.")
+    assert(m.music == "Koyoi wa Hyouitsu na Egoist ~ Ego, Schizoid, Beat.")
+    assert(m.unicodeMusic == "今宵は飄逸なエゴイスト ～ Ego,Schizoid,Beat.")
     assert(m.artist == "Demetori")
     assert(m.unicodeArtist == "Demetori")
     assert(m.creator == "GoldenWolf")

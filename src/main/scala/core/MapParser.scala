@@ -34,8 +34,8 @@ class MapParser() {
         prevSlider = None
 
       qualifier match {
-        case "song" => m.song = data
-        case "unicode song" => m.unicodeSong = data
+        case "music name" => m.music = data
+        case "unicode music name" => m.unicodeMusic = data
         case "artist" => m.artist = data
         case "unicode artist" => m.unicodeArtist = data
         case "creator" => m.creator = data

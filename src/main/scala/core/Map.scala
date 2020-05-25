@@ -12,8 +12,8 @@ class Map {
 
   // metadata
 
-  private var _song: String = ""
-  private var _unicodeSong: String = ""
+  private var _music: String = ""
+  private var _unicodeMusic: String = ""
   private var _artist: String = ""
   private var _unicodeArtist: String = ""
   private var _creator: String = ""
@@ -25,16 +25,16 @@ class Map {
 
   // getters and setters
 
-  def song: String = _song
+  def music: String = _music
 
-  def song_=(value: String): Unit = {
-    _song = value
+  def music_=(value: String): Unit = {
+    _music = value
   }
 
-  def unicodeSong: String = _unicodeSong
+  def unicodeMusic: String = _unicodeMusic
 
-  def unicodeSong_=(value: String): Unit = {
-    _unicodeSong = value
+  def unicodeMusic_=(value: String): Unit = {
+    _unicodeMusic = value
   }
 
   def artist: String = _artist
@@ -203,8 +203,8 @@ class Map {
       (that canEqual this) &&
         _objects == that._objects &&
         _timingPoints == that._timingPoints &&
-        _song == that._song &&
-        _unicodeSong == that._unicodeSong &&
+        _music == that._music &&
+        _unicodeMusic == that._unicodeMusic &&
         _artist == that._artist &&
         _unicodeArtist == that._unicodeArtist &&
         _creator == that._creator &&
@@ -225,7 +225,7 @@ class Map {
   }
 
   override def hashCode(): Int = {
-    val state = Seq(_objects, _timingPoints, _song, _unicodeSong, _artist, _unicodeArtist, _creator, _difficulty, _source, _tags, _id, _setId, _hp, _cs, _od, _ar, _tickrate, _stackLeniency, _songFile, _backgroundFile)
+    val state = Seq(_objects, _timingPoints, _music, _unicodeMusic, _artist, _unicodeArtist, _creator, _difficulty, _source, _tags, _id, _setId, _hp, _cs, _od, _ar, _tickrate, _stackLeniency, _songFile, _backgroundFile)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 

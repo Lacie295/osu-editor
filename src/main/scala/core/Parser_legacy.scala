@@ -5,7 +5,7 @@ import java.nio.file.{Files, Paths}
 
 import components.{AbstractTimingPoint, Circle, HitObject, Inherited_legacy, Slider, Spinner, TimingPoint_legacy, Uninherited_legacy}
 import core.ObjectHandler._
-import utils.{Addition, Hitsound}
+import utils.Hitsound
 
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
@@ -29,7 +29,7 @@ class Parser_legacy(fp: String) {
 
   var sliderMultiplier = 1.4
   //  Headers required for modes in readMap
-  val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]")
+  val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]", "[Colours]")
 
   //  returns full map object
   def readMap(): Map = {
@@ -54,6 +54,7 @@ class Parser_legacy(fp: String) {
           }
           tps += timingPointLegacy
         case "[HitObjects]" => map.addObject(readObject(l))
+        case "[Colours]" =>
         case _ =>
       }
     }
@@ -107,8 +108,8 @@ class Parser_legacy(fp: String) {
       properties(0) match {
         case "AudioFilename" => map.songFile = properties(1)
         case "StackLeniency" => map.stackLeniency = properties(1).toDouble
-        case "Title" => map.song = properties(1)
-        case "TitleUnicode" => map.unicodeSong = properties(1)
+        case "Title" => map.music = properties(1)
+        case "TitleUnicode" => map.unicodeMusic = properties(1)
         case "Artist" => map.artist = properties(1)
         case "ArtistUnicode" => map.unicodeArtist = properties(1)
         case "Creator" => map.creator = properties(1)
@@ -247,34 +248,32 @@ class Parser_legacy(fp: String) {
   }
 
   // combines extras and addition bit FOR CIRCLES AND SPINNERS
-  def readActiveHitsound(ext: String, adb: String): (Hitsound, Array[Addition]) = { // ONLY FOR CIRCLES AND SPINNERS
+  def readActiveHitsound(ext: String, adb: String): (Hitsound, Array[Int]) = { // ONLY FOR CIRCLES AND SPINNERS
     val e = readExtras(ext)
     val b = readAdditionBit(adb)
 
-    for (s <- b) {
-      s.sampleSet = e._2
-      s.sampleIndex = e._3
-    }
+    b.foreach(_ *= e._2)
+
     (new Hitsound(e._1.toInt, e._3.toInt), b)
   }
 
   // Addition Bit Structure: ( { 3: clap }, { 2: finish }, { 1: whistle }, { 0: normal - irrelevant } )
-  def readAdditionBit(hsb: String): Array[Addition] = {
+  def readAdditionBit(hsb: String): Array[Int] = {
     readAdditionBit(hsb.toInt)
   }
 
-  def readAdditionBit(hsb: Int): Array[Addition] = {
-    val additionArray: Array[Addition] = Array(new Addition(), new Addition(), new Addition())
+  def readAdditionBit(hsb: Int): Array[Int] = {
+    val additionArray: Array[Int] = Array(-1, -1, -1)
 
     //  read out bits to activate respective additions
     if ((hsb & 2) == 2) {
-      additionArray(0).active = true
+      additionArray(0) = -1
     }
     if ((hsb & 4) == 4) {
-      additionArray(1).active = true
+      additionArray(1) = -1
     }
     if ((hsb & 8) == 8) {
-      additionArray(2).active = true
+      additionArray(2) = -1
     }
     additionArray
   }

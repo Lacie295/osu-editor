@@ -1,7 +1,7 @@
 package core
 
 import components.{Circle, Inherited_legacy, Slider, Spinner, TimingPoint, Uninherited_legacy}
-import utils.{Addition, Hitsound, Position, TimeStamp}
+import utils.{Hitsound, Position, TimeStamp}
 
 private class ObjectHandler() {
   private var _timestamp: TimeStamp = 0
@@ -179,14 +179,6 @@ object ObjectHandler {
   def MakeHitsound(pos: (Int, Int)): Hitsound = new Hitsound(pos)
 
   def MakeHitsound: Hitsound = new Hitsound()
-
-  def MakeAddition(ss: Int = 0, si: Int = 0, b: Boolean = false): Addition = new Addition(ss, si, b)
-
-  def MakeAddition(pos: (Int, Int), b: Boolean): Addition = new Addition(pos, b)
-
-  def MakeAddition(pos: (Int, Int)): Addition = new Addition(pos)
-
-  def MakeAddition: Addition = new Addition()
 
   def MakeCircle: Circle = handler.Circle
 

@@ -1,24 +1,27 @@
 package components
 
-import utils.{Addition, Hitsound, Position, TimeStamp}
+import utils.{Hitsound, Position, TimeStamp}
 
 import collection.mutable.ArrayBuffer
 
 /**
  * an implementation of a slider
- * @param p: its position on screen
- * @param t: the start time for the object
- * @param et: the end time for the object
- * @param v: the slider's speed
- * @param r: the repeat count
- * @param hs: its associated hitsound
+ *
+ * @param p  : its position on screen
+ * @param t  : the start time for the object
+ * @param et : the end time for the object
+ * @param v  : the slider's speed
+ * @param r  : the repeat count
+ * @param hs : its associated hitsound
  */
-class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int = 0, hs: Hitsound = (0,0)) extends HeldObject(p, t, et, hs) {
+class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int = 0, hs: Hitsound = (0, 0)) extends HeldObject(p, t, et, hs) {
   private val _nodes = new ArrayBuffer[Node]()
 
-  private var _repeats = r  // actual repeat count, means 0 if slider consists only of head + tail
+  private var _repeats = r // actual repeat count, means 0 if slider consists only of head + tail
 
-  private var _repeatHitsounds: Array[(Hitsound, Array[Addition])] = Array.fill(r+1){(new Hitsound(), Array(new Addition(), new Addition(), new Addition()))}
+  private var _repeatHitsounds: Array[(Hitsound, Array[Int])] = Array.fill(r + 1) {
+    (new Hitsound(), Array(-1, -1, -1))
+  }
 
   private var _velocity = v
 
@@ -87,11 +90,17 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   def repeats: Int = _repeats
 
-  def repeats_=(r: Int): Unit = _repeats = r
+  def repeats_=(r: Int): Unit = {
+    if (r < _repeats)
+      _repeatHitsounds = _repeatHitsounds.dropRight(_repeats - r)
+    else
+      _repeatHitsounds = _repeatHitsounds.appendedAll(Array.fill(r - _repeats)((new Hitsound(), Array(-1, -1, -1))))
+    _repeats = r
+  }
 
-  def repeatHitsounds: Array[(Hitsound, Array[Addition])] = _repeatHitsounds
+  def repeatHitsounds: Array[(Hitsound, Array[Int])] = _repeatHitsounds
 
-  def repeatHitsounds_=(rh: Array[(Hitsound, Array[Addition])]): Unit = _repeatHitsounds = rh
+  def repeatHitsounds_=(rh: Array[(Hitsound, Array[Int])]): Unit = _repeatHitsounds = rh
 
   def velocity: Double = _velocity
 
@@ -102,8 +111,9 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
 /**
  * a node of a slider
- * @param p: the node's position
- * @param t: the node's type
+ *
+ * @param p : the node's position
+ * @param t : the node's type
  */
 class Node(p: Position, t: Int) {
   private var _nodeType: Int = t // t = 0 for grey, = 1 for red

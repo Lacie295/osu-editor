@@ -16,8 +16,8 @@ class MapExporter(m: Map) {
     var objects: StringBuilder = new StringBuilder("Objects\n")
     var timestamps: StringBuilder = new StringBuilder("Timestamps\n")
 
-    data ++= "\tSong: " + m.song + "\n"
-    data ++= "\tUnicode song: " + m.unicodeSong + "\n"
+    data ++= "\tMusic name: " + m.music + "\n"
+    data ++= "\tUnicode music name: " + m.unicodeMusic + "\n"
     data ++= "\tArtist: " + m.artist + "\n"
     data ++= "\tUnicode artist: " + m.unicodeArtist + "\n"
     data ++= "\tCreator: " + m.creator + "\n"
@@ -140,7 +140,7 @@ class MapExporter(m: Map) {
       }
     }
 
-    "Version: " + VERSION + "\n\n" + data.mkString + "\n" + difficulty.mkString + "\n" + settings.mkString + "\n" + objects.mkString + "\n" + timestamps.mkString
+    "Version: " + VERSION + "\n\n" + data.mkString + "\n" + difficulty.mkString + "\n" + settings.mkString + "\n" + timestamps.mkString + "\n" + objects.mkString
   }
 
   def writeToFile(filename: String): Unit = {

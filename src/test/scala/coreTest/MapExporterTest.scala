@@ -8,8 +8,8 @@ class MapExporterTest extends BaseTest {
   "An exporter" should "properly export a map in a way readable by the importer" in {
     val m: Map = Map()
 
-    m.song = "Consciousness (pt. 1 & 2)"
-    m.unicodeSong = m.song
+    m.music = "Consciousness (pt. 1 & 2)"
+    m.unicodeMusic = m.music
     m.artist = "Persefone"
     m.unicodeArtist = m.artist
     m.creator = "GoldenWolf"
