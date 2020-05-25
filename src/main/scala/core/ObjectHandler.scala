@@ -19,7 +19,7 @@ private class ObjectHandler() {
   private var _whistle: Boolean = false
   private var _finish: Boolean = false
   private var _clap: Boolean = false
-  private var _additionHitsound: Hitsound = new Hitsound()
+  private var _additionsHitsound: Hitsound = new Hitsound()
 
   def timestamp: TimeStamp = _timestamp
 
@@ -118,19 +118,32 @@ private class ObjectHandler() {
     _clap = value
   }
 
-  def additionHitsound: Hitsound = _additionHitsound
+  def additionsHitsound: Hitsound = _additionsHitsound
 
-  def additionHitsound_=(value: Hitsound): Unit = {
-    _additionHitsound = value
+  def additionsHitsound_=(value: Hitsound): Unit = {
+    _additionsHitsound = value
   }
 
+  def Circle: Circle = {
+    val c = new Circle(position, timestamp, hitsound)
+    c.additions = Array(whistle, finish, clap)
+    c.additionsHitsound = additionsHitsound
+    c
+  }
 
+  def Slider: Slider = {
+    val s = new Slider(position, timestamp, endtimestamp, multiplier, repeat, hitsound)
+    s.additions = Array(whistle, finish, clap)
+    s.additionsHitsound = additionsHitsound
+    s
+  }
 
-  def Circle: Circle = new Circle(position, timestamp, hitsound)
-
-  def Slider: Slider = new Slider(position, timestamp, endtimestamp, multiplier, repeat, hitsound)
-
-  def Spinner: Spinner = new Spinner(timestamp, endtimestamp, hitsound)
+  def Spinner: Spinner = {
+    val s = new Spinner(timestamp, endtimestamp, hitsound)
+    s.additions = Array(whistle, finish, clap)
+    s.additionsHitsound = additionsHitsound
+    s
+  }
 
   def TimingPoint: TimingPoint = new TimingPoint(timestamp, BPM, meterA, meterB)
 
@@ -216,9 +229,9 @@ object ObjectHandler {
 
   def clap_=(value: Boolean): Unit = handler.clap = value
 
-  def additionHitsound: Hitsound = handler.additionHitsound
+  def additionsHitsound: Hitsound = handler.additionsHitsound
 
-  def additionHitsound_=(value: Hitsound): Unit = handler.additionHitsound = value
+  def additionsHitsound_=(value: Hitsound): Unit = handler.additionsHitsound = value
 
   def MakeHitsound(ss: Int = 0, si: Int = 0): Hitsound = new Hitsound(ss, si)
 

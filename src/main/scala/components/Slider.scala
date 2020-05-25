@@ -37,7 +37,17 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Slider => that.canEqual(this) && this.time == that.time && this.endTime == that.endTime && this.position == that.position
+      case that: Slider => that.canEqual(this) &&
+        this.time == that.time &&
+        this.endTime == that.endTime &&
+        this.position == that.position &&
+        this.hitsound == that.hitsound &&
+        (this.additions sameElements that.additions) &&
+        this.additionsHitsound == that.additionsHitsound &&
+        (this.repeatAdditions.zip(that.repeatAdditions).map(o => o._1 sameElements o._2).forall(_ == true)) &&
+        (this.nodes sameElements that.nodes) &&
+        (this.repeatHitsounds sameElements that.repeatHitsounds) &&
+        (this.repeatAdditionsHitsounds sameElements that.repeatAdditionsHitsounds)
       case _ => false
     }
   }

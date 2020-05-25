@@ -8,8 +8,8 @@ import core.MapHandler._
 class MapParserTest extends BaseTest {
   "A parser" should "properly read metadata" in {
     val mapString = "Metadata\n" +
-      "\tSong: Old Yuanxian ~ Death Echo\n" +
-      "\tUnicode song: 古きユアンシェン ～ Death Echo\n" +
+      "\tMusic name: Old Yuanxian ~ Death Echo\n" +
+      "\tUnicode music name: 古きユアンシェン ～ Death Echo\n" +
       "\tArtist: Demetori\n" +
       "\tUnicode artist: Demetori\n" +
       "\tCreator: GoldenWolf\n" +

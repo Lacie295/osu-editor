@@ -50,7 +50,7 @@ class MapParser() {
         case "od" => m.od = readDouble(data, qualifier, i)
         case "ar" => m.ar = readDouble(data, qualifier, i)
 
-        case "tick rate" => m.tickrate = readInt(data, qualifier, i)
+        case "tick rate" => m.tickrate = readDouble(data, qualifier, i)
         case "stack leniency" => m.stackLeniency = readDouble(data, qualifier, i)
         case "song file" => m.songFile = data
         case "background" => m.backgroundFile = data
@@ -59,6 +59,7 @@ class MapParser() {
           try {
             val args = data.split("\\s+")
             var curr = 0
+
             while (curr < args.length) {
               args(curr) match {
                 case "at" =>
@@ -88,7 +89,30 @@ class MapParser() {
                     unexpected(i)
                   }
                 case "additions" =>
+                  curr += 1
+                  val param = args(curr)
+                  whistle = false
+                  finish = false
+                  clap = false
 
+                  if (!param.startsWith("ss")) {
+                    whistle = param.contains("w")
+                    finish = param.contains("f")
+                    clap = param.contains("c")
+                    curr += 1
+                  }
+
+                  val ss = args(curr)
+                  curr += 1
+                  val si = args(curr)
+
+                  if (ss.startsWith("ss") && si.startsWith("si")) {
+                    val sampleset = readInt(ss.drop(2), "sample set", i)
+                    val sampleindex = readInt(si.drop(2), "sample index", i)
+                    additionsHitsound = (sampleset, sampleindex)
+                  } else {
+                    unexpected(i)
+                  }
                 case _ =>
                   unexpected(i)
               }
@@ -103,6 +127,7 @@ class MapParser() {
           try {
             val args = data.split("\\s+")
             var curr = 0
+
             while (curr < args.length) {
               args(curr) match {
                 case "at" =>
@@ -138,13 +163,40 @@ class MapParser() {
                   } else {
                     unexpected(i)
                   }
+                case "additions" =>
+                  curr += 1
+                  val param = args(curr)
+                  whistle = false
+                  finish = false
+                  clap = false
+
+                  if (!param.startsWith("ss")) {
+                    whistle = param.contains("w")
+                    finish = param.contains("f")
+                    clap = param.contains("c")
+                    curr += 1
+                  }
+
+                  val ss = args(curr)
+                  curr += 1
+                  val si = args(curr)
+
+                  if (ss.startsWith("ss") && si.startsWith("si")) {
+                    val sampleset = readInt(ss.drop(2), "sample set", i)
+                    val sampleindex = readInt(si.drop(2), "sample index", i)
+                    additionsHitsound = (sampleset, sampleindex)
+                  } else {
+                    unexpected(i)
+                  }
                 case _ =>
                   unexpected(i)
               }
               curr += 1
             }
-            prevSlider = Some(MakeSlider)
-            m addObject prevSlider.get
+            val s = MakeSlider
+            m addObject s
+
+            prevSlider = Some(s)
           } catch {
             case _: IndexOutOfBoundsException => throw new IllegalArgumentException("Missing data at row " + i + ".")
           }
@@ -187,6 +239,7 @@ class MapParser() {
           try {
             val args = data.split("\\s+")
             var curr = 0
+
             while (curr < args.length) {
               args(curr) match {
                 case "at" | "until" =>
@@ -210,6 +263,31 @@ class MapParser() {
                   if (ss.startsWith("ss") && si.startsWith("si")) {
                     sampleset = readInt(ss.drop(2), "sample set", i)
                     sampleindex = readInt(si.drop(2), "sample index", i)
+                  } else {
+                    unexpected(i)
+                  }
+                case "additions" =>
+                  curr += 1
+                  val param = args(curr)
+                  whistle = false
+                  finish = false
+                  clap = false
+
+                  if (!param.startsWith("ss")) {
+                    whistle = param.contains("w")
+                    finish = param.contains("f")
+                    clap = param.contains("c")
+                    curr += 1
+                  }
+
+                  val ss = args(curr)
+                  curr += 1
+                  val si = args(curr)
+
+                  if (ss.startsWith("ss") && si.startsWith("si")) {
+                    val sampleset = readInt(ss.drop(2), "sample set", i)
+                    val sampleindex = readInt(si.drop(2), "sample index", i)
+                    additionsHitsound = (sampleset, sampleindex)
                   } else {
                     unexpected(i)
                   }

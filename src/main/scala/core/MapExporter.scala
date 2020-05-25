@@ -56,7 +56,7 @@ class MapExporter(m: Map) {
             objects ++= " at " + c.position
             objects ++= " with " + c.hitsound
             // 0-whistle, 1-finish, 2-clap
-            objects ++= " additions " + c.additionsHitsound + " " + (if(c.additions(0)) "w" else "") + (if(c.additions(1)) "f" else "") + (if(c.additions(2)) "c" else "")
+            objects ++= " additions " + (if(c.additions(0)) "w" else "") + (if(c.additions(1)) "f" else "") + (if(c.additions(2)) "c" else "") + (if(c.additions.contains(true)) " " else "") + c.additionsHitsound
             objects ++= "\n"
           case s: Slider =>
             objects ++= "\tSlider:"
@@ -66,7 +66,7 @@ class MapExporter(m: Map) {
             objects ++= " repeats " + s.repeats
             objects ++= " with " + s.hitsound
             // 0-whistle, 1-finish, 2-clap
-            objects ++= " additions " + s.additionsHitsound + " " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "")
+            objects ++= " additions " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "") + (if(s.additions.contains(true)) " " else "") + s.additionsHitsound
             objects ++= "\n"
             s.nodes.drop(1).foreach(node => {
               objects ++= "\t\tNode:"
@@ -80,7 +80,7 @@ class MapExporter(m: Map) {
             objects ++= " until " + s.endTimeStamp
             objects ++= " with " + s.hitsound
             // 0-whistle, 1-finish, 2-clap
-            objects ++= " additions " + s.additionsHitsound + " " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "")
+            objects ++= " additions " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "") + (if(s.additions.contains(true)) " " else "") + s.additionsHitsound
             objects ++= "\n"
         }
       }

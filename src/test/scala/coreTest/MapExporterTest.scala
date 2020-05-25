@@ -68,6 +68,7 @@ class MapExporterTest extends BaseTest {
     print(mapString)
     val m2 = MapParser().parse(mapString)
 
+    m2.allObjects.zip(m.allObjects).foreach(o => assert(o._1 == o._2))
     assert(m == m2)
   }
 }
