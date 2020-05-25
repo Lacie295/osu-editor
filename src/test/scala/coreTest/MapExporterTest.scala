@@ -31,6 +31,7 @@ class MapExporterTest extends BaseTest {
 
     timestamp = 15
     position = (9, 10)
+    clap = true
 
     m addObject MakeCircle
 
@@ -39,6 +40,8 @@ class MapExporterTest extends BaseTest {
     position = (12, 15)
     repeat = 3
     multiplier = 0.5
+    clap = false
+    whistle = true
 
     m addObject (MakeSlider addNode (12, 99) addNode (45, 95, 1))
 
@@ -50,6 +53,8 @@ class MapExporterTest extends BaseTest {
 
     timestamp = 105
     endtimestamp = 120
+    whistle = false
+    additionsHitsound = MakeHitsound(1, 1)
 
     m addObject MakeSpinner
 
