@@ -19,8 +19,8 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   private var _repeats = r // actual repeat count, means 0 if slider consists only of head + tail
 
-  private var _repeatHitsounds: Array[(Hitsound, Array[Int])] = Array.fill(r + 1) {
-    (new Hitsound(), Array(-1, -1, -1))
+  private var _repeatHitsounds: Array[(Hitsound, Hitsound, Array[Boolean])] = Array.fill(r + 1) {
+    (new Hitsound(), new Hitsound(), Array(false, false, false))
   }
 
   private var _velocity = v
@@ -94,13 +94,13 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
     if (r < _repeats)
       _repeatHitsounds = _repeatHitsounds.dropRight(_repeats - r)
     else
-      _repeatHitsounds = _repeatHitsounds.appendedAll(Array.fill(r - _repeats)((new Hitsound(), Array(-1, -1, -1))))
+      _repeatHitsounds = _repeatHitsounds.appendedAll(Array.fill(r - _repeats)((new Hitsound(), new Hitsound(), Array(false, false, false))))
     _repeats = r
   }
 
-  def repeatHitsounds: Array[(Hitsound, Array[Int])] = _repeatHitsounds
+  def repeatHitsounds: Array[(Hitsound, Hitsound, Array[Boolean])] = _repeatHitsounds
 
-  def repeatHitsounds_=(rh: Array[(Hitsound, Array[Int])]): Unit = _repeatHitsounds = rh
+  def repeatHitsounds_=(rh: Array[(Hitsound, Hitsound, Array[Boolean])]): Unit = _repeatHitsounds = rh
 
   def velocity: Double = _velocity
 

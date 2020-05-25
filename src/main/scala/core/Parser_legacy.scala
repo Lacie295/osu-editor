@@ -66,12 +66,8 @@ class Parser_legacy(fp: String) {
         case tp: TimingPoint_legacy =>
           ho.hitsound.sampleSet = tp.sampleSet
           ho.hitsound.sampleIndex = tp.sampleIndex
-          ho.additions(0).sampleSet = tp.sampleSet
-          ho.additions(1).sampleSet = tp.sampleSet
-          ho.additions(2).sampleSet = tp.sampleSet
-          ho.additions(0).sampleIndex = tp.sampleIndex
-          ho.additions(1).sampleIndex = tp.sampleIndex
-          ho.additions(2).sampleIndex = tp.sampleIndex
+          ho.additionsSampleSet.sampleSet = tp.sampleSet
+          ho.additionsSampleSet.sampleIndex = tp.sampleIndex
 
           ho match {
             case sl: Slider =>
@@ -147,11 +143,8 @@ class Parser_legacy(fp: String) {
     if (!(properties.length < 5)) {
       val h = readActiveHitsound(properties(5), properties(4))
       c.hitsound = h._1
-      c.additions = h._2
-    }
-    else {
-      c.hitsound = new Hitsound()
-      c.additions = Array(new Addition(), new Addition(), new Addition())
+      c.additionsSampleSet = h._2
+      c.additions = h._3
     }
 
     c
@@ -203,14 +196,8 @@ class Parser_legacy(fp: String) {
       additionsHs = additionsHs.drop(1)
 
       for (i <- 0 to s.repeats) {
-        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), readAdditionBit(additionsHs(i)))
+        s.repeatHitsounds(i) = (new Hitsound(setsIndexes(i)(1), setsIndexes(i)(0)), new Hitsound(), readAdditionBit(additionsHs(i)))
       }
-    }
-    else {
-      s.hitsound = new Hitsound()
-      s.additions = Array.fill(3)(new Addition())
-
-      s.repeatHitsounds = Array.fill(s.repeats + 1)((new Hitsound, Array.fill(3)(new Addition)))
     }
 
     s
@@ -231,11 +218,8 @@ class Parser_legacy(fp: String) {
     if (!(properties.length < 7)) {
       val h = readActiveHitsound(properties(6), properties(4))
       s.hitsound = h._1
-      s.additions = h._2
-    }
-    else {
-      s.hitsound = new Hitsound()
-      s.additions = Array(new Addition(), new Addition(), new Addition())
+      s.additionsSampleSet = h._2
+      s.additions = h._3
     }
     s
   }
@@ -248,32 +232,30 @@ class Parser_legacy(fp: String) {
   }
 
   // combines extras and addition bit FOR CIRCLES AND SPINNERS
-  def readActiveHitsound(ext: String, adb: String): (Hitsound, Array[Int]) = { // ONLY FOR CIRCLES AND SPINNERS
+  def readActiveHitsound(ext: String, adb: String): (Hitsound, Hitsound, Array[Boolean]) = { // ONLY FOR CIRCLES AND SPINNERS
     val e = readExtras(ext)
     val b = readAdditionBit(adb)
 
-    b.foreach(_ *= e._2)
-
-    (new Hitsound(e._1.toInt, e._3.toInt), b)
+    (new Hitsound(e._1.toInt, e._3.toInt), new Hitsound(e._2.toInt, e._4.toInt), b)
   }
 
   // Addition Bit Structure: ( { 3: clap }, { 2: finish }, { 1: whistle }, { 0: normal - irrelevant } )
-  def readAdditionBit(hsb: String): Array[Int] = {
+  def readAdditionBit(hsb: String): Array[Boolean] = {
     readAdditionBit(hsb.toInt)
   }
 
-  def readAdditionBit(hsb: Int): Array[Int] = {
-    val additionArray: Array[Int] = Array(-1, -1, -1)
+  def readAdditionBit(hsb: Int): Array[Boolean] = {
+    val additionArray: Array[Boolean] = Array(false, false, false)
 
     //  read out bits to activate respective additions
     if ((hsb & 2) == 2) {
-      additionArray(0) = -1
+      additionArray(0) = true
     }
     if ((hsb & 4) == 4) {
-      additionArray(1) = -1
+      additionArray(1) = true
     }
     if ((hsb & 8) == 8) {
-      additionArray(2) = -1
+      additionArray(2) = true
     }
     additionArray
   }
