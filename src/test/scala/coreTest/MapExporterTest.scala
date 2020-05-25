@@ -14,7 +14,7 @@ class MapExporterTest extends BaseTest {
     m.unicodeArtist = m.artist
     m.creator = "GoldenWolf"
     m.difficulty = "Enlightenment"
-    m.source = ""
+    m.source = "N/A"
     m.tags = "sitting in silence a path to enlightenment spiritual migration 2013 progressive melodic metal"
     m.id = 1483603
     m.setId = 700870
@@ -24,10 +24,13 @@ class MapExporterTest extends BaseTest {
     m.od = 9
     m.ar = 9.5
 
-    m.tickrate = 1
-    m.stackLeniency = 0
+    m.tickrate = 2
+    m.stackLeniency = 0.2
+    m.sliderVelocity = 1.4
     m.songFile = "audio.mp3"
     m.backgroundFile = "nice_pic.jpg"
+
+    m.colours = Array((0, 0, 0), (1, 1, 1), (2, 2, 2))
 
     timestamp = 15
     position = (9, 10)

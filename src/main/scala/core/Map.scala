@@ -122,6 +122,7 @@ class Map {
 
   private var _tickrate: Double = 1
   private var _stackLeniency: Double = 0
+  private var _sliderVelocity: Double = 1
   private var _songFile: String = ""
   private var _backgroundFile: String = ""
 
@@ -139,6 +140,12 @@ class Map {
     _stackLeniency = value
   }
 
+  def sliderVelocity: Double = _sliderVelocity
+
+  def sliderVelocity_=(value: Double): Unit = {
+    _sliderVelocity = value
+  }
+
   def songFile: String = _songFile
 
   def songFile_=(value: String): Unit = {
@@ -149,6 +156,33 @@ class Map {
 
   def backgroundFile_=(value: String): Unit = {
     _backgroundFile = value
+  }
+
+  // colours
+
+  private var _colours = Array[(Int, Int, Int)]((255,192,0), (0,202,0), (18,124,255), (242,24,57))
+
+  def addColour(c: (Int, Int, Int)): Unit = {
+    if (_colours.length == 8)
+      throw new IllegalArgumentException("Too many colours!")
+    _colours :+= c
+  }
+
+  def removeColours(i: Int): Unit = {
+    if (_colours.length == 2)
+      throw new IllegalArgumentException("Too few colours!")
+    _colours = _colours.take(i) ++ _colours.drop(i + 1)
+  }
+
+  def setColour(i: Int, c: (Int, Int, Int)): Unit = _colours(i) = c
+
+  def getColour(i: Int): (Int, Int, Int) = _colours(i)
+
+  def colours: Array[(Int, Int, Int)] = _colours
+
+  def colours_=(c: Array[(Int, Int, Int)]): Unit = {
+    require(c.length < 9 && c.length > 1)
+    _colours = c
   }
 
   // interactions with both lists
@@ -219,13 +253,15 @@ class Map {
         _ar == that._ar &&
         _tickrate == that._tickrate &&
         _stackLeniency == that._stackLeniency &&
+        _sliderVelocity == that._sliderVelocity &&
         _songFile == that._songFile &&
-        _backgroundFile == that._backgroundFile
+        _backgroundFile == that._backgroundFile &&
+        (_colours sameElements that._colours)
     case _ => false
   }
 
   override def hashCode(): Int = {
-    val state = Seq(_objects, _timingPoints, _music, _unicodeMusic, _artist, _unicodeArtist, _creator, _difficulty, _source, _tags, _id, _setId, _hp, _cs, _od, _ar, _tickrate, _stackLeniency, _songFile, _backgroundFile)
+    val state = Seq(_objects, _timingPoints, _music, _unicodeMusic, _artist, _unicodeArtist, _creator, _difficulty, _source, _tags, _id, _setId, _hp, _cs, _od, _ar, _tickrate, _stackLeniency, _sliderVelocity, _songFile, _backgroundFile)
     state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 

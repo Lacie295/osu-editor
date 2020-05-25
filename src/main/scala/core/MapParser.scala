@@ -24,6 +24,8 @@ class MapParser() {
     var prevSlider: Option[Slider] = None
     var i = 0
 
+    var colours = Array[(Int, Int, Int)]()
+
     map.foreach(line => {
       val split = line.split(":")
       val qualifier = split(0).trim().toLowerCase()
@@ -52,8 +54,18 @@ class MapParser() {
 
         case "tick rate" => m.tickrate = readDouble(data, qualifier, i)
         case "stack leniency" => m.stackLeniency = readDouble(data, qualifier, i)
+        case "slider multiplier" => m.sliderVelocity = readDouble(data, qualifier, i)
         case "song file" => m.songFile = data
         case "background" => m.backgroundFile = data
+
+        case "colour" =>
+          val args = data.split(" ")
+          if (args.length != 3)
+            unexpected(i)
+          val r = readInt(args(0), "Colour", i)
+          val g = readInt(args(0), "Colour", i)
+          val b = readInt(args(0), "Colour", i)
+          colours :+= (r, g, b)
 
         case "circle" =>
           try {
@@ -339,6 +351,9 @@ class MapParser() {
         case _ =>
       }
     })
+    if (colours.length > 2) {
+      m.colours = colours.take(8)
+    }
 
     m
   }
