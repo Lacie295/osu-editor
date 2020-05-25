@@ -87,6 +87,7 @@ class MapParser() {
                   } else {
                     unexpected(i)
                   }
+                case "additions" =>
                 case _ =>
                   unexpected(i)
               }

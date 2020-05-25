@@ -16,6 +16,10 @@ private class ObjectHandler() {
   private var _kiai: Boolean = false
   private var _meterA: Int = 4
   private var _meterB: Int = 4
+  private var _whistle: Boolean = false
+  private var _finish: Boolean = false
+  private var _clap: Boolean = false
+  private var _additionHitsound: Boolean = false
 
   def timestamp: TimeStamp = _timestamp
 
@@ -96,6 +100,32 @@ private class ObjectHandler() {
     sampleindex = value.sampleIndex
   }
 
+  def whistle: Boolean = _whistle
+
+  def whistle_=(value: Boolean): Unit = {
+    _whistle = value
+  }
+
+  def finish: Boolean = _finish
+
+  def finish_=(value: Boolean): Unit = {
+    _finish = value
+  }
+
+  def clap: Boolean = _clap
+
+  def clap_=(value: Boolean): Unit = {
+    _clap = value
+  }
+
+  def additionHitsound: Hitsound = _additionHitsound
+
+  def additionHitsound_=(value: Hitsound): Unit = {
+    _additionHitsound = value
+  }
+
+
+
   def Circle: Circle = new Circle(position, timestamp, hitsound)
 
   def Slider: Slider = new Slider(position, timestamp, endtimestamp, multiplier, repeat, hitsound)
@@ -173,6 +203,22 @@ object ObjectHandler {
   def hitsound: Hitsound = handler.hitsound
 
   def hitsound_=(value: Hitsound): Unit = handler.hitsound = value
+
+  def whistle: Boolean = handler.whistle
+
+  def whistle_=(value: Boolean): Unit = handler.whistle = value
+
+  def finish: Boolean = handler.finish
+
+  def finish_=(value: Boolean): Unit = handler.finish = value
+
+  def clap: Boolean = handler.clap
+
+  def clap_=(value: Boolean): Unit = handler.clap = value
+
+  def additionHitsound: Hitsound = handler.additionHitsound
+
+  def additionHitsound_=(value: Hitsound): Unit = handler.additionHitsound = value
 
   def MakeHitsound(ss: Int = 0, si: Int = 0): Hitsound = new Hitsound(ss, si)
 

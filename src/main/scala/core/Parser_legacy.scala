@@ -66,8 +66,8 @@ class Parser_legacy(fp: String) {
         case tp: TimingPoint_legacy =>
           ho.hitsound.sampleSet = tp.sampleSet
           ho.hitsound.sampleIndex = tp.sampleIndex
-          ho.additionsSampleSet.sampleSet = tp.sampleSet
-          ho.additionsSampleSet.sampleIndex = tp.sampleIndex
+          ho.additionsHitsound.sampleSet = tp.sampleSet
+          ho.additionsHitsound.sampleIndex = tp.sampleIndex
 
           ho match {
             case sl: Slider =>
@@ -143,7 +143,7 @@ class Parser_legacy(fp: String) {
     if (!(properties.length < 5)) {
       val h = readActiveHitsound(properties(5), properties(4))
       c.hitsound = h._1
-      c.additionsSampleSet = h._2
+      c.additionsHitsound = h._2
       c.additions = h._3
     }
 
@@ -218,7 +218,7 @@ class Parser_legacy(fp: String) {
     if (!(properties.length < 7)) {
       val h = readActiveHitsound(properties(6), properties(4))
       s.hitsound = h._1
-      s.additionsSampleSet = h._2
+      s.additionsHitsound = h._2
       s.additions = h._3
     }
     s

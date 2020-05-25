@@ -55,6 +55,8 @@ class MapExporter(m: Map) {
             objects ++= " at " + c.timeStamp
             objects ++= " at " + c.position
             objects ++= " with " + c.hitsound
+            // 0-whistle, 1-finish, 2-clap
+            objects ++= " additions " + c.additionsHitsound + " " + (if(c.additions(0)) "w" else "") + (if(c.additions(1)) "f" else "") + (if(c.additions(2)) "c" else "")
             objects ++= "\n"
           case s: Slider =>
             objects ++= "\tSlider:"
@@ -63,6 +65,8 @@ class MapExporter(m: Map) {
             objects ++= " speed " + s.velocity
             objects ++= " repeats " + s.repeats
             objects ++= " with " + s.hitsound
+            // 0-whistle, 1-finish, 2-clap
+            objects ++= " additions " + s.additionsHitsound + " " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "")
             objects ++= "\n"
             s.nodes.drop(1).foreach(node => {
               objects ++= "\t\tNode:"
@@ -75,6 +79,8 @@ class MapExporter(m: Map) {
             objects ++= " at " + s.timeStamp
             objects ++= " until " + s.endTimeStamp
             objects ++= " with " + s.hitsound
+            // 0-whistle, 1-finish, 2-clap
+            objects ++= " additions " + s.additionsHitsound + " " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "")
             objects ++= "\n"
         }
       }
