@@ -2,7 +2,7 @@ package coreTest
 
 import components.{Circle, Inherited_legacy, Slider, Spinner, Uninherited_legacy}
 import core.Parser_legacy
-import utils.{Addition, Hitsound}
+import utils.Hitsound
 
 class Parser_legacyTest extends BaseTest {
   "A parser" should "load up a given file and return its constructor correctly" in {

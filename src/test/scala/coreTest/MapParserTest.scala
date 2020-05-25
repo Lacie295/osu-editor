@@ -21,8 +21,8 @@ class MapParserTest extends BaseTest {
 
     val map = MapParser().parse(mapString)
 
-    assert(map.song == "Old Yuanxian ~ Death Echo")
-    assert(map.unicodeSong == "古きユアンシェン ～ Death Echo")
+    assert(map.music == "Old Yuanxian ~ Death Echo")
+    assert(map.unicodeMusic == "古きユアンシェン ～ Death Echo")
     assert(map.artist == "Demetori")
     assert(map.unicodeArtist == "Demetori")
     assert(map.creator == "GoldenWolf")
