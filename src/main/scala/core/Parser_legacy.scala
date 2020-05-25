@@ -27,11 +27,10 @@ class Parser_legacy(fp: String) {
     file.getLines().filter(!_.isEmpty).toList
   }
 
-  var sliderMultiplier = 1.4
   //  Headers required for modes in readMap
   val Headers: Set[String] = Set("[Events]", "[General]", "[Editor]", "[Metadata]", "[Difficulty]", "[TimingPoints]", "[HitObjects]", "[Colours]")
 
-  var colours = Array[(Int, Int, Int)]()
+  private var colours: Array[(Int, Int, Int)] = Array()
 
   //  returns full map object
   def readMap(): Map = {
@@ -143,7 +142,7 @@ class Parser_legacy(fp: String) {
         case "CircleSize" => map.cs = properties(1).toDouble
         case "OverallDifficulty" => map.od = properties(1).toDouble
         case "ApproachRate" => map.ar = properties(1).toDouble
-        case "SliderMultiplier" => sliderMultiplier = properties(1).toDouble
+        case "SliderMultiplier" => map.sliderVelocity = properties(1).toDouble
         case "SliderTickRate" => map.tickrate = properties(1).toDouble
         case _ =>
       }
