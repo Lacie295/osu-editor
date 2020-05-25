@@ -13,7 +13,12 @@ class Spinner(t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0)) extends HeldObj
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Spinner => that.canEqual(this) && this.time == that.time && this.endTime == that.endTime
+      case that: Spinner => that.canEqual(this) &&
+        this.time == that.time &&
+        this.endTime == that.endTime &&
+        this.hitsound == that.hitsound &&
+        (this.additions sameElements that.additions) &&
+        this.additionsHitsound == that.additionsHitsound
       case _ => false
     }
   }

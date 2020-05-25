@@ -19,8 +19,16 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   private var _repeats = r // actual repeat count, means 0 if slider consists only of head + tail
 
-  private var _repeatHitsounds: Array[(Hitsound, Hitsound, Array[Boolean])] = Array.fill(r + 1) {
-    (new Hitsound(), new Hitsound(), Array(false, false, false))
+  private var _repeatHitsounds: Array[Hitsound] = Array.fill(r + 1) {
+    new Hitsound()
+  }
+
+  private var _repeatAdditionsHitsounds: Array[Hitsound] = Array.fill(r + 1) {
+    new Hitsound()
+  }
+
+  private var _repeatAdditions: Array[Array[Boolean]] = Array.fill(r + 1) {
+    Array(false, false, false)
   }
 
   private var _velocity = v
@@ -29,7 +37,17 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
 
   override def equals(that: Any): Boolean = {
     that match {
-      case that: Slider => that.canEqual(this) && this.time == that.time && this.endTime == that.endTime && this.position == that.position
+      case that: Slider => that.canEqual(this) &&
+        this.time == that.time &&
+        this.endTime == that.endTime &&
+        this.position == that.position &&
+        this.hitsound == that.hitsound &&
+        (this.additions sameElements that.additions) &&
+        this.additionsHitsound == that.additionsHitsound &&
+        (this.repeatAdditions.zip(that.repeatAdditions).map(o => o._1 sameElements o._2).forall(_ == true)) &&
+        (this.nodes sameElements that.nodes) &&
+        (this.repeatHitsounds sameElements that.repeatHitsounds) &&
+        (this.repeatAdditionsHitsounds sameElements that.repeatAdditionsHitsounds)
       case _ => false
     }
   }
@@ -91,16 +109,41 @@ class Slider(p: Position, t: TimeStamp, et: TimeStamp, v: Double = 1.0, r: Int =
   def repeats: Int = _repeats
 
   def repeats_=(r: Int): Unit = {
-    if (r < _repeats)
+    if (r < _repeats) {
       _repeatHitsounds = _repeatHitsounds.dropRight(_repeats - r)
-    else
-      _repeatHitsounds = _repeatHitsounds.appendedAll(Array.fill(r - _repeats)((new Hitsound(), new Hitsound(), Array(false, false, false))))
+      _repeatAdditionsHitsounds = _repeatAdditionsHitsounds.dropRight(_repeats - r)
+      _repeatAdditions = _repeatAdditions.dropRight(_repeats - r)
+    } else {
+      _repeatHitsounds = _repeatHitsounds.appendedAll(Array.fill(r - _repeats)(new Hitsound()))
+      _repeatAdditionsHitsounds = _repeatAdditionsHitsounds.appendedAll(Array.fill(r - _repeats)(new Hitsound()))
+      _repeatAdditions = _repeatAdditions.appendedAll(Array.fill(r - _repeats)(Array(false, false, false)))
+    }
     _repeats = r
   }
 
-  def repeatHitsounds: Array[(Hitsound, Hitsound, Array[Boolean])] = _repeatHitsounds
+  def repeatHitsounds: Array[Hitsound] = _repeatHitsounds
 
-  def repeatHitsounds_=(rh: Array[(Hitsound, Hitsound, Array[Boolean])]): Unit = _repeatHitsounds = rh
+  def repeatHitsounds_=(rh: Array[Hitsound]): Unit = _repeatHitsounds = rh
+
+  def repeatAdditionsHitsounds: Array[Hitsound] = _repeatAdditionsHitsounds
+
+  def repeatAdditionsHitsounds_=(rh: Array[Hitsound]): Unit = _repeatAdditionsHitsounds = rh
+
+  def repeatAdditions: Array[Array[Boolean]] = _repeatAdditions
+
+  def repeatAdditions_=(rh: Array[Array[Boolean]]): Unit = _repeatAdditions = rh
+
+  def getRepeat(i: Int): (Hitsound, Hitsound, Array[Boolean]) = (_repeatHitsounds(i), _repeatAdditionsHitsounds(i), _repeatAdditions(i))
+
+  def setRepeatHS(i: Int, hs: Hitsound): Unit = _repeatHitsounds(i) = hs
+
+  def setRepeatAddHS(i: Int, hs: Hitsound): Unit = _repeatAdditionsHitsounds(i) = hs
+
+  def setRepeatAdd(i: Int, b: Array[Boolean]): Unit = _repeatAdditions(i) = b
+
+  def setRepeatAdd(i: Int, b: Int): Unit = _repeatAdditions(i)(b) = true
+
+  def unSetRepeatAdd(i: Int, b: Int): Unit = _repeatAdditions(i)(b) = false
 
   def velocity: Double = _velocity
 

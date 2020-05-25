@@ -24,6 +24,8 @@ class MapParser() {
     var prevSlider: Option[Slider] = None
     var i = 0
 
+    var colours = Array[(Int, Int, Int)]()
+
     map.foreach(line => {
       val split = line.split(":")
       val qualifier = split(0).trim().toLowerCase()
@@ -50,15 +52,26 @@ class MapParser() {
         case "od" => m.od = readDouble(data, qualifier, i)
         case "ar" => m.ar = readDouble(data, qualifier, i)
 
-        case "tick rate" => m.tickrate = readInt(data, qualifier, i)
+        case "tick rate" => m.tickrate = readDouble(data, qualifier, i)
         case "stack leniency" => m.stackLeniency = readDouble(data, qualifier, i)
+        case "slider multiplier" => m.sliderVelocity = readDouble(data, qualifier, i)
         case "song file" => m.songFile = data
         case "background" => m.backgroundFile = data
+
+        case "colour" =>
+          val args = data.split(" ")
+          if (args.length != 3)
+            unexpected(i)
+          val r = readInt(args(0), "Colour", i)
+          val g = readInt(args(0), "Colour", i)
+          val b = readInt(args(0), "Colour", i)
+          colours :+= (r, g, b)
 
         case "circle" =>
           try {
             val args = data.split("\\s+")
             var curr = 0
+
             while (curr < args.length) {
               args(curr) match {
                 case "at" =>
@@ -88,6 +101,30 @@ class MapParser() {
                     unexpected(i)
                   }
                 case "additions" =>
+                  curr += 1
+                  val param = args(curr)
+                  whistle = false
+                  finish = false
+                  clap = false
+
+                  if (!param.startsWith("ss")) {
+                    whistle = param.contains("w")
+                    finish = param.contains("f")
+                    clap = param.contains("c")
+                    curr += 1
+                  }
+
+                  val ss = args(curr)
+                  curr += 1
+                  val si = args(curr)
+
+                  if (ss.startsWith("ss") && si.startsWith("si")) {
+                    val sampleset = readInt(ss.drop(2), "sample set", i)
+                    val sampleindex = readInt(si.drop(2), "sample index", i)
+                    additionsHitsound = (sampleset, sampleindex)
+                  } else {
+                    unexpected(i)
+                  }
                 case _ =>
                   unexpected(i)
               }
@@ -102,6 +139,7 @@ class MapParser() {
           try {
             val args = data.split("\\s+")
             var curr = 0
+
             while (curr < args.length) {
               args(curr) match {
                 case "at" =>
@@ -137,13 +175,40 @@ class MapParser() {
                   } else {
                     unexpected(i)
                   }
+                case "additions" =>
+                  curr += 1
+                  val param = args(curr)
+                  whistle = false
+                  finish = false
+                  clap = false
+
+                  if (!param.startsWith("ss")) {
+                    whistle = param.contains("w")
+                    finish = param.contains("f")
+                    clap = param.contains("c")
+                    curr += 1
+                  }
+
+                  val ss = args(curr)
+                  curr += 1
+                  val si = args(curr)
+
+                  if (ss.startsWith("ss") && si.startsWith("si")) {
+                    val sampleset = readInt(ss.drop(2), "sample set", i)
+                    val sampleindex = readInt(si.drop(2), "sample index", i)
+                    additionsHitsound = (sampleset, sampleindex)
+                  } else {
+                    unexpected(i)
+                  }
                 case _ =>
                   unexpected(i)
               }
               curr += 1
             }
-            prevSlider = Some(MakeSlider)
-            m addObject prevSlider.get
+            val s = MakeSlider
+            m addObject s
+
+            prevSlider = Some(s)
           } catch {
             case _: IndexOutOfBoundsException => throw new IllegalArgumentException("Missing data at row " + i + ".")
           }
@@ -186,6 +251,7 @@ class MapParser() {
           try {
             val args = data.split("\\s+")
             var curr = 0
+
             while (curr < args.length) {
               args(curr) match {
                 case "at" | "until" =>
@@ -209,6 +275,31 @@ class MapParser() {
                   if (ss.startsWith("ss") && si.startsWith("si")) {
                     sampleset = readInt(ss.drop(2), "sample set", i)
                     sampleindex = readInt(si.drop(2), "sample index", i)
+                  } else {
+                    unexpected(i)
+                  }
+                case "additions" =>
+                  curr += 1
+                  val param = args(curr)
+                  whistle = false
+                  finish = false
+                  clap = false
+
+                  if (!param.startsWith("ss")) {
+                    whistle = param.contains("w")
+                    finish = param.contains("f")
+                    clap = param.contains("c")
+                    curr += 1
+                  }
+
+                  val ss = args(curr)
+                  curr += 1
+                  val si = args(curr)
+
+                  if (ss.startsWith("ss") && si.startsWith("si")) {
+                    val sampleset = readInt(ss.drop(2), "sample set", i)
+                    val sampleindex = readInt(si.drop(2), "sample index", i)
+                    additionsHitsound = (sampleset, sampleindex)
                   } else {
                     unexpected(i)
                   }
@@ -260,6 +351,9 @@ class MapParser() {
         case _ =>
       }
     })
+    if (colours.length > 2) {
+      m.colours = colours.take(8)
+    }
 
     m
   }

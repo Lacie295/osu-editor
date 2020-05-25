@@ -35,17 +35,17 @@ abstract class HitObject(p: Position, t: TimeStamp, hs: Hitsound = (0, 0)) exten
 
   // edits addition at index (0-whistle, 1-finish, 2-clap) and sets it to the specified addition ad
   def setAddition(index: Int): Unit = {
-    _additions(index - 1) = true
+    _additions(index) = true
   }
 
   // sets indexed addition to inactive(disabled). 0-whistle, 1-finish, 2-clap
   def unSetAddition(index: Int): Unit = {
-    _additions(index - 1) = false
+    _additions(index) = false
   }
 
   // sets all addtions to inactive
   def clearAdditions() : Unit= {
-    _additions.foreach(_ = false)
+    _additions.indices.foreach(_additions(_) = false)
   }
 }
 

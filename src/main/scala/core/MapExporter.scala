@@ -13,8 +13,9 @@ class MapExporter(m: Map) {
     var data: StringBuilder = new StringBuilder("Metadata\n")
     var difficulty: StringBuilder = new StringBuilder("Map Difficulty\n")
     var settings: StringBuilder = new StringBuilder("Settings\n")
-    var objects: StringBuilder = new StringBuilder("Objects\n")
+    var colours: StringBuilder = new StringBuilder("Colours\n")
     var timestamps: StringBuilder = new StringBuilder("Timestamps\n")
+    var objects: StringBuilder = new StringBuilder("Objects\n")
 
     data ++= "\tMusic name: " + m.music + "\n"
     data ++= "\tUnicode music name: " + m.unicodeMusic + "\n"
@@ -34,8 +35,11 @@ class MapExporter(m: Map) {
 
     settings ++= "\tTick rate: " + m.tickrate + "\n"
     settings ++= "\tStack leniency: " + m.stackLeniency + "\n"
+    settings ++= "\tSlider multiplier: " + m.sliderVelocity + "\n"
     settings ++= "\tSong file: " + m.songFile + "\n"
     settings ++= "\tBackground: " + m.backgroundFile + "\n"
+
+    m.colours.foreach(o => colours ++= "\tColour: " + o._1 + " " + o._2 + " " + o._3 + "\n")
 
     timestamp = -1
     endtimestamp = -1
@@ -56,7 +60,7 @@ class MapExporter(m: Map) {
             objects ++= " at " + c.position
             objects ++= " with " + c.hitsound
             // 0-whistle, 1-finish, 2-clap
-            objects ++= " additions " + c.additionsHitsound + " " + (if(c.additions(0)) "w" else "") + (if(c.additions(1)) "f" else "") + (if(c.additions(2)) "c" else "")
+            objects ++= " additions " + (if(c.additions(0)) "w" else "") + (if(c.additions(1)) "f" else "") + (if(c.additions(2)) "c" else "") + (if(c.additions.contains(true)) " " else "") + c.additionsHitsound
             objects ++= "\n"
           case s: Slider =>
             objects ++= "\tSlider:"
@@ -66,7 +70,7 @@ class MapExporter(m: Map) {
             objects ++= " repeats " + s.repeats
             objects ++= " with " + s.hitsound
             // 0-whistle, 1-finish, 2-clap
-            objects ++= " additions " + s.additionsHitsound + " " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "")
+            objects ++= " additions " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "") + (if(s.additions.contains(true)) " " else "") + s.additionsHitsound
             objects ++= "\n"
             s.nodes.drop(1).foreach(node => {
               objects ++= "\t\tNode:"
@@ -80,7 +84,7 @@ class MapExporter(m: Map) {
             objects ++= " until " + s.endTimeStamp
             objects ++= " with " + s.hitsound
             // 0-whistle, 1-finish, 2-clap
-            objects ++= " additions " + s.additionsHitsound + " " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "")
+            objects ++= " additions " + (if(s.additions(0)) "w" else "") + (if(s.additions(1)) "f" else "") + (if(s.additions(2)) "c" else "") + (if(s.additions.contains(true)) " " else "") + s.additionsHitsound
             objects ++= "\n"
         }
       }
@@ -102,7 +106,7 @@ class MapExporter(m: Map) {
       }
     }
 
-    "Version: " + VERSION + "\n\n" + data.mkString + "\n" + difficulty.mkString + "\n" + settings.mkString + "\n" + timestamps.mkString + "\n" + objects.mkString
+    "Version: " + VERSION + "\n\n" + data.mkString + "\n" + difficulty.mkString + "\n" + settings.mkString + "\n" + colours.mkString + "\n" + timestamps.mkString + "\n" + objects.mkString
   }
 
   def writeToFile(filename: String): Unit = {

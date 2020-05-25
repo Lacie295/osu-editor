@@ -14,7 +14,7 @@ class MapExporterTest extends BaseTest {
     m.unicodeArtist = m.artist
     m.creator = "GoldenWolf"
     m.difficulty = "Enlightenment"
-    m.source = ""
+    m.source = "N/A"
     m.tags = "sitting in silence a path to enlightenment spiritual migration 2013 progressive melodic metal"
     m.id = 1483603
     m.setId = 700870
@@ -24,13 +24,17 @@ class MapExporterTest extends BaseTest {
     m.od = 9
     m.ar = 9.5
 
-    m.tickrate = 1
-    m.stackLeniency = 0
+    m.tickrate = 2
+    m.stackLeniency = 0.2
+    m.sliderVelocity = 1.4
     m.songFile = "audio.mp3"
     m.backgroundFile = "nice_pic.jpg"
 
+    m.colours = Array((0, 0, 0), (1, 1, 1), (2, 2, 2))
+
     timestamp = 15
     position = (9, 10)
+    clap = true
 
     m addObject MakeCircle
 
@@ -39,6 +43,8 @@ class MapExporterTest extends BaseTest {
     position = (12, 15)
     repeat = 3
     multiplier = 0.5
+    clap = false
+    whistle = true
 
     m addObject (MakeSlider addNode (12, 99) addNode (45, 95, 1))
 
@@ -50,6 +56,8 @@ class MapExporterTest extends BaseTest {
 
     timestamp = 105
     endtimestamp = 120
+    whistle = false
+    additionsHitsound = MakeHitsound(1, 1)
 
     m addObject MakeSpinner
 
@@ -68,6 +76,7 @@ class MapExporterTest extends BaseTest {
     print(mapString)
     val m2 = MapParser().parse(mapString)
 
+    m2.allObjects.zip(m.allObjects).foreach(o => assert(o._1 == o._2))
     assert(m == m2)
   }
 }
