@@ -76,6 +76,7 @@ class Parser_legacy(fp: String) {
         }
         else {
           iT += 1
+          applyTP(obj, tps(iT))
         }
       }
       else if (iT == tps.length) {
