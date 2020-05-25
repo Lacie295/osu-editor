@@ -96,8 +96,8 @@ class Parser_legacy(fp: String) {
           ho match {
             case sl: Slider =>
               tp match {
-                case inh: Inherited_legacy => sl.velocity = 100.0 / (inh.svMultiplier * -1) * sliderMultiplier
-                case _: Uninherited_legacy => sl.velocity = 1.0 * sliderMultiplier
+                case inh: Inherited_legacy => sl.velocity = inh.svMultiplier
+                case _: Uninherited_legacy => sl.velocity = 1.0
                 case _ => throw new Exception("Timing Point error: TP isn't inherited nor uninherited")
               }
             case _ =>
