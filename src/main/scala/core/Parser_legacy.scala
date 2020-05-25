@@ -62,13 +62,22 @@ class Parser_legacy(fp: String) {
     var iT = 0
     map.allObjects.foreach { obj =>
       if (iT < tps.length) {
+        if (tps(iT).isInstanceOf[Uninherited_legacy] && tps(iT + 1).isInstanceOf[Inherited_legacy] &&
+          tps(iT).time == tps(iT + 1).time) {
+          iT += 1
+        }
+        
         if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
           applyTP(obj, tps(iT))
         }
-        else if (obj.time <= tps(0).time) {
+        else {
           iT += 1
         }
-        else {}
+      }
+      else if (iT == tps.length) {
+        if (tps(iT).time <= obj.time) {
+          applyTP(obj, tps(iT))
+        }
       }
     }
 
@@ -297,7 +306,7 @@ class Parser_legacy(fp: String) {
     if (mspb >= 0.0) { // if millisec per beat is positive
       bpm = BigDecimal(60000.0 / mspb).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble // make a bpm
     }
-    else svmult = BigDecimal(100.0 / (mspb * -1)).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble  // else make an sv
+    else svmult = BigDecimal(100.0 / (mspb * -1)).setScale(5, BigDecimal.RoundingMode.HALF_UP).toDouble // else make an sv
 
     val kiai = properties(7).equals("1")
 
