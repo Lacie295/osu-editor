@@ -42,7 +42,9 @@ class Parser_legacy(fp: String) {
     for (l <- readLines()) {
       if (Headers.contains(l)) mode = l
       else mode match {
-        case "[Events]" =>
+        case "[Events]" => if (l.contains("\"")) {
+          readBackground(l)
+        }
         case "[General]" => readSettings(l, map)
         case "[Editor]" => readSettings(l, map)
         case "[Metadata]" => readSettings(l, map)
@@ -70,7 +72,7 @@ class Parser_legacy(fp: String) {
           tps(iT).time == tps(iT + 1).time) {
           iT += 1
         }
-        
+
         if ((tps(iT).time <= obj.time) && (tps(iT + 1).time > obj.time)) {
           applyTP(obj, tps(iT))
         }
@@ -120,6 +122,10 @@ class Parser_legacy(fp: String) {
     }
 
     map
+  }
+
+  def readBackground(line: String): String = {
+    line.split("\"")(1)
   }
 
   def readSettings(line: String, map: Map): Unit = {
