@@ -8,7 +8,7 @@ import utils.{Hitsound, Position, TimeStamp}
  * @param t: the timestamp at which the object is active
  * @param hs: the hitsound associated to it
  */
-class Circle(p: Position, t: TimeStamp, hs: Hitsound = (0,0)) extends HitObject(p, t, hs) {
+class Circle(p: Position, t: TimeStamp, hs: Hitsound = (0,0), nc: Boolean = false) extends HitObject(p, t, hs, nc) {
   def canEqual(a: Any): Boolean = a.isInstanceOf[Circle]
 
   override def equals(that: Any): Boolean = {

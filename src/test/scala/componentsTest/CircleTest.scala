@@ -101,4 +101,7 @@ class CircleTest extends BaseTest {
     assert(!(circle overlaps spin4))
   }
 
+  it should "determine NCs correctly" in {
+    //val circle = MakeCircle((0, 0), 402, nc = true)
+  }
 }

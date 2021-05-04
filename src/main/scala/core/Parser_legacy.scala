@@ -183,6 +183,7 @@ class Parser_legacy(fp: String) {
       c.additions = h._3
     }
 
+    c.newCombo = (properties(3).toInt & 4) == 1
     c
   }
 
@@ -238,6 +239,7 @@ class Parser_legacy(fp: String) {
       }
     }
 
+    s.newCombo = (properties(3).toInt & 4) == 1
     s
   }
 
@@ -259,6 +261,8 @@ class Parser_legacy(fp: String) {
       s.additionsHitsound = h._2
       s.additions = h._3
     }
+
+    s.newCombo = (properties(3).toInt & 4) == 1
     s
   }
 

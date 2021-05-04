@@ -8,7 +8,7 @@ import utils._
  * @param et: the end time for the object
  * @param hs: its associated hitsound
  */
-class Spinner(t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0)) extends HeldObject((0, 0), t, et, hs) {
+class Spinner(t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0)) extends HeldObject((0, 0), t, et, hs, true) {
   def canEqual(a: Any): Boolean = a.isInstanceOf[Spinner]
 
   override def equals(that: Any): Boolean = {

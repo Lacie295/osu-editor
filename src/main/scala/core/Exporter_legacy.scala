@@ -1,5 +1,9 @@
 package core
 
+import components.{Circle, HitObject, Slider, Spinner, TimingPoint, TimingPoint_legacy, Uninherited_legacy}
+
+import scala.collection.mutable.ListBuffer
+
 class Exporter_legacy(m: Map, v: Int) {
   val VERSION: Int = v
 
@@ -62,6 +66,35 @@ class Exporter_legacy(m: Map, v: Int) {
       colours ++= "Combo" + ic + " : " + c._1 + "," + c._2 + "," + c._3 + "\n"
       ic += 1
     })
+
+    var tps = new ListBuffer[TimingPoint_legacy]
+
+    m.allTimingPoints.foreach(tp => {
+      tps.addOne(new Uninherited_legacy(tp.timeStamp, tp.asInstanceOf[TimingPoint].bpm, tp.asInstanceOf[TimingPoint].meterA, 0, 0, 100, false))
+    })
+
+    m.allObjects.foreach(o => {
+      o match {
+        case circle: Circle => HitObjects ++= o.x + "," + o.y + "," + o.time + "," + generateTypeBitmap(o)
+        case slider: Slider => HitObjects ++=
+      }
+    })
+  }
+
+  def generateTypeBitmap(o: HitObject): String = {
+    var bits: Int = 0;
+    o match {
+      case circle: Circle => bits += 1
+      case slider: Slider => bits += 2
+      case spinner: Spinner => bits += 8
+    }
+    if (o.newCombo) bits += 4
+
+    bits.toString
+  }
+
+  def generateHitsoundBitmap(o: HitObject): String = {
+
   }
 
 }
