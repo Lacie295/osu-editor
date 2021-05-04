@@ -9,7 +9,7 @@ import utils.{Hitsound, Position, TimeStamp}
  * @param et: the end time for the object
  * @param hs: its associated hitsound
  */
-abstract class HeldObject(p: Position, t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0)) extends HitObject(p, t, hs) {
+abstract class HeldObject(p: Position, t: TimeStamp, et: TimeStamp, hs: Hitsound = (0,0), nc: Boolean = false) extends HitObject(p, t, hs, nc) {
   private var _endTime: TimeStamp = et
 
   require(timeStamp < endTimeStamp, () => "End time must be after start time")
