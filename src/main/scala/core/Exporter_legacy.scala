@@ -73,12 +73,14 @@ class Exporter_legacy(m: Map, v: Int) {
       tps.addOne(new Uninherited_legacy(tp.timeStamp, tp.asInstanceOf[TimingPoint].bpm, tp.asInstanceOf[TimingPoint].meterA, 0, 0, 100, false))
     })
 
-    m.allObjects.foreach(o => {
-      o match {
-        case circle: Circle => HitObjects ++= o.x + "," + o.y + "," + o.time + "," + generateTypeBitmap(o)
-        case slider: Slider => HitObjects ++=
-      }
-    })
+//    m.allObjects.foreach(o => {
+//      o match {
+//        case circle: Circle => HitObjects ++= o.x + "," + o.y + "," + o.time + "," + generateTypeBitmap(o)
+//        //case slider: Slider => HitObjects ++=
+//      }
+//    })
+
+    ""
   }
 
   def generateTypeBitmap(o: HitObject): String = {
@@ -94,7 +96,7 @@ class Exporter_legacy(m: Map, v: Int) {
   }
 
   def generateHitsoundBitmap(o: HitObject): String = {
-
+    ""
   }
 
 }
