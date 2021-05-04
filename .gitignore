@@ -5,4 +5,6 @@
 *.json
 /target/
 /project/target/
+/project/project/
 /.idea/
+/null/
